@@ -36,11 +36,31 @@ export default function Login() {
 		const { error } = await supabase.auth.signInWithOAuth({
 			provider: 'google',
 			options: {
-				redirectTo: window.location.origin + '/dashboard', // o la ruta que prefieras
+				redirectTo: window.location.origin + '/dashboard',
 			},
 		});
 
 		if (error) {
+			setErrorMsg(error.message);
+			setLoading(false);
+		}
+	};
+
+	const handleFaceBookLogin = async () => {
+		setLoading(true);
+		setErrorMsg('');
+
+		const { error } = await supabase.auth.signInWithOAuth({
+			provider: 'facebook',
+			options: {
+				// Forzamos el scope más básico
+				scopes: 'public_profile',
+				redirectTo: window.location.origin + '/dashboard',
+			},
+		});
+
+		if (error) {
+			console.error('OAuth Error:', error.message);
 			setErrorMsg(error.message);
 			setLoading(false);
 		}
@@ -95,6 +115,14 @@ export default function Login() {
 						className='bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition mt-4 w-full'
 					>
 						Iniciar sesión con Google
+					</button>
+				</div>
+				<div className='mt-6'>
+					<button
+						onClick={handleFaceBookLogin}
+						className='bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition mt-4 w-full'
+					>
+						Iniciar sesión con Facebook
 					</button>
 				</div>
 			</div>
