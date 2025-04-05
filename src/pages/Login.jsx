@@ -31,12 +31,19 @@ export default function Login() {
 
 	const handleGoogleLogin = async () => {
 		setLoading(true);
+		setErrorMsg('');
+
 		const { error } = await supabase.auth.signInWithOAuth({
 			provider: 'google',
+			options: {
+				redirectTo: window.location.origin + '/dashboard', // o la ruta que prefieras
+			},
 		});
 
-		if (error) setErrorMsg(error.message);
-		setLoading(false);
+		if (error) {
+			setErrorMsg(error.message);
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -85,9 +92,9 @@ export default function Login() {
 				<div className='mt-6'>
 					<button
 						onClick={handleGoogleLogin}
-						className='w-full border border-gray-300 py-2 rounded-xl hover:bg-gray-100 transition'
+						className='bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition mt-4 w-full'
 					>
-						Iniciar con Google
+						Iniciar sesión con Google
 					</button>
 				</div>
 			</div>
