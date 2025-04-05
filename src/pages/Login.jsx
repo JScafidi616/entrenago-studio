@@ -101,6 +101,7 @@ export default function Login() {
 					>
 						{loading ? 'Cargando...' : 'Iniciar sesión'}
 					</button>
+
 					<p className='mt-4 text-center text-sm'>
 						¿No tienes cuenta?{' '}
 						<a href='/register' className='text-blue-600 hover:underline'>
@@ -117,6 +118,7 @@ export default function Login() {
 						Iniciar sesión con Google
 					</button>
 				</div>
+
 				<div className='mt-6'>
 					<button
 						onClick={handleFaceBookLogin}
