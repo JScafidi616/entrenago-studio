@@ -1,29 +1,52 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import OnboardingModal from '../components/onboarding';
 import { supabase } from '../supabase/client';
 
 export default function Dashboard() {
 	const [user, setUser] = useState(null);
 	const navigate = useNavigate();
+	const [showOnboarding, setShowOnboarding] = useState(false);
 
 	useEffect(() => {
-		const checkSession = async () => {
+		const checkSessionAndProfile = async () => {
 			const { data, error } = await supabase.auth.getSession();
 			const session = data.session;
 
 			if (!session) {
 				navigate('/login');
-			} else {
-				setUser(session.user);
+				return;
 			}
-
 			if (error) {
 				console.error('Error al obtener la sesión:', error.message);
 			}
+
+			setUser(session.user);
+
+			const { data: profile, error: profileError } = await supabase
+				.from('profiles')
+				.select('onboarded')
+				.eq('id', session.user.id)
+				.single();
+
+			if (!profile?.onboarded || profileError) {
+				setShowOnboarding(true);
+			}
 		};
 
-		checkSession();
+		checkSessionAndProfile();
 	}, [navigate]);
+
+	useEffect(() => {
+		if (showOnboarding) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
+		return () => {
+			document.body.style.overflow = 'auto';
+		};
+	}, [showOnboarding]);
 
 	const handleLogout = async () => {
 		await supabase.auth.signOut();
@@ -31,19 +54,44 @@ export default function Dashboard() {
 	};
 
 	return (
-		<div className='p-4 text-center'>
-			<h1 className='text-2xl font-bold'>Bienvenido al Dashboard 🏋️‍♂️</h1>
-			{user && (
-				<p>
-					Sesión activa como: <strong>{user.email}</strong>
-				</p>
+		<div className='min-h-screen flex flex-col bg-gray-100'>
+			{/* Header */}
+			<header className='bg-white shadow-md py-4 px-6'>
+				<h1 className='text-xl font-semibold'>EntrenaGo Dashboard</h1>
+			</header>
+
+			{/* Contenido principal centrado */}
+			<main className='flex-grow flex items-center justify-center text-center px-4'>
+				<div className='bg-white p-8 rounded-xl shadow-lg w-full max-w-md'>
+					<h2 className='text-2xl font-bold mb-2'>
+						Bienvenido al Dashboard 🏋️‍♂️
+					</h2>
+					{user && (
+						<p className='mb-4'>
+							Sesión activa como: <strong>{user.email}</strong>
+						</p>
+					)}
+					<button
+						onClick={handleLogout}
+						className='px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg'
+					>
+						Cerrar sesión
+					</button>
+				</div>
+			</main>
+
+			{/* Footer */}
+			<footer className='bg-white shadow-inner py-4 px-6 text-center text-sm text-gray-500'>
+				© {new Date().getFullYear()} EntrenaGo. Todos los derechos reservados.
+			</footer>
+
+			{/* Modal de onboarding */}
+			{showOnboarding && (
+				<OnboardingModal
+					userId={user?.id}
+					onComplete={() => setShowOnboarding(false)}
+				/>
 			)}
-			<button
-				onClick={handleLogout}
-				className='mt-4 px-4 py-2 bg-red-500 text-white rounded'
-			>
-				Cerrar sesión
-			</button>
 		</div>
 	);
 }
