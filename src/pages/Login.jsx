@@ -104,10 +104,11 @@ export default function Login() {
 					</button>
 				</div>
 
-				<div className='flex items-center gap-4 my-4'>
-					<div className='flex-grow h-px bg-border' />
-					<span className='text-xs text-muted-foreground'>o con tu cuenta</span>
-					<div className='flex-grow h-px bg-border' />
+				<div class='inline-flex mb-4 items-center justify-center w-full'>
+					<hr class='w-64 h-px my-8 bg-gray-400 border-0 '></hr>
+					<span class='absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-black left-1/2 dark:text-black bg-slate-300'>
+						O con tu cuenta:
+					</span>
 				</div>
 
 				<form onSubmit={handleLogin} className='space-y-4'>
