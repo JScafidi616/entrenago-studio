@@ -35,7 +35,7 @@ const OnboardingModal = ({ userId, onComplete }) => {
 	};
 
 	return (
-		<div className='fixed inset-0 z-50 flex items-center justify-center bg-white animate-fade-in duration-300'>
+		<div className='fixed inset-0 z-50 flex items-center justify-center animate-fade-in duration-300 bg-white/30 backdrop-blur-sm'>
 			<div className='bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-md border border-gray-300'>
 				{step === 1 && (
 					<>
