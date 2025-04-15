@@ -67,68 +67,107 @@ export default function Login() {
 	};
 
 	return (
-		<div className='min-h-screen flex items-center justify-center bg-gray-100 px-4'>
-			<div className='max-w-md w-full bg-white p-8 rounded-2xl shadow-md'>
-				<h2 className='text-2xl font-bold mb-6 text-center text-gray-700'>
-					Iniciar sesión
-				</h2>
+		<div className='min-h-screen flex items-center justify-center bg-background px-4 py-10 sm:px-6 lg:px-8 '>
+			<div className='w-full max-w-md space-y-6 bg-card p-8 rounded-2xl shadow-lg bg-slate-300'>
+				<div className='text-center '>
+					<h2 className='text-2xl font-bold text-foreground dark:text-black '>
+						Inicia sesión en EntrenaGo
+					</h2>
+					<p className='text-sm text-muted-foreground mt-1'>
+						Bienvenido de nuevo, por favor inicia sesión
+					</p>
+				</div>
+
+				<div className='space-y-3'>
+					<button
+						onClick={handleGoogleLogin}
+						className='w-full flex items-center justify-center gap-2 py-2 px-4 border border-border rounded-lg hover:bg-muted/80 transition bg-gray-400'
+					>
+						<img
+							src='https://www.svgrepo.com/show/475656/google-color.svg'
+							alt='Google'
+							className='w-5 h-5'
+						/>
+						<span className='text-sm'>Iniciar con Google</span>
+					</button>
+
+					<button
+						onClick={handleFaceBookLogin}
+						className='w-full flex items-center justify-center gap-2 py-2 px-4 border border-border rounded-lg hover:bg-muted/80 transition bg-gray-400'
+					>
+						<img
+							src='https://www.svgrepo.com/show/452196/facebook-1.svg'
+							alt='Facebook'
+							className='w-5 h-5'
+						/>
+						<span className='text-sm'>Iniciar con Facebook</span>
+					</button>
+				</div>
+
+				<div className='flex items-center gap-4 my-4'>
+					<div className='flex-grow h-px bg-border' />
+					<span className='text-xs text-muted-foreground'>o con tu cuenta</span>
+					<div className='flex-grow h-px bg-border' />
+				</div>
 
 				<form onSubmit={handleLogin} className='space-y-4'>
-					<input
-						type='email'
-						placeholder='Correo electrónico'
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						className='w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400'
-						required
-					/>
+					<div>
+						<label
+							htmlFor='email'
+							className='block text-sm mb-1 text-foreground'
+						>
+							Correo electrónico
+						</label>
+						<input
+							id='email'
+							type='email'
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+							required
+							className='w-full px-4 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-white'
+						/>
+					</div>
 
-					<input
-						type='password'
-						placeholder='Contraseña'
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						className='w-full px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400'
-						required
-					/>
+					<div>
+						<div className='flex justify-between items-center mb-1'>
+							<label htmlFor='password' className='text-sm text-foreground'>
+								Contraseña
+							</label>
+							<a href='#' className='text-xs text-primary hover:underline'>
+								¿Olvidaste tu contraseña?
+							</a>
+						</div>
+						<input
+							id='password'
+							type='password'
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							required
+							className='w-full px-4 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-white'
+						/>
+					</div>
 
-					{errorMsg && <p className='text-red-500 text-sm'>{errorMsg}</p>}
+					{errorMsg && <p className='text-sm text-destructive'>{errorMsg}</p>}
 
 					<button
 						type='submit'
 						disabled={loading}
-						className='btn w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-xl transition'
+						className='w-full py-2 bg-primary text-primary-foreground font-semibold rounded-md hover:bg-primary/90 transition bg-gray-400'
 					>
 						{loading ? 'Cargando...' : 'Iniciar sesión'}
 					</button>
-
-					<p className='mt-4 text-center text-sm'>
-						¿No tienes cuenta?{' '}
-						<a href='/register' className='text-blue-600 hover:underline'>
-							Regístrate aquí
-						</a>
-					</p>
 				</form>
 
-				<div className='mt-6'>
-					<button
-						onClick={handleGoogleLogin}
-						className='bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition mt-4 w-full'
+				<p className='text-center text-sm text-muted-foreground '>
+					¿No tienes una cuenta?{' '}
+					<a
+						href='/register'
+						className='text-primary hover:underline font-medium'
 					>
-						Iniciar sesión con Google
-					</button>
-				</div>
-
-				<div className='mt-6'>
-					<button
-						onClick={handleFaceBookLogin}
-						className='bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition mt-4 w-full'
-					>
-						Iniciar sesión con Facebook
-					</button>
-				</div>
+						Crear cuenta
+					</a>
+				</p>
 			</div>
-			{/* {errorMsg && <p className='text-red-500 text-sm'>{errorMsg}</p>} */}
 		</div>
 	);
 }
