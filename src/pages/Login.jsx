@@ -104,9 +104,9 @@ export default function Login() {
 					</button>
 				</div>
 
-				<div class='inline-flex mb-4 items-center justify-center w-full'>
-					<hr class='w-64 h-px my-8 bg-gray-400 border-0 '></hr>
-					<span class='absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-black left-1/2 dark:text-black bg-slate-300'>
+				<div className='inline-flex mb-4 items-center justify-center w-full'>
+					<hr className='w-64 h-px my-8 bg-gray-400 border-0'></hr>
+					<span className='absolute px-3 font-medium text-gray-900 -translate-x-1/2 left-1/2 dark:text-black bg-slate-300'>
 						O con tu cuenta:
 					</span>
 				</div>
