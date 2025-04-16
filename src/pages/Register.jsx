@@ -90,10 +90,10 @@ export default function Register() {
 			{/* Formulario de registro */}
 			<div className='w-full max-w-md space-y-6 bg-card p-8 rounded-2xl shadow-lg bg-slate-300 mt-6 md:mt-0'>
 				<h2 className='text-2xl font-bold text-center dark:text-black'>
-					Crea tu cuenta
+					Bienvenido a EntrenaGo
 				</h2>
 				<p className='text-sm text-center text-muted-foreground'>
-					Comienza tu camino fitness con nosotros
+					Create an account to continue:
 				</p>
 
 				<div className='space-y-3'>
