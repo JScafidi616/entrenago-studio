@@ -40,12 +40,22 @@ export default function Register() {
 		const { error } = await supabase.auth.signUp({ email, password });
 		if (error) return setError(error.message);
 
+		// Después del registro, redirigir al login
 		navigate('/login');
 	};
 
 	const handleOAuth = async (provider) => {
-		const { error } = await supabase.auth.signInWithOAuth({ provider });
-		if (error) setError(error.message);
+		const { user, error } = await supabase.auth.signInWithOAuth({ provider });
+
+		if (error) {
+			setError(error.message);
+			return;
+		}
+
+		// Si el registro es exitoso con el proveedor (Google/Facebook), redirigir al dashboard
+		if (user) {
+			navigate('/dashboard');
+		}
 	};
 
 	return (
