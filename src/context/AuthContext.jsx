@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
 			(event, session) => {
 				if (event === 'SIGNED_IN') {
 					setUser(session.user);
-					navigate.replace({ to: '/dashboard' });
+					navigate({ to: '/dashboard' });
 				} else if (event === 'SIGNED_OUT') {
 					setUser(null);
 					navigate({ to: '/login' });
