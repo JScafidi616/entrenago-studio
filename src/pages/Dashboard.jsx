@@ -7,6 +7,7 @@ export default function Dashboard() {
 	const [user, setUser] = useState(null);
 	const navigate = useNavigate();
 	const [showOnboarding, setShowOnboarding] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		const checkSessionAndProfile = async () => {
@@ -29,9 +30,12 @@ export default function Dashboard() {
 				.eq('id', session.user.id)
 				.single();
 
-			if (!profile?.onboarded || profileError) {
-				setShowOnboarding(true);
+			if (profileError) {
+				console.error('Error al obtener perfil:', profileError.message);
 			}
+
+			setShowOnboarding(!profile?.onboarded);
+			setIsLoading(false);
 		};
 
 		checkSessionAndProfile();
@@ -47,6 +51,8 @@ export default function Dashboard() {
 			document.body.style.overflow = 'auto';
 		};
 	}, [showOnboarding]);
+
+	if (isLoading) return null; // También podrías renderizar un spinner
 
 	const handleLogout = async () => {
 		await supabase.auth.signOut();
@@ -86,12 +92,20 @@ export default function Dashboard() {
 			</footer>
 
 			{/* Modal de onboarding */}
-			{showOnboarding && (
-				<OnboardingModal
-					userId={user?.id}
-					onComplete={() => setShowOnboarding(false)}
-				/>
-			)}
+			<div
+				className={`fixed inset-0 z-50 flex items-center justify-center bg-white/30 transition-all duration-300 ${
+					showOnboarding
+						? 'backdrop-blur-sm opacity-100'
+						: 'backdrop-blur-0 opacity-0 pointer-events-none'
+				}`}
+			>
+				{showOnboarding && (
+					<OnboardingModal
+						userId={user?.id}
+						onComplete={() => setShowOnboarding(false)}
+					/>
+				)}
+			</div>
 		</div>
 	);
 }
