@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 					navigate.replace({ to: '/dashboard' });
 				} else if (event === 'SIGNED_OUT') {
 					setUser(null);
-					navigate.replace({ to: '/login' });
+					navigate({ to: '/login' });
 				}
 			},
 		);
