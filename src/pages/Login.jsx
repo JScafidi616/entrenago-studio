@@ -1,5 +1,5 @@
+import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabase/client'; // Asegúrate de tener esta instancia creada
 
 export default function Login() {
@@ -23,7 +23,7 @@ export default function Login() {
 			setErrorMsg(error.message);
 		} else {
 			console.log('Usuario logueado:', data);
-			navigate('/dashboard');
+			navigate({ to: '/dashboard' });
 		}
 
 		setLoading(false);

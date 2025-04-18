@@ -1,5 +1,5 @@
 // src/main.jsx
-import { StrictMode } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import './index.css';
@@ -11,10 +11,10 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')).render(
-	<StrictMode>
+	<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
 			<App />
 			<ReactQueryDevtools initialIsOpen={false} />
 		</QueryClientProvider>
-	</StrictMode>,
+	</React.StrictMode>,
 );

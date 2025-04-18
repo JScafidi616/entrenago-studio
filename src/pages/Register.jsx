@@ -1,5 +1,5 @@
+import { useNavigate } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabase/client';
 
 export default function Register() {
@@ -18,7 +18,7 @@ export default function Register() {
 				data: { user },
 			} = await supabase.auth.getUser();
 			if (user) {
-				navigate('/dashboard'); // Redirigir al dashboard si ya está autenticado
+				navigate({ to: '/dashboard' }); // Redirigir al dashboard si ya está autenticado
 			}
 		};
 
@@ -41,7 +41,7 @@ export default function Register() {
 		if (error) return setError(error.message);
 
 		// Después del registro, redirigir al login
-		navigate('/login');
+		navigate({ to: '/login' });
 	};
 
 	const handleOAuth = async (provider) => {
@@ -54,7 +54,7 @@ export default function Register() {
 
 		// Si el registro es exitoso con el proveedor (Google/Facebook), redirigir al dashboard
 		if (user) {
-			navigate('/dashboard');
+			navigate({ to: '/dashboard' });
 		}
 	};
 

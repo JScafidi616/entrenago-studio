@@ -1,5 +1,5 @@
+import { useNavigate } from '@tanstack/react-router';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabase/client';
 
 const AuthContext = createContext();
@@ -19,10 +19,10 @@ export const AuthProvider = ({ children }) => {
 			(event, session) => {
 				if (event === 'SIGNED_IN') {
 					setUser(session.user);
-					navigate('/dashboard');
+					navigate.replace({ to: '/dashboard' });
 				} else if (event === 'SIGNED_OUT') {
 					setUser(null);
-					navigate('/login');
+					navigate.replace({ to: '/login' });
 				}
 			},
 		);

@@ -1,5 +1,5 @@
+import { useNavigate } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import OnboardingModal from '../components/onboarding';
 import { supabase } from '../supabase/client';
 
@@ -15,7 +15,7 @@ export default function Dashboard() {
 			const session = data.session;
 
 			if (!session) {
-				navigate('/login');
+				navigate({ to: '/login' });
 				return;
 			}
 			if (error) {
@@ -56,7 +56,7 @@ export default function Dashboard() {
 
 	const handleLogout = async () => {
 		await supabase.auth.signOut();
-		navigate('/login');
+		navigate({ to: '/login' });
 	};
 
 	return (
