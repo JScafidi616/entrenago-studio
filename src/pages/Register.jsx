@@ -1,9 +1,9 @@
-import { useNavigate } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'wouter';
 import { supabase } from '../supabase/client';
 
 export default function Register() {
-	const navigate = useNavigate();
+	const [, setLocation] = useLocation();
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
@@ -18,12 +18,12 @@ export default function Register() {
 				data: { user },
 			} = await supabase.auth.getUser();
 			if (user) {
-				navigate({ to: '/dashboard' }); // Redirigir al dashboard si ya está autenticado
+				setLocation('/dashboard'); // Redirigir al dashboard si ya está autenticado
 			}
 		};
 
 		checkUser();
-	}, [navigate]);
+	}, [setLocation]);
 
 	const handleChange = (e) =>
 		setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,7 +41,7 @@ export default function Register() {
 		if (error) return setError(error.message);
 
 		// Después del registro, redirigir al login
-		navigate({ to: '/login' });
+		setLocation('/login');
 	};
 
 	const handleOAuth = async (provider) => {
@@ -54,7 +54,7 @@ export default function Register() {
 
 		// Si el registro es exitoso con el proveedor (Google/Facebook), redirigir al dashboard
 		if (user) {
-			navigate({ to: '/dashboard' });
+			setLocation('/dashboard');
 		}
 	};
 
@@ -194,9 +194,12 @@ export default function Register() {
 
 				<p className='text-center text-sm text-muted-foreground'>
 					¿Ya tienes cuenta?{' '}
-					<a href='/login' className='text-primary hover:underline font-medium'>
+					<Link
+						href='/login'
+						className='text-primary text-blue-600 hover:underline font-medium'
+					>
 						Iniciar sesión
-					</a>
+					</Link>
 				</p>
 			</div>
 		</div>

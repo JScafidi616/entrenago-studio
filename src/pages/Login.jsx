@@ -1,13 +1,13 @@
-import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
-import { supabase } from '../supabase/client'; // Asegúrate de tener esta instancia creada
+import { Link, useLocation } from 'wouter';
+import { supabase } from '../supabase/client';
 
 export default function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
-	const navigate = useNavigate();
+	const [, setLocation] = useLocation(); // Hook de Wouter
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
@@ -23,41 +23,53 @@ export default function Login() {
 			setErrorMsg(error.message);
 		} else {
 			console.log('Usuario logueado:', data);
-			navigate({ to: '/dashboard' });
+			setLocation('/dashboard');
 		}
 
 		setLoading(false);
 	};
 
-	const handleGoogleLogin = async () => {
+	// const handleGoogleLogin = async () => {
+	// 	setLoading(true);
+	// 	setErrorMsg('');
+
+	// 	const { error } = await supabase.auth.signInWithOAuth({
+	// 		provider: 'google',
+	// 		options: {
+	// 			redirectTo: window.location.origin,
+	// 		},
+	// 	});
+
+	// 	if (error) {
+	// 		setErrorMsg(error.message);
+	// 		setLoading(false);
+	// 	}
+	// };
+
+	// const handleFaceBookLogin = async () => {
+	// 	setLoading(true);
+	// 	setErrorMsg('');
+
+	// 	const { error } = await supabase.auth.signInWithOAuth({
+	// 		provider: 'facebook',
+	// 		options: {
+	// 			// Forzamos el scope más básico
+	// 			scopes: 'public_profile',
+	// 			redirectTo: window.location.origin,
+	// 		},
+	// 	});
+
+	// 	if (error) {
+	// 		console.error('OAuth Error:', error.message);
+	// 		setErrorMsg(error.message);
+	// 		setLoading(false);
+	// 	}
+	// };
+
+	const handleOAuth = async (provider) => {
 		setLoading(true);
 		setErrorMsg('');
-
-		const { error } = await supabase.auth.signInWithOAuth({
-			provider: 'google',
-			options: {
-				redirectTo: window.location.origin + '/dashboard',
-			},
-		});
-
-		if (error) {
-			setErrorMsg(error.message);
-			setLoading(false);
-		}
-	};
-
-	const handleFaceBookLogin = async () => {
-		setLoading(true);
-		setErrorMsg('');
-
-		const { error } = await supabase.auth.signInWithOAuth({
-			provider: 'facebook',
-			options: {
-				// Forzamos el scope más básico
-				scopes: 'public_profile',
-				redirectTo: window.location.origin + '/dashboard',
-			},
-		});
+		const { error } = await supabase.auth.signInWithOAuth({ provider });
 
 		if (error) {
 			console.error('OAuth Error:', error.message);
@@ -80,7 +92,7 @@ export default function Login() {
 
 				<div className='space-y-3'>
 					<button
-						onClick={handleGoogleLogin}
+						onClick={() => handleOAuth('google')}
 						className='w-full flex items-center justify-center gap-2 py-2 px-4 border border-border rounded-lg hover:bg-muted/80 transition bg-gray-400'
 					>
 						<img
@@ -92,7 +104,7 @@ export default function Login() {
 					</button>
 
 					<button
-						onClick={handleFaceBookLogin}
+						onClick={() => handleOAuth('facebook')}
 						className='w-full flex items-center justify-center gap-2 py-2 px-4 border border-border rounded-lg hover:bg-muted/80 transition bg-gray-400'
 					>
 						<img
@@ -161,12 +173,21 @@ export default function Login() {
 
 				<p className='text-center text-sm text-muted-foreground '>
 					¿No tienes una cuenta?{' '}
-					<a
+					<Link
 						href='/register'
-						className='text-primary hover:underline font-medium'
+						className='text-primary font-medium text-blue-600 hover:underline'
 					>
 						Crear cuenta
-					</a>
+					</Link>
+				</p>
+				<p className='text-center text-sm text-muted-foreground '>
+					¿No tienes una cuenta?{' '}
+					<Link
+						href='/forgot-password'
+						className='text-primary font-medium text-blue-600 hover:underline'
+					>
+						¿Olvidaste tu contraseña?
+					</Link>
 				</p>
 			</div>
 		</div>

@@ -1,11 +1,11 @@
-import { useNavigate } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'wouter';
 import OnboardingModal from '../components/onboarding';
 import { supabase } from '../supabase/client';
 
 export default function Dashboard() {
 	const [user, setUser] = useState(null);
-	const navigate = useNavigate();
+	const [, setLocation] = useLocation();
 	const [showOnboarding, setShowOnboarding] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -15,7 +15,7 @@ export default function Dashboard() {
 			const session = data.session;
 
 			if (!session) {
-				navigate({ to: '/login' });
+				setLocation('/login');
 				return;
 			}
 			if (error) {
@@ -39,7 +39,7 @@ export default function Dashboard() {
 		};
 
 		checkSessionAndProfile();
-	}, [navigate]);
+	}, [setLocation]);
 
 	useEffect(() => {
 		if (showOnboarding) {
@@ -56,7 +56,7 @@ export default function Dashboard() {
 
 	const handleLogout = async () => {
 		await supabase.auth.signOut();
-		navigate({ to: '/login' });
+		setLocation('/login');
 	};
 
 	return (

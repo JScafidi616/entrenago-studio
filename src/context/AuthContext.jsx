@@ -1,17 +1,25 @@
-import { useNavigate } from '@tanstack/react-router';
+// import { useNavigate } from '@tanstack/react-router';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { useLocation } from 'wouter';
 import { supabase } from '../supabase/client';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
-	const navigate = useNavigate();
+	const [loading, setLoading] = useState(true);
+	const [location, setLocation] = useLocation();
 
 	useEffect(() => {
 		// Obtenemos sesión al cargar
 		supabase.auth.getSession().then(({ data: { session } }) => {
 			setUser(session?.user ?? null);
+			setLoading(false);
+
+			// Solo redirige si el usuario está en login o en la raíz
+			if (session?.user && (location === '/login' || location === '/')) {
+				setLocation('/dashboard');
+			}
 		});
 
 		// Listener de sesión
@@ -19,19 +27,21 @@ export const AuthProvider = ({ children }) => {
 			(event, session) => {
 				if (event === 'SIGNED_IN') {
 					setUser(session.user);
-					navigate({ to: '/dashboard' });
+					setLocation('/dashboard');
 				} else if (event === 'SIGNED_OUT') {
 					setUser(null);
-					navigate({ to: '/login' });
+					setLocation('/login');
 				}
 			},
 		);
 
 		return () => listener.subscription.unsubscribe();
-	}, [navigate]);
+	}, [location, setLocation]);
 
 	return (
-		<AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+		<AuthContext.Provider value={{ user, loading }}>
+			{children}
+		</AuthContext.Provider>
 	);
 };
 
