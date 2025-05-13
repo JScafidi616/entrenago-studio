@@ -9,7 +9,7 @@ export default function Register() {
 		password: '',
 		confirmPassword: '',
 	});
-	const [error, setError] = useState('');
+	const [errorMsg, setErrorMsg] = useState('');
 
 	// Verificar si el usuario ya está autenticado
 	useEffect(() => {
@@ -33,28 +33,36 @@ export default function Register() {
 		const { email, password, confirmPassword } = formData;
 
 		if (password !== confirmPassword) {
-			setError('Las contraseñas no coinciden.');
+			setErrorMsg('Las contraseñas no coinciden.');
 			return;
 		}
 
-		const { error } = await supabase.auth.signUp({ email, password });
-		if (error) return setError(error.message);
+		const { errorMsg } = await supabase.auth.signUp({ email, password });
+		if (errorMsg) return setErrorMsg(errorMsg.message);
 
 		// Después del registro, redirigir al login
 		setLocation('/login');
 	};
 
+	// const handleOAuth = async (provider) => {
+	// 	const { user, errorMsg } = await supabase.auth.signInWithOAuth({ provider });
+
+	// 	if (errorMsg) {
+	// 		setErrorMsg(errorMsg.message);
+	// 		return;
+	// 	}
+
+	// 	// Si el registro es exitoso con el proveedor (Google/Facebook), redirigir al dashboard
+	// 	if (user) {
+	// 		setLocation('/dashboard');
+	// 	}
+	// };
 	const handleOAuth = async (provider) => {
-		const { user, error } = await supabase.auth.signInWithOAuth({ provider });
+		const { errorMsg } = await supabase.auth.signInWithOAuth({ provider });
 
-		if (error) {
-			setError(error.message);
-			return;
-		}
-
-		// Si el registro es exitoso con el proveedor (Google/Facebook), redirigir al dashboard
-		if (user) {
-			setLocation('/dashboard');
+		if (errorMsg) {
+			console.errorMsg('OAuth Error:', errorMsg.message);
+			setErrorMsg(errorMsg.message);
 		}
 	};
 
@@ -182,7 +190,7 @@ export default function Register() {
 						/>
 					</div>
 
-					{error && <p className='text-sm text-red-500'>{error}</p>}
+					{errorMsg && <p className='text-sm text-red-500'>{errorMsg}</p>}
 
 					<button
 						type='submit'

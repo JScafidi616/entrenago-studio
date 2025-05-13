@@ -16,7 +16,6 @@ export default function Dashboard() {
 
 			if (!session) {
 				setLocation('/login');
-				return;
 			}
 			if (error) {
 				console.error('Error al obtener la sesión:', error.message);
