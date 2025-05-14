@@ -10,14 +10,20 @@ export const AuthProvider = ({ children }) => {
 	const [loading, setLoading] = useState(true);
 	const [location, setLocation] = useLocation();
 
+	// Función para saber si estamos en reset-password con token
+	const isResetPasswordRoute = () => location.startsWith('/reset-password');
+
 	useEffect(() => {
 		// Obtenemos sesión al cargar
 		supabase.auth.getSession().then(({ data: { session } }) => {
 			setUser(session?.user ?? null);
 			setLoading(false);
 
-			// Solo redirige si el usuario está en login o en la raíz
-			if (session?.user && (location === '/login' || location === '/')) {
+			if (
+				session?.user &&
+				(location === '/login' || location === '/') &&
+				!isResetPasswordRoute()
+			) {
 				setLocation('/dashboard');
 			}
 		});
@@ -27,7 +33,10 @@ export const AuthProvider = ({ children }) => {
 			(event, session) => {
 				if (event === 'SIGNED_IN') {
 					setUser(session.user);
-					setLocation('/dashboard');
+					// Si no estamos en reset-password con token, redirigimos
+					if (!isResetPasswordRoute()) {
+						setLocation('/dashboard');
+					}
 				} else if (event === 'SIGNED_OUT') {
 					setUser(null);
 					setLocation('/login');

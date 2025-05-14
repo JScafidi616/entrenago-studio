@@ -6,10 +6,11 @@ import Dashboard from './pages/Dashboard';
 import ForgotPassword from './pages/ForgotPassword';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
 	const { user, loading } = useContext(AuthContext);
-
+	//Todo Generar un loading mas estilizado y con animaciones
 	if (loading) return <div>Cargando...</div>;
 
 	return (
@@ -18,6 +19,7 @@ function App() {
 			<Route path='/login' component={Login} />
 			<Route path='/register' component={Register} />
 			<Route path='/forgot-password' component={ForgotPassword} />
+			<Route path='/reset-password' component={ResetPassword} />
 
 			{/* Ruta protegida: dashboard */}
 			<Route path='/dashboard'>

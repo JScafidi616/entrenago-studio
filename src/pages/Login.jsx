@@ -7,7 +7,8 @@ export default function Login() {
 	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
-	const [, setLocation] = useLocation(); // Hook de Wouter
+	const [location, setLocation] = useLocation(); // Hook de Wouter
+	const showSuccess = location.includes('reset=success');
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
@@ -88,6 +89,12 @@ export default function Login() {
 					<p className='text-sm text-muted-foreground mt-1'>
 						Bienvenido de nuevo, por favor inicia sesión
 					</p>
+					{showSuccess && (
+						<div className='mb-4 p-2 bg-green-100 text-green-700 rounded'>
+							¡Contraseña actualizada correctamente! Ahora puedes iniciar
+							sesión.
+						</div>
+					)}
 				</div>
 
 				<div className='space-y-3'>
