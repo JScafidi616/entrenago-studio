@@ -14,7 +14,6 @@ export const AuthProvider = ({ children }) => {
 	const isResetPasswordRoute = () => location.startsWith('/reset-password');
 
 	useEffect(() => {
-		// Obtenemos sesión al cargar
 		supabase.auth.getSession().then(({ data: { session } }) => {
 			setUser(session?.user ?? null);
 			setLoading(false);
@@ -28,12 +27,16 @@ export const AuthProvider = ({ children }) => {
 			}
 		});
 
-		// Listener de sesión
 		const { data: listener } = supabase.auth.onAuthStateChange(
 			(event, session) => {
-				if (event === 'SIGNED_IN') {
+				if (event === 'PASSWORD_RECOVERY') {
+					// Aquí NO hacemos logout para no invalidar el token
+					// Simplemente dejamos que el usuario permanezca en /reset-password
+					// Puedes agregar lógica si quieres mostrar algo o registrar el evento
+					setLocation('/reset-password');
+					console.log('Evento PASSWORD_RECOVERY detectado');
+				} else if (event === 'SIGNED_IN') {
 					setUser(session.user);
-					// Si no estamos en reset-password con token, redirigimos
 					if (!isResetPasswordRoute()) {
 						setLocation('/dashboard');
 					}

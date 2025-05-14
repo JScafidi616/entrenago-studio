@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, Redirect, useLocation } from 'wouter';
+import { Link, Redirect } from 'wouter';
 import { supabase } from '../supabase/client';
 
 export default function ResetPassword() {
@@ -8,19 +8,15 @@ export default function ResetPassword() {
 	const [loading, setLoading] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
 	const [success, setSuccess] = useState(false);
-	const [location] = useLocation();
+	// const [location] = useLocation();
 
-	// Verificar si el usuario ya está autenticado
-	// Extraer token de la URL (ej: /reset-password#access_token=...)
-	// Función para extraer query params
-	// Extraer token del hash
-	const getTokenFromHash = () => {
-		const hash = window.location.hash.substring(1);
-		const params = new URLSearchParams(hash);
-		return params.get('access_token');
+	// Extraer token de query params
+	const getToken = () => {
+		const params = new URLSearchParams(window.location.search);
+		return params.get('token');
 	};
 
-	const token = getTokenFromHash();
+	const token = getToken();
 
 	useEffect(() => {
 		if (!token) {
@@ -39,20 +35,17 @@ export default function ResetPassword() {
 			return;
 		}
 
-		// Usar verifyResetPasswordForEmail para validar y cambiar contraseña
-		const { data, error } = await supabase.auth.verifyResetPasswordForEmail(
-			token,
-			{
-				password,
-				redirectTo: window.location.origin + '/login?reset=success',
-			},
+		// Aquí no existe verifyResetPasswordForEmail en SDK oficial
+		// Usamos updateUser con accessToken (token)
+		const { error } = await supabase.auth.updateUser(
+			{ password },
+			{ accessToken: token },
 		);
 
 		if (error) {
 			setErrorMsg(error.message || 'Error al actualizar la contraseña');
 		} else {
 			setSuccess(true);
-			// Opcional: redirigir tras unos segundos
 			setTimeout(() => (window.location.href = '/login?reset=success'), 2000);
 		}
 		setLoading(false);
