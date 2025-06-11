@@ -1,4 +1,3 @@
-// import { useNavigate } from '@tanstack/react-router';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { supabase } from '../supabase/client';
@@ -11,7 +10,7 @@ export const AuthProvider = ({ children }) => {
 	const [location, setLocation] = useLocation();
 	const [recoveryToken, setRecoveryToken] = useState(null);
 
-	// Función para saber si estamos en reset-password con token
+	// Function to determine if we're on the reset-password route with a token
 	const isResetPasswordRoute = () => location.startsWith('/reset-password');
 
 	useEffect(() => {
@@ -30,29 +29,25 @@ export const AuthProvider = ({ children }) => {
 
 		const { data: listener } = supabase.auth.onAuthStateChange(
 			(event, session) => {
-				if (event === 'PASSWORD_RECOVERY') {
-					//setLocation('/reset-password');
-					setRecoveryToken(session?.access_token || null);
-					console.log(
-						'Evento PASSWORD_RECOVERY detectado, token:',
-						session?.access_token,
-					);
-					return;
-				} else if (event === 'SIGNED_IN') {
-					setUser(session.user);
-					if (!isResetPasswordRoute()) {
-						setLocation('/dashboard');
-					}
-					return;
-				} else if (event === 'SIGNED_OUT') {
-					setUser(null);
-					setLocation('/login');
-					return;
-				} else if (event === 'USER_UPDATED') {
-					console.log('Evento USER_UPDATED detectado');
-					supabase.auth.signOut();
-					setLocation('/login?reset=success');
-					return;
+				switch (event) {
+					case 'PASSWORD_RECOVERY':
+						setRecoveryToken(session?.access_token ?? null);
+						break;
+					case 'SIGNED_IN':
+						setUser(session?.user ?? null);
+						if (!isResetPasswordRoute()) {
+							setLocation('/dashboard');
+						}
+						break;
+					case 'SIGNED_OUT':
+						setUser(null);
+						setLocation('/login');
+						break;
+					case 'USER_UPDATED':
+						console.log('Evento USER_UPDATED detectado');
+						supabase.auth.signOut();
+						setLocation('/login?reset=success');
+						break;
 				}
 			},
 		);
@@ -67,6 +62,5 @@ export const AuthProvider = ({ children }) => {
 	);
 };
 
-// Hook para usarlo fácilmente
-// eslint-disable-next-line react-refresh/only-export-components
+// Hook to use easily
 export const useAuth = () => useContext(AuthContext);
