@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, Redirect } from 'wouter';
+import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabase/client';
 
 export default function ResetPassword() {
@@ -11,18 +12,7 @@ export default function ResetPassword() {
 	// const [location] = useLocation();
 
 	// Extraer token de query params
-	const getToken = () => {
-		const params = new URLSearchParams(window.location.search);
-		return params.get('token');
-	};
-
-	const token = getToken();
-
-	useEffect(() => {
-		if (!token) {
-			setErrorMsg('Enlace inválido o expirado. Solicita un nuevo enlace.');
-		}
-	}, [token]);
+	const { recoveryToken } = useAuth();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -34,12 +24,14 @@ export default function ResetPassword() {
 			setLoading(false);
 			return;
 		}
-
-		// Aquí no existe verifyResetPasswordForEmail en SDK oficial
-		// Usamos updateUser con accessToken (token)
+		if (!recoveryToken) {
+			setErrorMsg('Token de recuperación no disponible.');
+			setLoading(false);
+			return;
+		}
 		const { error } = await supabase.auth.updateUser(
 			{ password },
-			{ accessToken: token },
+			{ accessToken: recoveryToken },
 		);
 
 		if (error) {
@@ -51,7 +43,7 @@ export default function ResetPassword() {
 		setLoading(false);
 	};
 
-	if (!token) return <Redirect to='/login' />;
+	if (!recoveryToken) return <Redirect to='/login' />;
 
 	return (
 		<div className='max-w-md mx-auto mt-20 p-6 bg-white rounded-lg shadow-md'>

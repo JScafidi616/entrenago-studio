@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [location, setLocation] = useLocation();
+	const [recoveryToken, setRecoveryToken] = useState(null);
 
 	// Función para saber si estamos en reset-password con token
 	const isResetPasswordRoute = () => location.startsWith('/reset-password');
@@ -30,19 +31,28 @@ export const AuthProvider = ({ children }) => {
 		const { data: listener } = supabase.auth.onAuthStateChange(
 			(event, session) => {
 				if (event === 'PASSWORD_RECOVERY') {
-					// Aquí NO hacemos logout para no invalidar el token
-					// Simplemente dejamos que el usuario permanezca en /reset-password
-					// Puedes agregar lógica si quieres mostrar algo o registrar el evento
-					setLocation('/reset-password');
-					console.log('Evento PASSWORD_RECOVERY detectado');
+					//setLocation('/reset-password');
+					setRecoveryToken(session?.access_token || null);
+					console.log(
+						'Evento PASSWORD_RECOVERY detectado, token:',
+						session?.access_token,
+					);
+					return;
 				} else if (event === 'SIGNED_IN') {
 					setUser(session.user);
 					if (!isResetPasswordRoute()) {
 						setLocation('/dashboard');
 					}
+					return;
 				} else if (event === 'SIGNED_OUT') {
 					setUser(null);
 					setLocation('/login');
+					return;
+				} else if (event === 'USER_UPDATED') {
+					console.log('Evento USER_UPDATED detectado');
+					supabase.auth.signOut();
+					setLocation('/login?reset=success');
+					return;
 				}
 			},
 		);
@@ -51,7 +61,7 @@ export const AuthProvider = ({ children }) => {
 	}, [location, setLocation]);
 
 	return (
-		<AuthContext.Provider value={{ user, loading }}>
+		<AuthContext.Provider value={{ user, loading, recoveryToken }}>
 			{children}
 		</AuthContext.Provider>
 	);
