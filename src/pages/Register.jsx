@@ -67,38 +67,46 @@ export default function Register() {
 	};
 
 	return (
-		<div className='min-h-screen flex flex-col md:flex-row items-center justify-center bg-background px-4 py-10 sm:px-6 lg:px-8'>
+		<div className='min-h-screen flex flex-col md:flex-row items-center justify-center bg-background px-4 py-10 sm:px-6 lg:px-8 dark:bg-neutral-900'>
 			{/* Panel izquierdo con EntrenaGo (solo en escritorio) */}
 			<div className='hidden md:flex w-full max-w-md flex-col gap-6 p-8 text-black'>
-				<h1 className='text-3xl font-bold'>EntrenaGo</h1>
+				<h1 className='text-3xl font-bold dark:text-gray-300'>EntrenaGo</h1>
 
 				<div className='flex items-start gap-4'>
-					<div className='h-6 w-6 rounded-full bg-blue-400 text-white font-bold flex items-center justify-center'>
+					<div className='h-6 w-6 rounded-full bg-gradient-to-r from-cyan-500 to-green-400 text-white font-bold flex items-center justify-center'>
 						✓
 					</div>
 					<div>
-						<p className='font-semibold'>¡Comienza ya!</p>
-						<p className='text-sm'>Motívate para mantenerte saludable</p>
+						<p className='font-semibold dark:text-gray-300'>¡Comienza ya!</p>
+						<p className='text-sm dark:text-gray-300'>
+							Motívate para mantenerte saludable
+						</p>
 					</div>
 				</div>
 
 				<div className='flex items-start gap-4'>
-					<div className='h-6 w-6 rounded-full bg-blue-400 text-white font-bold flex items-center justify-center'>
+					<div className='h-6 w-6 rounded-full bg-gradient-to-r from-cyan-500 to-green-400 text-white font-bold flex items-center justify-center'>
 						✓
 					</div>
 					<div>
-						<p className='font-semibold'>Organiza tu rutina</p>
-						<p className='text-sm'>Adiós a las hojas sueltas y al caos</p>
+						<p className='font-semibold dark:text-gray-300'>
+							Organiza tu rutina
+						</p>
+						<p className='text-sm dark:text-gray-300'>
+							Adiós a las hojas sueltas y al caos
+						</p>
 					</div>
 				</div>
 
-				<div className='flex items-start gap-4'>
-					<div className='h-6 w-6 rounded-full bg-blue-400 text-white font-bold flex items-center justify-center'>
+				<div className='flex items-start gap-4 dark:text-gray-300'>
+					<div className='h-6 w-6 rounded-full bg-gradient-to-r from-cyan-500 to-green-400 text-white font-bold flex items-center justify-center'>
 						✓
 					</div>
 					<div>
-						<p className='font-semibold'>Sigue tu progreso</p>
-						<p className='text-sm'>
+						<p className='font-semibold dark:text-gray-300'>
+							Sigue tu progreso
+						</p>
+						<p className='text-sm dark:text-gray-300'>
 							Lleva control de tus entrenamientos y metas
 						</p>
 					</div>
@@ -106,50 +114,54 @@ export default function Register() {
 			</div>
 
 			{/* Formulario de registro */}
-			<div className='w-full max-w-md space-y-6 bg-card p-8 rounded-2xl shadow-lg bg-slate-300 mt-6 md:mt-0'>
-				<h2 className='text-2xl font-bold text-center dark:text-black'>
+			<div className='w-full max-w-md space-y-6 bg-card p-8 rounded-2xl shadow-lg bg-slate-300 mt-6 md:mt-0 dark:bg-neutral-800'>
+				<h2 className='text-2xl font-bold text-center text-black dark:text-gray-300'>
 					Bienvenido a EntrenaGo
 				</h2>
-				<p className='text-sm text-center text-muted-foreground'>
+				<p className='text-sm text-center text-muted-foreground dark:text-gray-300'>
 					Create an account to continue:
 				</p>
 
 				<div className='space-y-3'>
 					<button
 						onClick={() => handleOAuth('google')}
-						className='w-full flex items-center justify-center gap-2 py-2 px-4 border border-border rounded-lg hover:bg-muted/80 transition bg-gray-400'
+						className='w-full flex items-center justify-center gap-2 py-2 px-4 border border-border rounded-lg hover:bg-muted/80 transition bg-gradient-to-r from-cyan-500 to-green-400'
 					>
 						<img
 							src='https://www.svgrepo.com/show/475656/google-color.svg'
 							alt='Google'
 							className='w-5 h-5'
 						/>
-						<span className='text-sm'>Registrarse con Google</span>
+						<span className='text-sm font-semibold'>
+							Registrarse con Google
+						</span>
 					</button>
 
 					<button
 						onClick={() => handleOAuth('facebook')}
-						className='w-full flex items-center justify-center gap-2 py-2 px-4 border border-border rounded-lg hover:bg-muted/80 transition bg-gray-400'
+						className='w-full flex items-center justify-center gap-2 py-2 px-4 border border-border rounded-lg hover:bg-muted/80 transition bg-gradient-to-r from-cyan-500 to-green-400'
 					>
 						<img
 							src='https://www.svgrepo.com/show/452196/facebook-1.svg'
 							alt='Facebook'
 							className='w-5 h-5'
 						/>
-						<span className='text-sm'>Registrarse con Facebook</span>
+						<span className='text-sm font-semibold'>
+							Registrarse con Facebook
+						</span>
 					</button>
 				</div>
 
 				<div className='inline-flex mb-4 items-center justify-center w-full relative'>
-					<hr className='w-64 h-px my-8 bg-gray-400 border-0' />
-					<span className='absolute px-3 font-medium text-gray-900 -translate-x-1/2 bg-slate-300 left-1/2 dark:text-black'>
+					<hr className='w-64 h-px my-8 bg-black border-0 dark:bg-gray-300' />
+					<span className='absolute px-3 font-medium text-gray-900 -translate-x-1/2 left-1/2 dark:text-gray-300 bg-slate-300 dark:bg-neutral-800'>
 						O con tu correo
 					</span>
 				</div>
 
 				<form onSubmit={handleRegister} className='space-y-4'>
 					<div>
-						<label className='block text-sm mb-1 text-foreground'>
+						<label className='block text-sm mb-1 text-foreground dark:text-gray-300'>
 							Correo electrónico
 						</label>
 						<input
@@ -163,7 +175,7 @@ export default function Register() {
 					</div>
 
 					<div>
-						<label className='block text-sm mb-1 text-foreground'>
+						<label className='block text-sm mb-1 text-foreground dark:text-gray-300'>
 							Contraseña
 						</label>
 						<input
@@ -177,7 +189,7 @@ export default function Register() {
 					</div>
 
 					<div>
-						<label className='block text-sm mb-1 text-foreground'>
+						<label className='block text-sm mb-1 text-foreground dark:text-gray-300'>
 							Confirmar contraseña
 						</label>
 						<input
@@ -194,17 +206,17 @@ export default function Register() {
 
 					<button
 						type='submit'
-						className='w-full py-2 bg-gray-400 text-white font-semibold rounded-md hover:bg-gray-500 transition'
+						className='w-full py-2 bg-gradient-to-r from-cyan-500 to-green-400 text-black font-semibold rounded-md hover:bg-gray-500 transition'
 					>
 						Crear cuenta
 					</button>
 				</form>
 
-				<p className='text-center text-sm text-muted-foreground'>
+				<p className='text-center text-sm text-muted-foreground dark:text-gray-300'>
 					¿Ya tienes cuenta?{' '}
 					<Link
 						href='/login'
-						className='text-primary text-blue-600 hover:underline font-medium'
+						className='text-primary text-green-600 dark:text-green-400 hover:underline font-medium'
 					>
 						Iniciar sesión
 					</Link>

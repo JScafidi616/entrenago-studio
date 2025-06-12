@@ -10,6 +10,7 @@ import ResetPassword from './pages/ResetPassword';
 
 function App() {
 	const { user, loading } = useContext(AuthContext);
+
 	//Todo Generar un loading mas estilizado y con animaciones
 	if (loading) return <div>Cargando...</div>;
 
