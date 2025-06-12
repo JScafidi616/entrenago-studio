@@ -160,7 +160,12 @@ export default function Login() {
 								href='#'
 								className='text-xs text-primary hover:underline text-green-600 dark:text-green-400'
 							>
-								¿Olvidaste tu contraseña?
+								<Link
+									href='/forgot-password'
+									className='text-primary font-medium text-green-600 dark:text-green-400 hover:underline'
+								>
+									¿Olvidaste tu contraseña?
+								</Link>
 							</a>
 						</div>
 						<input
