@@ -59,20 +59,22 @@ export default function Dashboard() {
 	};
 
 	return (
-		<div className='min-h-screen flex flex-col bg-gray-100'>
+		<div className='min-h-screen flex flex-col bg-gray-100 dark:bg-neutral-900'>
 			{/* Header */}
-			<header className='bg-white shadow-md py-4 px-6'>
-				<h1 className='text-xl font-semibold'>EntrenaGo Dashboard</h1>
+			<header className='bg-white shadow-md py-4 px-6 dark:bg-neutral-800'>
+				<h1 className='text-xl font-semibold dark:text-gray-300'>
+					EntrenaGo Dashboard
+				</h1>
 			</header>
 
 			{/* Contenido principal centrado */}
 			<main className='flex-grow flex items-center justify-center text-center px-4'>
-				<div className='bg-white p-8 rounded-xl shadow-lg w-full max-w-md'>
-					<h2 className='text-2xl font-bold mb-2'>
+				<div className='bg-white p-8 rounded-xl shadow-lg w-full max-w-md dark:bg-neutral-800'>
+					<h2 className='text-2xl font-bold mb-2 dark:text-gray-300'>
 						Bienvenido al Dashboard 🏋️‍♂️
 					</h2>
 					{user && (
-						<p className='mb-4'>
+						<p className='mb-4 dark:text-gray-300'>
 							Sesión activa como: <strong>{user.email}</strong>
 						</p>
 					)}
@@ -86,7 +88,7 @@ export default function Dashboard() {
 			</main>
 
 			{/* Footer */}
-			<footer className='bg-white shadow-inner py-4 px-6 text-center text-sm text-gray-500'>
+			<footer className='bg-white shadow-inner py-4 px-6 text-center text-sm text-gray-500 dark:bg-neutral-800 dark:text-gray-400'>
 				© {new Date().getFullYear()} EntrenaGo. Todos los derechos reservados.
 			</footer>
 

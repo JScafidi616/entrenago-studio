@@ -38,17 +38,19 @@ const OnboardingModal = ({ userId, onComplete }) => {
 
 	return (
 		<div
-			className={`bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-md border border-gray-300 transition-all duration-300 transform ${
+			className={`bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-md border  dark:bg-neutral-800 transition-all duration-300 transform ${
 				startAnimation ? 'animate-zoomFadeIn' : 'opacity-0 scale-95'
 			}`}
 		>
 			{step === 1 && (
 				<>
-					<h2 className='text-xl font-bold mb-4'>¿Cuál es tu nombre?</h2>
+					<h2 className='text-xl font-bold mb-4 dark:text-gray-300'>
+						¿Cuál es tu nombre?
+					</h2>
 					<input
 						type='text'
 						name='name'
-						className='border p-2 w-full rounded'
+						className='border p-2 w-full rounded dark:text-gray-400'
 						onChange={handleChange}
 					/>
 					<button
@@ -62,10 +64,12 @@ const OnboardingModal = ({ userId, onComplete }) => {
 
 			{step === 2 && (
 				<>
-					<h2 className='text-xl font-bold mb-4'>¿Cuál es tu objetivo?</h2>
+					<h2 className='text-xl font-bold mb-4 dark:text-gray-300'>
+						¿Cuál es tu objetivo?
+					</h2>
 					<select
 						name='goal'
-						className='border p-2 w-full rounded'
+						className='border p-2 w-full rounded dark:text-gray-400'
 						onChange={handleChange}
 					>
 						<option value=''>Selecciona...</option>
@@ -84,10 +88,12 @@ const OnboardingModal = ({ userId, onComplete }) => {
 
 			{step === 3 && (
 				<>
-					<h2 className='text-xl font-bold mb-4'>¿Qué tipo de usuario eres?</h2>
+					<h2 className='text-xl font-bold mb-4 dark:text-gray-300'>
+						¿Qué tipo de usuario eres?
+					</h2>
 					<select
 						name='userType'
-						className='border p-2 w-full rounded'
+						className='border p-2 w-full rounded dark:text-gray-400'
 						onChange={handleChange}
 					>
 						<option value=''>Selecciona...</option>
