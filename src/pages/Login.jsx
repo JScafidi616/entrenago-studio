@@ -1,83 +1,13 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'wouter';
-import { supabase } from '../supabase/client';
+import { Link } from 'wouter';
+import { useAuthentication } from '../lib/hooks/useAuthentication';
+
 
 export default function Login() {
 	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [loading, setLoading] = useState(false);
-	const [errorMsg, setErrorMsg] = useState('');
-	const [location, setLocation] = useLocation(); // Hook de Wouter
-	const showSuccess = location.includes('reset=success');
-
-	const handleLogin = async (e) => {
-		e.preventDefault();
-		setLoading(true);
-		setErrorMsg('');
-
-		const { data, error } = await supabase.auth.signInWithPassword({
-			email,
-			password,
-		});
-
-		if (error) {
-			setErrorMsg(error.message);
-		} else {
-			console.log('Usuario logueado:', data);
-			setLocation('/dashboard');
-		}
-
-		setLoading(false);
-	};
-
-	// const handleGoogleLogin = async () => {
-	// 	setLoading(true);
-	// 	setErrorMsg('');
-
-	// 	const { error } = await supabase.auth.signInWithOAuth({
-	// 		provider: 'google',
-	// 		options: {
-	// 			redirectTo: window.location.origin,
-	// 		},
-	// 	});
-
-	// 	if (error) {
-	// 		setErrorMsg(error.message);
-	// 		setLoading(false);
-	// 	}
-	// };
-
-	// const handleFaceBookLogin = async () => {
-	// 	setLoading(true);
-	// 	setErrorMsg('');
-
-	// 	const { error } = await supabase.auth.signInWithOAuth({
-	// 		provider: 'facebook',
-	// 		options: {
-	// 			// Forzamos el scope más básico
-	// 			scopes: 'public_profile',
-	// 			redirectTo: window.location.origin,
-	// 		},
-	// 	});
-
-	// 	if (error) {
-	// 		console.error('OAuth Error:', error.message);
-	// 		setErrorMsg(error.message);
-	// 		setLoading(false);
-	// 	}
-	// };
-
-	const handleOAuth = async (provider) => {
-		setLoading(true);
-		setErrorMsg('');
-		const { error } = await supabase.auth.signInWithOAuth({ provider });
-
-		if (error) {
-			console.error('OAuth Error:', error.message);
-			setErrorMsg(error.message);
-			setLoading(false);
-		}
-	};
+	const [password, setPassword] = useState('');	
+	const {showSuccess, handleOAuth, handleLogin, errorMsg, loading,
+	} = useAuthentication()
 
 	return (
 		<div className='min-h-screen flex items-center justify-center bg-background px-4 py-10 sm:px-6 lg:px-8 dark:bg-neutral-900'>
