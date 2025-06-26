@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { supabase } from '../supabase/client';
+import { cn } from '../lib/utils/utils';
+ 
 
 export default function Register() {
 	const [, setLocation] = useLocation();
@@ -114,15 +116,15 @@ export default function Register() {
 			</div>
 
 			{/* Formulario de registro */}
-			<div className='w-full max-w-md space-y-6 bg-card p-8 rounded-2xl shadow-lg bg-slate-300 mt-6 md:mt-0 dark:bg-neutral-800'>
-				<h2 className='text-2xl font-bold text-center text-black dark:text-gray-300'>
+			<div className={cn('w-full max-w-md space-y-6 bg-card p-8 rounded-2xl shadow-lg bg-slate-300 mt-6 md:mt-0 dark:bg-neutral-800')}>
+				<h2 className={cn('text-2xl font-bold text-center text-black dark:text-gray-300')}>
 					Bienvenido a EntrenaGo
 				</h2>
 				<p className='text-sm text-center text-muted-foreground dark:text-gray-300'>
 					Create an account to continue:
 				</p>
 
-				<div className='space-y-3'>
+				<div className={cn('space-y-3')}>
 					<button
 						onClick={() => handleOAuth('google')}
 						className='w-full flex items-center justify-center gap-2 py-2 px-4 border border-border rounded-lg hover:bg-muted/80 transition bg-gradient-to-r from-cyan-500 to-green-400'
