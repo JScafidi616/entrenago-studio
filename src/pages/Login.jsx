@@ -6,7 +6,7 @@ import { cn } from '../lib/utils/utils';
 export default function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const { showSuccess, handleOAuth, handleLogin, errorMsg, loading } =
+	const { showSuccess, handleOAuth, handleLogin, errorMsg, loading, location } =
 		useAuthentication();
 
 	return (
@@ -105,6 +105,8 @@ export default function Login() {
 						<input
 							id='email'
 							type='email'
+							name='username'
+							autoComplete='username'
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							required
@@ -128,19 +130,21 @@ export default function Login() {
 									'text-xs text-primary hover:underline text-green-600 dark:text-green-400',
 								)}
 							>
-								<Link
-									href='/forgot-password'
+								<div
+									onClick={() => location('/forgot-password')}
+									role='button'
 									className={cn(
 										'text-primary font-medium text-green-600 dark:text-green-400 hover:underline',
 									)}
 								>
 									¿Olvidaste tu contraseña?
-								</Link>
+								</div>
 							</a>
 						</div>
 						<input
 							id='password'
 							type='password'
+							autoComplete='current-password'
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							required
