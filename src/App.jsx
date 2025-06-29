@@ -2,6 +2,7 @@
 import { useContext } from 'react';
 import { Redirect, Route, Switch } from 'wouter';
 import { AuthContext } from './context/AuthContext';
+import { cn } from './lib/utils/utils';
 import Dashboard from './pages/Dashboard';
 import ForgotPassword from './pages/ForgotPassword';
 import Login from './pages/Login';
@@ -32,7 +33,7 @@ function App() {
 
 			{/* Ruta fallback */}
 			<Route>
-				<div className='p-4 text-center'>404 - Página no encontrada</div>
+				<div className={cn('p-4 text-center')}>404 - Página no encontrada</div>
 			</Route>
 		</Switch>
 	);

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { cn } from '../lib/utils/utils';
 import { supabase } from '../supabase/client';
 
 const OnboardingModal = ({ userId, onComplete }) => {
@@ -38,24 +39,28 @@ const OnboardingModal = ({ userId, onComplete }) => {
 
 	return (
 		<div
-			className={`bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-md border  dark:bg-neutral-800 transition-all duration-300 transform ${
-				startAnimation ? 'animate-zoomFadeIn' : 'opacity-0 scale-95'
-			}`}
+			className={cn(
+				`bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-md border  dark:bg-neutral-800 transition-all duration-300 transform ${
+					startAnimation ? 'animate-zoomFadeIn' : 'opacity-0 scale-95'
+				}`,
+			)}
 		>
 			{step === 1 && (
 				<>
-					<h2 className='text-xl font-bold mb-4 dark:text-gray-300'>
+					<h2 className={cn('text-xl font-bold mb-4 dark:text-gray-300')}>
 						¿Cuál es tu nombre?
 					</h2>
 					<input
 						type='text'
 						name='name'
-						className='border p-2 w-full rounded dark:text-gray-400'
+						className={cn('border p-2 w-full rounded dark:text-gray-400')}
 						onChange={handleChange}
 					/>
 					<button
 						onClick={() => setStep(2)}
-						className='mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700'
+						className={cn(
+							'mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700',
+						)}
 					>
 						Siguiente
 					</button>
@@ -64,12 +69,12 @@ const OnboardingModal = ({ userId, onComplete }) => {
 
 			{step === 2 && (
 				<>
-					<h2 className='text-xl font-bold mb-4 dark:text-gray-300'>
+					<h2 className={cn('text-xl font-bold mb-4 dark:text-gray-300')}>
 						¿Cuál es tu objetivo?
 					</h2>
 					<select
 						name='goal'
-						className='border p-2 w-full rounded dark:text-gray-400'
+						className={cn('border p-2 w-full rounded dark:text-gray-400')}
 						onChange={handleChange}
 					>
 						<option value=''>Selecciona...</option>
@@ -79,7 +84,9 @@ const OnboardingModal = ({ userId, onComplete }) => {
 					</select>
 					<button
 						onClick={() => setStep(3)}
-						className='mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700'
+						className={cn(
+							'mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700',
+						)}
 					>
 						Siguiente
 					</button>
@@ -88,12 +95,12 @@ const OnboardingModal = ({ userId, onComplete }) => {
 
 			{step === 3 && (
 				<>
-					<h2 className='text-xl font-bold mb-4 dark:text-gray-300'>
+					<h2 className={cn('text-xl font-bold mb-4 dark:text-gray-300')}>
 						¿Qué tipo de usuario eres?
 					</h2>
 					<select
 						name='userType'
-						className='border p-2 w-full rounded dark:text-gray-400'
+						className={cn('border p-2 w-full rounded dark:text-gray-400')}
 						onChange={handleChange}
 					>
 						<option value=''>Selecciona...</option>
@@ -103,7 +110,9 @@ const OnboardingModal = ({ userId, onComplete }) => {
 					</select>
 					<button
 						onClick={handleSubmit}
-						className='mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700'
+						className={cn(
+							'mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700',
+						)}
 					>
 						Finalizar
 					</button>
