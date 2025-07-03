@@ -92,7 +92,13 @@ export default function Login() {
 					</span>
 				</div>
 
-				<form onSubmit={handleLogin} className='space-y-4'>
+				<form
+					onSubmit={(e) => {
+						e.preventDefault();
+						handleLogin({ email, password });
+					}}
+					className='space-y-4'
+				>
 					<div>
 						<label
 							htmlFor='email'
