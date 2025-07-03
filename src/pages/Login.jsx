@@ -105,8 +105,9 @@ export default function Login() {
 						<input
 							id='email'
 							type='email'
-							name='username'
-							autoComplete='username'
+							name='email'
+							autoComplete='email'
+							placeholder='Ingresa tu correo electrónico'
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							required
@@ -124,27 +125,28 @@ export default function Login() {
 							>
 								Contraseña
 							</label>
-							<a
+							<div
 								href='#'
 								className={cn(
 									'text-xs text-primary hover:underline text-green-600 dark:text-green-400',
 								)}
 							>
-								<div
-									onClick={() => location('/forgot-password')}
+								<Link
+									href='/forgot-password'
 									role='button'
 									className={cn(
 										'text-primary font-medium text-green-600 dark:text-green-400 hover:underline',
 									)}
 								>
 									¿Olvidaste tu contraseña?
-								</div>
-							</a>
+								</Link>
+							</div>
 						</div>
 						<input
 							id='password'
 							type='password'
 							autoComplete='current-password'
+							placeholder='Ingresa tu contraseña'
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							required

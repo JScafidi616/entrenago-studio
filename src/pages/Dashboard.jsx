@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
-import OnboardingModal from '../components/onboarding';
+import OnboardingModal from '../components/Onboarding';
 import { cn } from '../lib/utils/utils';
 import { supabase } from '../supabase/client';
 
