@@ -6,7 +6,7 @@ import { cn } from '../lib/utils/utils';
 export default function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const { showSuccess, handleOAuth, handleLogin, errorMsg, loading, location } =
+	const { showSuccess, handleOAuth, handleLogin, errorMsg, loading } =
 		useAuthentication();
 
 	return (
