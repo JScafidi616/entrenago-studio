@@ -6,7 +6,7 @@ const OnboardingModal = ({ userId, onComplete }) => {
 	const [startAnimation, setStartAnimation] = useState(false);
 	const [step, setStep] = useState(1);
 	const [formData, setFormData] = useState({
-		name: '',
+		full_name: '',
 		goal: '',
 		userType: '',
 	});
@@ -27,7 +27,7 @@ const OnboardingModal = ({ userId, onComplete }) => {
 		await supabase
 			.from('profiles')
 			.update({
-				name: formData.name,
+				full_name: formData.full_name,
 				goal: formData.goal,
 				user_type: formData.userType,
 				onboarded: true,
@@ -52,7 +52,7 @@ const OnboardingModal = ({ userId, onComplete }) => {
 					</h2>
 					<input
 						type='text'
-						name='name'
+						name='full_name'
 						className={cn('border p-2 w-full rounded dark:text-gray-400')}
 						onChange={handleChange}
 					/>
