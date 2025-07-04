@@ -1,4 +1,5 @@
 import { Link } from 'wouter';
+import AuthSeparation from '../components/custom/AuthSeparation.jsx';
 import { useAuthentication } from '../lib/hooks/useAuthentication';
 import { cn } from '../lib/utils/utils';
 
