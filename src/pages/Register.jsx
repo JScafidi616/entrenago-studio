@@ -142,7 +142,7 @@ export default function Register() {
 					></hr>
 					<span
 						className={cn(
-							'text-base w-37 absolute px-4 font-normal text-gray-900 -translate-x-1/2 left-1/2 dark:text-gray-300 bg-slate-300 dark:bg-neutral-800',
+							'text-base w-38 absolute px-4 font-normal text-gray-900 -translate-x-1/2 left-1/2 dark:text-gray-300 bg-slate-300 dark:bg-neutral-800',
 						)}
 					>
 						O con tu correo:
