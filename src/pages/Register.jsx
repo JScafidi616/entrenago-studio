@@ -1,5 +1,6 @@
 import { Link } from 'wouter';
 import AuthCardTitle from '../components/custom/AuthCardTitle.jsx';
+import AuthProviders from '../components/custom/AuthProviders.jsx';
 import AuthSeparation from '../components/custom/AuthSeparation.jsx';
 import { useAuthentication } from '../lib/hooks/useAuthentication';
 import { cn } from '../lib/utils/utils';
@@ -92,39 +93,12 @@ export default function Register() {
 				/>
 
 				{/* Provider Auth Section */}
-				<div className={cn('space-y-3')}>
-					<button
-						onClick={() => handleOAuth('google')}
-						className={cn(
-							'w-full flex items-center justify-center gap-2 py-2 px-4 border border-border rounded-lg hover:bg-muted/80 transition bg-gradient-to-r from-cyan-500 to-green-400',
-						)}
-					>
-						<img
-							src='/icons/google_icon_socials.svg'
-							alt='Google'
-							className={cn('w-5 h-5')}
-						/>
-						<span className={cn('text-sm font-semibold')}>
-							Registrarse con Google
-						</span>
-					</button>
-
-					<button
-						onClick={() => handleOAuth('facebook')}
-						className={cn(
-							'w-full flex items-center justify-center gap-2 py-2 px-4 border border-border rounded-lg hover:bg-muted/80 transition bg-gradient-to-r from-cyan-500 to-green-400',
-						)}
-					>
-						<img
-							src='/icons/facebook_icon_socials.svg'
-							alt='Facebook'
-							className={cn('w-5 h-5')}
-						/>
-						<span className={cn('text-sm font-semibold')}>
-							Registrarse con Facebook
-						</span>
-					</button>
-				</div>
+				<AuthProviders
+					googleProvider='Registrarse con Google'
+					facebookProvider='Registrarse con Facebook'
+					googleAuthClick={() => handleOAuth('google')}
+					facebAuthClick={() => handleOAuth('facebook')}
+				/>
 
 				<AuthSeparation />
 
