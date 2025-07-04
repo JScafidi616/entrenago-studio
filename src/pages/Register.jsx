@@ -1,4 +1,5 @@
 import { Link } from 'wouter';
+import AuthCardTitle from '../components/custom/AuthCardTitle.jsx';
 import AuthSeparation from '../components/custom/AuthSeparation.jsx';
 import { useAuthentication } from '../lib/hooks/useAuthentication';
 import { cn } from '../lib/utils/utils';
@@ -85,22 +86,10 @@ export default function Register() {
 				)}
 			>
 				{/* Card Title Section */}
-				<div className={cn('text-center ')}>
-					<h2
-						className={cn(
-							'text-2xl font-bold text-foreground text-black dark:text-gray-300 ',
-						)}
-					>
-						Bienvenido a EntrenaGo
-					</h2>
-					<p
-						className={cn(
-							'text-sm text-muted-foreground mt-1 dark:text-gray-300',
-						)}
-					>
-						Crea una cuenta para continuar:
-					</p>
-				</div>
+				<AuthCardTitle
+					title='Bienvenido a EntrenaGo'
+					description='Crea una cuenta para continuar:'
+				/>
 
 				{/* Provider Auth Section */}
 				<div className={cn('space-y-3')}>
@@ -138,6 +127,7 @@ export default function Register() {
 				</div>
 
 				<AuthSeparation />
+
 				<form onSubmit={handleRegister} className={cn('space-y-4')}>
 					<div>
 						<label

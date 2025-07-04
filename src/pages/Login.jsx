@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
+import AuthCardTitle from '../components/custom/AuthCardTitle.jsx';
 import AuthSeparation from '../components/custom/AuthSeparation.jsx';
 import { useAuthentication } from '../lib/hooks/useAuthentication';
 import { cn } from '../lib/utils/utils';
@@ -21,29 +22,18 @@ export default function Login() {
 					'w-full max-w-md space-y-6 bg-card p-8 rounded-2xl shadow-lg bg-slate-300 dark:bg-neutral-800',
 				)}
 			>
-				<div className={cn('text-center ')}>
-					<h2
-						className={cn(
-							'text-2xl font-bold text-foreground text-black dark:text-gray-300 ',
-						)}
-					>
-						Inicia sesión en EntrenaGo
-					</h2>
-					<p
-						className={cn(
-							'text-sm text-muted-foreground mt-1 dark:text-gray-300',
-						)}
-					>
-						Bienvenido de nuevo, por favor inicia sesión
-					</p>
-					{showSuccess && (
-						<div className={cn('mb-4 p-2 bg-green-100 text-green-700 rounded')}>
-							¡Contraseña actualizada correctamente! Ahora puedes iniciar
-							sesión.
-						</div>
-					)}
-				</div>
+				{/* Card Title Section */}
+				<AuthCardTitle
+					title='Inicia sesión en EntrenaGo'
+					description='Bienvenido de nuevo, por favor inicia sesión'
+				/>
+				{showSuccess && (
+					<div className={cn('mb-4 p-2 bg-green-100 text-green-700 rounded')}>
+						¡Contraseña actualizada correctamente! Ahora puedes iniciar sesión.
+					</div>
+				)}
 
+				{/* Provider Auth Section */}
 				<div className='space-y-3'>
 					<button
 						onClick={() => handleOAuth('google')}
