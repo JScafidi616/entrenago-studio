@@ -13,13 +13,13 @@ export default function Register() {
 				'min-h-screen flex flex-col md:flex-row items-center justify-center bg-background px-4 py-10 sm:px-6 lg:px-8 dark:bg-neutral-900',
 			)}
 		>
-			{/* Panel izquierdo con EntrenaGo (solo en escritorio) */}
+			{/* Left Panel - EntrenaGo (Desktop Only) */}
 			<div
 				className={cn(
 					'hidden md:flex w-full max-w-md flex-col gap-6 p-8 text-black',
 				)}
 			>
-				<h1 className={cn('text-3xl font-bold dark:text-gray-300')}>
+				<h1 className={cn('text-2xl font-bold text-black dark:text-gray-300')}>
 					EntrenaGo
 				</h1>
 
@@ -78,27 +78,31 @@ export default function Register() {
 				</div>
 			</div>
 
-			{/* Formulario de registro */}
+			{/* Right Panel - Sign Up form */}
 			<div
 				className={cn(
 					'w-full max-w-md space-y-6 bg-card p-8 rounded-2xl shadow-lg bg-slate-300 mt-6 md:mt-0 dark:bg-neutral-800',
 				)}
 			>
-				<h2
-					className={cn(
-						'text-2xl font-bold text-center text-black dark:text-gray-300',
-					)}
-				>
-					Bienvenido a EntrenaGo
-				</h2>
-				<p
-					className={cn(
-						'text-sm text-center text-muted-foreground dark:text-gray-300',
-					)}
-				>
-					Crear una cuenta para continuar:
-				</p>
+				{/* Card Title Section */}
+				<div className={cn('text-center ')}>
+					<h2
+						className={cn(
+							'text-2xl font-bold text-foreground text-black dark:text-gray-300 ',
+						)}
+					>
+						Bienvenido a EntrenaGo
+					</h2>
+					<p
+						className={cn(
+							'text-sm text-muted-foreground mt-1 dark:text-gray-300',
+						)}
+					>
+						Crea una cuenta para continuar:
+					</p>
+				</div>
 
+				{/* Provider Auth Section */}
 				<div className={cn('space-y-3')}>
 					<button
 						onClick={() => handleOAuth('google')}
@@ -134,7 +138,6 @@ export default function Register() {
 				</div>
 
 				<AuthSeparation />
-
 				<form onSubmit={handleRegister} className={cn('space-y-4')}>
 					<div>
 						<label
@@ -220,7 +223,6 @@ export default function Register() {
 						Crear cuenta
 					</button>
 				</form>
-
 				<p
 					className={cn(
 						'text-center text-sm text-muted-foreground dark:text-gray-300',

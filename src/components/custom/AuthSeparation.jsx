@@ -4,7 +4,7 @@ const AuthSeparation = () => {
 	return (
 		<div
 			className={cn(
-				'inline-flex mb-4 items-center justify-center w-full relative',
+				'inline-flex mb-3 items-center justify-center w-full relative',
 			)}
 		>
 			<hr
