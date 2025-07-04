@@ -51,7 +51,7 @@ export default function Login() {
 						)}
 					>
 						<img
-							src='/public/icons/google_icon_socials.svg'
+							src='/icons/google_icon_socials.svg'
 							alt='Google'
 							className='w-5 h-5'
 						/>
@@ -67,7 +67,7 @@ export default function Login() {
 						)}
 					>
 						<img
-							src='/public/icons/facebook_icon_socials.svg'
+							src='/icons/facebook_icon_socials.svg'
 							alt='Facebook'
 							className='w-5 h-5'
 						/>
