@@ -95,7 +95,7 @@ export default function Register() {
 						'text-sm text-center text-muted-foreground dark:text-gray-300',
 					)}
 				>
-					Create an account to continue:
+					Crear una cuenta para continuar:
 				</p>
 
 				<div className={cn('space-y-3')}>
@@ -106,7 +106,7 @@ export default function Register() {
 						)}
 					>
 						<img
-							src='https://www.svgrepo.com/show/475656/google-color.svg'
+							src='/src/assets/google_icon_socials.svg'
 							alt='Google'
 							className={cn('w-5 h-5')}
 						/>
@@ -122,7 +122,7 @@ export default function Register() {
 						)}
 					>
 						<img
-							src='https://www.svgrepo.com/show/452196/facebook-1.svg'
+							src='/src/assets/facebook_icon_socials.svg'
 							alt='Facebook'
 							className={cn('w-5 h-5')}
 						/>
@@ -139,13 +139,13 @@ export default function Register() {
 				>
 					<hr
 						className={cn('w-64 h-px my-8 bg-black border-0 dark:bg-gray-300')}
-					/>
+					></hr>
 					<span
 						className={cn(
-							'absolute px-3 font-medium text-gray-900 -translate-x-1/2 left-1/2 dark:text-gray-300 bg-slate-300 dark:bg-neutral-800',
+							'text-base w-37 absolute px-4 font-normal text-gray-900 -translate-x-1/2 left-1/2 dark:text-gray-300 bg-slate-300 dark:bg-neutral-800',
 						)}
 					>
-						O con tu correo
+						O con tu correo:
 					</span>
 				</div>
 
@@ -159,8 +159,11 @@ export default function Register() {
 							Correo electrónico
 						</label>
 						<input
+							id='email'
 							type='email'
 							name='email'
+							autoComplete='email'
+							placeholder='Ingresa tu correo electrónico'
 							value={formData.email}
 							onChange={handleChange}
 							required
@@ -179,8 +182,11 @@ export default function Register() {
 							Contraseña
 						</label>
 						<input
+							id='password'
 							type='password'
 							name='password'
+							autoComplete='current-password'
+							placeholder='Ingresa tu contraseña'
 							value={formData.password}
 							onChange={handleChange}
 							required
@@ -199,8 +205,11 @@ export default function Register() {
 							Confirmar contraseña
 						</label>
 						<input
+							id='confirmPassword'
 							type='password'
 							name='confirmPassword'
+							autoComplete='current-password'
+							placeholder='Re-ingresa tu contraseña'
 							value={formData.confirmPassword}
 							onChange={handleChange}
 							required
@@ -210,7 +219,11 @@ export default function Register() {
 						/>
 					</div>
 
-					{errorMsg && <p className={cn('text-sm text-red-500')}>{errorMsg}</p>}
+					{errorMsg && (
+						<p className={cn('text-sm text-destructive text-red-500')}>
+							{errorMsg}
+						</p>
+					)}
 
 					<button
 						type='submit'

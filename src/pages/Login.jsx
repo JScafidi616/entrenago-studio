@@ -51,7 +51,7 @@ export default function Login() {
 						)}
 					>
 						<img
-							src='https://www.svgrepo.com/show/475656/google-color.svg'
+							src='/src/assets/google_icon_socials.svg'
 							alt='Google'
 							className='w-5 h-5'
 						/>
@@ -67,7 +67,7 @@ export default function Login() {
 						)}
 					>
 						<img
-							src='https://www.svgrepo.com/show/452196/facebook-1.svg'
+							src='/src/assets/facebook_icon_socials.svg'
 							alt='Facebook'
 							className='w-5 h-5'
 						/>
@@ -78,17 +78,19 @@ export default function Login() {
 				</div>
 
 				<div
-					className={cn('inline-flex mb-4 items-center justify-center w-full')}
+					className={cn(
+						'inline-flex mb-4 items-center justify-center w-full relative',
+					)}
 				>
 					<hr
 						className={cn('w-64 h-px my-8 bg-black border-0 dark:bg-gray-300')}
 					></hr>
 					<span
 						className={cn(
-							'absolute px-3 font-medium text-gray-900 -translate-x-1/2 left-1/2 dark:text-gray-300 bg-slate-300 dark:bg-neutral-800',
+							'text-base w-37 absolute px-4 font-normal text-gray-900 -translate-x-1/2 left-1/2 dark:text-gray-300 bg-slate-300 dark:bg-neutral-800',
 						)}
 					>
-						O con tu cuenta:
+						O con tu correo:
 					</span>
 				</div>
 
@@ -163,7 +165,9 @@ export default function Login() {
 					</div>
 
 					{errorMsg && (
-						<p className={cn('text-sm text-destructive')}>{errorMsg}</p>
+						<p className={cn('text-sm text-destructive text-red-500')}>
+							{errorMsg}
+						</p>
 					)}
 
 					<button
