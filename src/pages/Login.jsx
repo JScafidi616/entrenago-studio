@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link } from 'wouter';
 import AuthCardTitle from '../components/custom/AuthCardTitle.jsx';
 import AuthProviders from '../components/custom/AuthProviders.jsx';
-import AuthSeparation from '../components/custom/AuthSeparation.jsx';
 import { useAuthentication } from '../lib/hooks/useAuthentication';
 import { cn } from '../lib/utils/utils';
 
@@ -35,14 +34,20 @@ export default function Login() {
 				)}
 
 				{/* Provider Auth Section */}
-				<AuthProviders
-					googleProvider='Iniciar con Google'
-					facebookProvider='Iniciar con Facebook'
-					googleAuthClick={() => handleOAuth('google')}
-					facebAuthClick={() => handleOAuth('facebook')}
-				/>
-
-				<AuthSeparation />
+				<div className='space-y-3'>
+					<AuthProviders
+						providerName='Google'
+						providerDescription='Registrarse con Google'
+						providerImage='/icons/google_icon_socials.svg'
+						authClick={() => handleOAuth('google')}
+					/>
+					<AuthProviders
+						providerName='Facebook'
+						providerDescription='Registrarse con Facebook'
+						providerImage='/icons/facebook_icon_socials.svg'
+						facebAuthClick={() => handleOAuth('facebook')}
+					/>
+				</div>
 
 				<form
 					onSubmit={(e) => {
