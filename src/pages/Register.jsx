@@ -106,6 +106,7 @@ export default function Register() {
 						facebAuthClick={() => handleOAuth('facebook')}
 					/>
 				</div>
+				<AuthSeparation />
 
 				<form onSubmit={handleRegister} className={cn('space-y-4')}>
 					<div>

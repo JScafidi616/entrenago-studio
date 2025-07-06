@@ -48,6 +48,7 @@ export default function Login() {
 						facebAuthClick={() => handleOAuth('facebook')}
 					/>
 				</div>
+				<AuthSeparation />
 
 				<form
 					onSubmit={(e) => {
