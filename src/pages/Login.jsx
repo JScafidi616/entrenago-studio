@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'wouter';
 import AuthCardTitle from '../components/custom/AuthCardTitle.jsx';
 import AuthProviders from '../components/custom/AuthProviders.jsx';
+import AuthSeparation from '../components/custom/AuthSeparation.jsx';
 import { useAuthentication } from '../lib/hooks/useAuthentication';
 import { cn } from '../lib/utils/utils';
 
