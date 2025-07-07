@@ -1,5 +1,5 @@
-import { Link } from 'wouter';
 import AuthCardTitle from '../components/custom/AuthCardTitle.jsx';
+import AuthNavigation from '../components/custom/AuthNavigation.jsx';
 import AuthProviders from '../components/custom/AuthProviders.jsx';
 import AuthSeparation from '../components/custom/AuthSeparation.jsx';
 import { useAuthentication } from '../lib/hooks/useAuthentication';
@@ -194,21 +194,13 @@ export default function Register() {
 						Crear cuenta
 					</button>
 				</form>
-				<p
-					className={cn(
-						'text-center text-sm text-muted-foreground dark:text-gray-300',
-					)}
-				>
-					¿Ya tienes cuenta?{' '}
-					<Link
-						href='/login'
-						className={cn(
-							'text-primary text-green-600 dark:text-green-400 hover:underline font-medium',
-						)}
-					>
-						Iniciar sesión
-					</Link>
-				</p>
+
+				{/* Navigation to Login */}
+				<AuthNavigation
+					textQuestion={'¿Ya tienes cuenta?'}
+					location={'login'}
+					clickAction={'Iniciar sesión'}
+				/>
 			</div>
 		</div>
 	);

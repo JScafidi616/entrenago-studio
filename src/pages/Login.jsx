@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
 import AuthCardTitle from '../components/custom/AuthCardTitle.jsx';
+import AuthNavigation from '../components/custom/AuthNavigation.jsx';
 import AuthProviders from '../components/custom/AuthProviders.jsx';
 import AuthSeparation from '../components/custom/AuthSeparation.jsx';
 import { useAuthentication } from '../lib/hooks/useAuthentication';
@@ -138,21 +139,12 @@ export default function Login() {
 					</button>
 				</form>
 
-				<p
-					className={cn(
-						'text-center text-sm text-muted-foreground dark:text-gray-300',
-					)}
-				>
-					¿No tienes una cuenta?{' '}
-					<Link
-						href='/register'
-						className={cn(
-							'text-primary font-medium text-green-600 dark:text-green-400 hover:underline',
-						)}
-					>
-						Crear cuenta
-					</Link>
-				</p>
+				{/* Navigation to Register */}
+				<AuthNavigation
+					textQuestion={'¿No tienes una cuenta?'}
+					location={'register'}
+					clickAction={'Crear cuenta'}
+				/>
 			</div>
 		</div>
 	);
