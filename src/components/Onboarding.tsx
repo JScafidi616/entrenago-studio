@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react';
 import { cn } from '../lib/utils/utils';
 import { supabase } from '../supabase/client';
 
-const OnboardingModal = ({ userId, onComplete }) => {
+interface OnboardingModalProps {
+	userId: string;
+	onComplete: () => void;
+}
+
+const OnboardingModal = ({ userId, onComplete }: OnboardingModalProps) => {
 	const [startAnimation, setStartAnimation] = useState(false);
 	const [step, setStep] = useState(1);
 	const [formData, setFormData] = useState({
@@ -19,7 +24,9 @@ const OnboardingModal = ({ userId, onComplete }) => {
 		};
 	}, []);
 
-	const handleChange = (e) => {
+	const handleChange = (
+		e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
+	) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 

@@ -1,7 +1,17 @@
 import cn from 'clsx';
 import { Link } from 'wouter';
 
-const AuthNavigation = ({ textQuestion, location, clickAction }) => {
+interface AuthNavigationProps {
+	textQuestion: string;
+	location: string;
+	clickAction: string;
+}
+
+const AuthNavigation = ({
+	textQuestion,
+	location,
+	clickAction,
+}: AuthNavigationProps) => {
 	return (
 		<p
 			className={cn(

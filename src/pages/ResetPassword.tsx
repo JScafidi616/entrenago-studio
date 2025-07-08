@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link, Redirect } from 'wouter';
-import { useAuth } from '../context/AuthContext';
-import { cn } from '../lib/utils/utils';
-import { supabase } from '../supabase/client';
+import { useAuth } from '../context/AuthContext.tsx';
+import { cn } from '../lib/utils/utils.ts';
+import { supabase } from '../supabase/client.ts';
 
 export default function ResetPassword() {
 	const [password, setPassword] = useState('');
@@ -13,9 +13,14 @@ export default function ResetPassword() {
 	// const [location] = useLocation();
 
 	// Extraer token de query params
-	const { recoveryToken } = useAuth();
+	//const { recoveryToken } = useAuth();
+	const recoveryToken = useAuth();
 
-	const handleSubmit = async (e) => {
+	if (!recoveryToken) {
+		return <div>No se proporcionó un token válido</div>;
+	}
+
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setLoading(true);
 		setErrorMsg('');
@@ -30,10 +35,12 @@ export default function ResetPassword() {
 			setLoading(false);
 			return;
 		}
-		const { error } = await supabase.auth.updateUser(
-			{ password },
-			{ accessToken: recoveryToken },
-		);
+		// const { error } = await supabase.auth.updateUser(
+		// 	{ password },
+		// 	{ accessToken: recoveryToken },
+		// );
+
+		const { error } = await supabase.auth.updateUser({ password });
 
 		if (error) {
 			setErrorMsg(error.message || 'Error al actualizar la contraseña');

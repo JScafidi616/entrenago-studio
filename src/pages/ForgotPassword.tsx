@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'wouter';
-import { cn } from '../lib/utils/utils';
-import { supabase } from '../supabase/client';
+import { cn } from '../lib/utils/utils.ts';
+import { supabase } from '../supabase/client.ts';
 
 export default function ForgotPassword() {
 	const [email, setEmail] = useState('');
@@ -10,7 +10,7 @@ export default function ForgotPassword() {
 	const [errorMsg, setErrorMsg] = useState('');
 	const [successMsg, setSuccessMsg] = useState('');
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setLoading(true);
 		setErrorMsg('');

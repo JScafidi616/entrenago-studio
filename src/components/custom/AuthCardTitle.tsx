@@ -1,6 +1,11 @@
 import cn from 'clsx';
 
-const AuthCardTitle = ({ title, description }) => {
+interface AuthCardTitleProps {
+	title: string;
+	description: string;
+}
+
+const AuthCardTitle = ({ title, description }: AuthCardTitleProps) => {
 	return (
 		<div className={cn('text-center ')}>
 			<h2
