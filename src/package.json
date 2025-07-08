@@ -1,11 +1,11 @@
 {
-	"name": "entrenago-studio",
+	"name": "typescript-app-placeholder",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
-		"build": "vite build",
+		"build": "tsc -b && vite build",
 		"lint": "eslint .",
 		"preview": "vite preview"
 	},
@@ -37,6 +37,7 @@
 		"postcss": "^8.5.3",
 		"tailwindcss": "^4.1.4",
 		"typescript": "^5.8.3",
-		"vite": "^6.2.0"
+		"typescript-eslint": "^8.34.1",
+		"vite": "^7.0.0"
 	}
 }
