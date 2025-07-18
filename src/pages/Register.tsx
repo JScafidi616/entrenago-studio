@@ -1,8 +1,9 @@
+import ButtonProps from '../components/custom/AuthButtonProps.tsx';
 import AuthCardTitle from '../components/custom/AuthCardTitle.tsx';
+import Input from '../components/custom/AuthInputProps.tsx';
 import AuthNavigation from '../components/custom/AuthNavigation.tsx';
 import AuthProviders from '../components/custom/AuthProviders.tsx';
 import AuthSeparation from '../components/custom/AuthSeparation.tsx';
-import ButtonProps from '../components/custom/ButtonProps.tsx';
 import { useAuthentication } from '../lib/hooks/useAuthentication.ts';
 import { cn } from '../lib/utils/utils.ts';
 
@@ -111,7 +112,20 @@ export default function Register() {
 				<AuthSeparation />
 
 				<form onSubmit={handleRegister} className={cn('space-y-4')}>
-					<div>
+					{/* Email Section */}
+					<Input
+						label='Correo electrónico'
+						id='email'
+						name='email'
+						type='email'
+						autoComplete='email'
+						placeholder='Ingresa tu correo electrónico'
+						value={formData.email}
+						onChange={handleChange}
+						required
+					/>
+
+					{/* <div>
 						<label
 							className={cn(
 								'block text-sm mb-1 text-foreground dark:text-gray-300',
@@ -132,9 +146,22 @@ export default function Register() {
 								'w-full px-4 py-2 bg-white border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary',
 							)}
 						/>
-					</div>
+					</div> */}
 
-					<div>
+					{/* Password Section */}
+					<Input
+						label='Contraseña'
+						id='password'
+						name='password'
+						type='password'
+						autoComplete='current-password'
+						placeholder='Ingresa tu contraseña'
+						value={formData.password}
+						onChange={handleChange}
+						required
+					/>
+
+					{/* <div>
 						<label
 							className={cn(
 								'block text-sm mb-1 text-foreground dark:text-gray-300',
@@ -155,9 +182,22 @@ export default function Register() {
 								'w-full px-4 py-2 bg-white border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary',
 							)}
 						/>
-					</div>
+					</div> */}
 
-					<div>
+					{/* Re-enter Password Section */}
+					<Input
+						label='Confirmar contraseña'
+						id='confirmPassword'
+						name='confirmPassword'
+						type='password'
+						autoComplete='current-password'
+						placeholder='Re-ingresa tu contraseña'
+						value={formData.confirmPassword}
+						onChange={handleChange}
+						required
+					/>
+
+					{/* <div>
 						<label
 							className={cn(
 								'block text-sm mb-1 text-foreground dark:text-gray-300',
@@ -178,7 +218,7 @@ export default function Register() {
 								'w-full px-4 py-2 bg-white border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary',
 							)}
 						/>
-					</div>
+					</div> */}
 
 					{errorMsg && (
 						<p className={cn('text-sm text-destructive text-red-500')}>
