@@ -4,6 +4,7 @@ import AuthCardTitle from '../components/custom/AuthCardTitle.tsx';
 import AuthNavigation from '../components/custom/AuthNavigation.tsx';
 import AuthProviders from '../components/custom/AuthProviders.tsx';
 import AuthSeparation from '../components/custom/AuthSeparation.tsx';
+import ButtonProps from '../components/custom/ButtonProps.tsx';
 import { useAuthentication } from '../lib/hooks/useAuthentication.ts';
 import { cn } from '../lib/utils/utils.ts';
 
@@ -127,15 +128,10 @@ export default function Login() {
 						</p>
 					)}
 
-					<button
-						type='submit'
-						disabled={loading}
-						className={cn(
-							'w-full py-2 bg-primary text-primary-foreground font-semibold rounded-md hover:bg-primary/90 transition bg-gradient-to-r from-cyan-500 to-green-400',
-						)}
-					>
-						{loading ? 'Cargando...' : 'Iniciar sesión'}
-					</button>
+					{/* Submit Button */}
+					<ButtonProps type='submit' title='Iniciar sesión' loading={loading}>
+						Iniciar sesión
+					</ButtonProps>
 				</form>
 
 				{/* Navigation to Register */}

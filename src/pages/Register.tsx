@@ -2,6 +2,7 @@ import AuthCardTitle from '../components/custom/AuthCardTitle.tsx';
 import AuthNavigation from '../components/custom/AuthNavigation.tsx';
 import AuthProviders from '../components/custom/AuthProviders.tsx';
 import AuthSeparation from '../components/custom/AuthSeparation.tsx';
+import ButtonProps from '../components/custom/ButtonProps.tsx';
 import { useAuthentication } from '../lib/hooks/useAuthentication.ts';
 import { cn } from '../lib/utils/utils.ts';
 
@@ -185,14 +186,10 @@ export default function Register() {
 						</p>
 					)}
 
-					<button
-						type='submit'
-						className={cn(
-							'w-full py-2 bg-gradient-to-r from-cyan-500 to-green-400 text-black font-semibold rounded-md hover:bg-gray-500 transition',
-						)}
-					>
+					{/* Submit Button */}
+					<ButtonProps type='submit' title='Crear cuenta'>
 						Crear cuenta
-					</button>
+					</ButtonProps>
 				</form>
 
 				{/* Navigation to Login */}
