@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'wouter';
-import AuthCardTitle from '../components/custom/AuthCardTitle.jsx';
-import AuthNavigation from '../components/custom/AuthNavigation.jsx';
-import AuthProviders from '../components/custom/AuthProviders.jsx';
-import AuthSeparation from '../components/custom/AuthSeparation.jsx';
-import { useAuthentication } from '../lib/hooks/useAuthentication';
-import { cn } from '../lib/utils/utils';
+import ButtonProps from '../components/custom/AuthButtonProps.tsx';
+import AuthCardTitle from '../components/custom/AuthCardTitle.tsx';
+import Input from '../components/custom/AuthInputProps.tsx';
+import AuthNavigation from '../components/custom/AuthNavigation.tsx';
+import AuthProviders from '../components/custom/AuthProviders.tsx';
+import AuthSeparation from '../components/custom/AuthSeparation.tsx';
+import { useAuthentication } from '../lib/hooks/useAuthentication.ts';
+import { cn } from '../lib/utils/utils.ts';
 
 export default function Login() {
 	const [email, setEmail] = useState('');
@@ -41,13 +42,13 @@ export default function Login() {
 						providerName='Google'
 						providerDescription='Registrarse con Google'
 						providerImage='/icons/google_icon_socials.svg'
-						authClick={() => handleOAuth('google')}
+						authClick={() => handleOAuth({ provider: 'google' })}
 					/>
 					<AuthProviders
 						providerName='Facebook'
 						providerDescription='Registrarse con Facebook'
 						providerImage='/icons/facebook_icon_socials.svg'
-						facebAuthClick={() => handleOAuth('facebook')}
+						authClick={() => handleOAuth({ provider: 'facebook' })}
 					/>
 				</div>
 				<AuthSeparation />
@@ -59,7 +60,19 @@ export default function Login() {
 					}}
 					className='space-y-4'
 				>
-					<div>
+					{/* Email Section */}
+					<Input
+						label='Correo electrónico'
+						id='email'
+						type='email'
+						autoComplete='email'
+						placeholder='Ingresa tu correo electrónico'
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						required
+					/>
+
+					{/* <div>
 						<label
 							htmlFor='email'
 							className={cn(
@@ -81,9 +94,23 @@ export default function Login() {
 								'w-full px-4 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-white',
 							)}
 						/>
-					</div>
+					</div> */}
 
-					<div>
+					{/* Password Section */}
+					<Input
+						label='Contraseña'
+						id='password'
+						type='password'
+						autoComplete='current-password'
+						placeholder='Ingresa tu contraseña'
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+						linkText='¿Olvidaste tu contraseña?'
+						linkHref='/forgot-password'
+						required
+					/>
+
+					{/* <div>
 						<div className={cn('flex justify-between items-center mb-1')}>
 							<label
 								htmlFor='password'
@@ -92,7 +119,6 @@ export default function Login() {
 								Contraseña
 							</label>
 							<div
-								href='#'
 								className={cn(
 									'text-xs text-primary hover:underline text-green-600 dark:text-green-400',
 								)}
@@ -120,7 +146,7 @@ export default function Login() {
 								'w-full px-4 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-white',
 							)}
 						/>
-					</div>
+					</div> */}
 
 					{errorMsg && (
 						<p className={cn('text-sm text-destructive text-red-500')}>
@@ -128,15 +154,10 @@ export default function Login() {
 						</p>
 					)}
 
-					<button
-						type='submit'
-						disabled={loading}
-						className={cn(
-							'w-full py-2 bg-primary text-primary-foreground font-semibold rounded-md hover:bg-primary/90 transition bg-gradient-to-r from-cyan-500 to-green-400',
-						)}
-					>
-						{loading ? 'Cargando...' : 'Iniciar sesión'}
-					</button>
+					{/* Submit Button */}
+					<ButtonProps type='submit' title='Iniciar sesión' loading={loading}>
+						Iniciar sesión
+					</ButtonProps>
 				</form>
 
 				{/* Navigation to Register */}

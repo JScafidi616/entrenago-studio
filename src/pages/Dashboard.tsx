@@ -1,11 +1,12 @@
+import type { User } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
-import OnboardingModal from '../components/Onboarding';
-import { cn } from '../lib/utils/utils';
-import { supabase } from '../supabase/client';
+import OnboardingModal from '../components/Onboarding.tsx';
+import { cn } from '../lib/utils/utils.ts';
+import { supabase } from '../supabase/client.ts';
 
 export default function Dashboard() {
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState<User | null>(null);
 	const [, setLocation] = useLocation();
 	const [showOnboarding, setShowOnboarding] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
@@ -15,11 +16,12 @@ export default function Dashboard() {
 			const { data, error } = await supabase.auth.getSession();
 			const session = data.session;
 
-			if (!session) {
-				setLocation('/login');
-			}
 			if (error) {
 				console.error('Error al obtener la sesión:', error.message);
+			}
+			if (!session) {
+				setLocation('/login');
+				return;
 			}
 
 			setUser(session.user);
@@ -123,9 +125,9 @@ export default function Dashboard() {
 					}`,
 				)}
 			>
-				{showOnboarding && (
+				{showOnboarding && user && (
 					<OnboardingModal
-						userId={user?.id}
+						userId={user.id}
 						onComplete={() => setShowOnboarding(false)}
 					/>
 				)}

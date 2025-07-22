@@ -1,11 +1,18 @@
 import cn from 'clsx';
 
+interface AuthProvidersProps {
+	providerName: string;
+	providerDescription: string;
+	providerImage: string;
+	authClick: () => void;
+}
+
 const AuthProviders = ({
 	providerName,
 	providerDescription,
 	providerImage,
 	authClick,
-}) => {
+}: AuthProvidersProps) => {
 	return (
 		<button
 			onClick={authClick}

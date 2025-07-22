@@ -1,14 +1,30 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import type { User } from '@supabase/supabase-js';
+import {
+	createContext,
+	type ReactNode,
+	useContext,
+	useEffect,
+	useState,
+} from 'react';
 import { useLocation } from 'wouter';
-import { supabase } from '../supabase/client';
+import { supabase } from '../supabase/client.ts';
 
-export const AuthContext = createContext();
+interface AuthContextType {
+	user: User | null; // Define UserType según tu modelo de usuario
+	loading: boolean;
+	recoveryToken: string | null; // Token de recuperación, si es necesario
+	// otros valores que provea el contexto
+}
 
-export const AuthProvider = ({ children }) => {
-	const [user, setUser] = useState(null);
+export const AuthContext = createContext<AuthContextType | undefined>(
+	undefined,
+);
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+	const [user, setUser] = useState<User | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [location, setLocation] = useLocation();
-	const [recoveryToken, setRecoveryToken] = useState(null);
+	const [recoveryToken, setRecoveryToken] = useState<string | null>(null);
 
 	// Function to determine if we're on the reset-password route with a token
 	const isResetPasswordRoute = () => location.startsWith('/reset-password');
@@ -64,4 +80,3 @@ export const AuthProvider = ({ children }) => {
 
 // Hook to use easily
 export const useAuth = () => useContext(AuthContext);
-

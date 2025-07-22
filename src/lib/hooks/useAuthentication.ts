@@ -1,3 +1,4 @@
+import type { Provider } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { supabase } from '../../supabase/client';
@@ -27,7 +28,13 @@ export function useAuthentication() {
 		checkUser();
 	}, [setLocation]);
 
-	const handleLogin = async ({ email, password }) => {
+	const handleLogin = async ({
+		email,
+		password,
+	}: {
+		email: string;
+		password: string;
+	}) => {
 		setLoading(true);
 		setErrorMsg('');
 
@@ -46,7 +53,7 @@ export function useAuthentication() {
 		setLoading(false);
 	};
 
-	const handleOAuth = async (provider) => {
+	const handleOAuth = async ({ provider }: { provider: Provider }) => {
 		setLoading(true);
 		setErrorMsg('');
 		const { error } = await supabase.auth.signInWithOAuth({ provider });
@@ -58,10 +65,10 @@ export function useAuthentication() {
 		}
 	};
 
-	const handleChange = (e) =>
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 
-	const handleRegister = async (e) => {
+	const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const { email, password, confirmPassword } = formData;
 
@@ -70,8 +77,8 @@ export function useAuthentication() {
 			return;
 		}
 
-		const { errorMsg } = await supabase.auth.signUp({ email, password });
-		if (errorMsg) return setErrorMsg(errorMsg.message);
+		const { error } = await supabase.auth.signUp({ email, password });
+		if (error) return setErrorMsg(error.message);
 
 		// Después del registro, redirigir al login
 		setLocation('/login');

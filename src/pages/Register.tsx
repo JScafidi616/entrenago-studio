@@ -1,9 +1,11 @@
-import AuthCardTitle from '../components/custom/AuthCardTitle.jsx';
-import AuthNavigation from '../components/custom/AuthNavigation.jsx';
-import AuthProviders from '../components/custom/AuthProviders.jsx';
-import AuthSeparation from '../components/custom/AuthSeparation.jsx';
-import { useAuthentication } from '../lib/hooks/useAuthentication';
-import { cn } from '../lib/utils/utils';
+import ButtonProps from '../components/custom/AuthButtonProps.tsx';
+import AuthCardTitle from '../components/custom/AuthCardTitle.tsx';
+import Input from '../components/custom/AuthInputProps.tsx';
+import AuthNavigation from '../components/custom/AuthNavigation.tsx';
+import AuthProviders from '../components/custom/AuthProviders.tsx';
+import AuthSeparation from '../components/custom/AuthSeparation.tsx';
+import { useAuthentication } from '../lib/hooks/useAuthentication.ts';
+import { cn } from '../lib/utils/utils.ts';
 
 export default function Register() {
 	const { handleOAuth, handleRegister, formData, handleChange, errorMsg } =
@@ -98,19 +100,32 @@ export default function Register() {
 						providerName='Google'
 						providerDescription='Registrarse con Google'
 						providerImage='/icons/google_icon_socials.svg'
-						authClick={() => handleOAuth('google')}
+						authClick={() => handleOAuth({ provider: 'google' })}
 					/>
 					<AuthProviders
 						providerName='Facebook'
 						providerDescription='Registrarse con Facebook'
 						providerImage='/icons/facebook_icon_socials.svg'
-						facebAuthClick={() => handleOAuth('facebook')}
+						authClick={() => handleOAuth({ provider: 'facebook' })}
 					/>
 				</div>
 				<AuthSeparation />
 
 				<form onSubmit={handleRegister} className={cn('space-y-4')}>
-					<div>
+					{/* Email Section */}
+					<Input
+						label='Correo electrónico'
+						id='email'
+						name='email'
+						type='email'
+						autoComplete='email'
+						placeholder='Ingresa tu correo electrónico'
+						value={formData.email}
+						onChange={handleChange}
+						required
+					/>
+
+					{/* <div>
 						<label
 							className={cn(
 								'block text-sm mb-1 text-foreground dark:text-gray-300',
@@ -131,9 +146,22 @@ export default function Register() {
 								'w-full px-4 py-2 bg-white border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary',
 							)}
 						/>
-					</div>
+					</div> */}
 
-					<div>
+					{/* Password Section */}
+					<Input
+						label='Contraseña'
+						id='password'
+						name='password'
+						type='password'
+						autoComplete='current-password'
+						placeholder='Ingresa tu contraseña'
+						value={formData.password}
+						onChange={handleChange}
+						required
+					/>
+
+					{/* <div>
 						<label
 							className={cn(
 								'block text-sm mb-1 text-foreground dark:text-gray-300',
@@ -154,9 +182,22 @@ export default function Register() {
 								'w-full px-4 py-2 bg-white border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary',
 							)}
 						/>
-					</div>
+					</div> */}
 
-					<div>
+					{/* Re-enter Password Section */}
+					<Input
+						label='Confirmar contraseña'
+						id='confirmPassword'
+						name='confirmPassword'
+						type='password'
+						autoComplete='current-password'
+						placeholder='Re-ingresa tu contraseña'
+						value={formData.confirmPassword}
+						onChange={handleChange}
+						required
+					/>
+
+					{/* <div>
 						<label
 							className={cn(
 								'block text-sm mb-1 text-foreground dark:text-gray-300',
@@ -177,7 +218,7 @@ export default function Register() {
 								'w-full px-4 py-2 bg-white border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary',
 							)}
 						/>
-					</div>
+					</div> */}
 
 					{errorMsg && (
 						<p className={cn('text-sm text-destructive text-red-500')}>
@@ -185,14 +226,10 @@ export default function Register() {
 						</p>
 					)}
 
-					<button
-						type='submit'
-						className={cn(
-							'w-full py-2 bg-gradient-to-r from-cyan-500 to-green-400 text-black font-semibold rounded-md hover:bg-gray-500 transition',
-						)}
-					>
+					{/* Submit Button */}
+					<ButtonProps type='submit' title='Crear cuenta'>
 						Crear cuenta
-					</button>
+					</ButtonProps>
 				</form>
 
 				{/* Navigation to Login */}
