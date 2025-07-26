@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	const [startAnimation, setStartAnimation] = useState(false);
+
 	const [step, setStep] = useState(1);
 	const [loading, setLoading] = useState(true);
 	const [skipStep1, setSkipStep1] = useState(false);
