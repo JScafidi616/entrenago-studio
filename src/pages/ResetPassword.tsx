@@ -1,8 +1,8 @@
+import { useAuth } from '@/context/AuthContext.tsx';
+import { cn } from '@/lib/utils/utils.ts';
+import { supabase } from '@/supabase/client.ts';
 import { useState } from 'react';
 import { Link, Redirect } from 'wouter';
-import { useAuth } from '../context/AuthContext.tsx';
-import { cn } from '../lib/utils/utils.ts';
-import { supabase } from '../supabase/client.ts';
 
 export default function ResetPassword() {
 	const [password, setPassword] = useState('');

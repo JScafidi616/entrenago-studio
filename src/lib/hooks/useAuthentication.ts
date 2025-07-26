@@ -1,7 +1,7 @@
+import { supabase } from '@/supabase/client';
 import type { Provider } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
-import { supabase } from '../../supabase/client';
 
 export function useAuthentication() {
 	const [loading, setLoading] = useState(false);

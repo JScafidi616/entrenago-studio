@@ -1,7 +1,7 @@
+import { cn } from '@/lib/utils/utils.ts';
+import { supabase } from '@/supabase/client.ts';
 import { useState } from 'react';
 import { Link } from 'wouter';
-import { cn } from '../lib/utils/utils.ts';
-import { supabase } from '../supabase/client.ts';
 
 export default function ForgotPassword() {
 	const [email, setEmail] = useState('');

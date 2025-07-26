@@ -1,6 +1,6 @@
+import type { FormData, UseOnboardingProps } from '@/lib/types/onboarding';
+import { supabase } from '@/supabase/client';
 import { useEffect, useState } from 'react';
-import { supabase } from '../../supabase/client';
-import type { FormData, UseOnboardingProps } from '../types/onboarding';
 
 export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	const [startAnimation, setStartAnimation] = useState(false);

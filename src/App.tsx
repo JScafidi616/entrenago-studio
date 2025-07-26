@@ -1,14 +1,14 @@
 // src/App.jsx
+import { AuthContext } from '@/context/AuthContext.tsx';
+import useDarkMode from '@/lib/hooks/useDarkMode.ts';
+import { cn } from '@/lib/utils/utils.ts';
+import Dashboard from '@/pages/Dashboard.tsx';
+import ForgotPassword from '@/pages/ForgotPassword.tsx';
+import Login from '@/pages/Login.tsx';
+import Register from '@/pages/Register.tsx';
+import ResetPassword from '@/pages/ResetPassword.tsx';
 import { useContext } from 'react';
 import { Redirect, Route, Switch } from 'wouter';
-import { AuthContext } from './context/AuthContext.tsx';
-import useDarkMode from './lib/hooks/useDarkMode.ts';
-import { cn } from './lib/utils/utils.ts';
-import Dashboard from './pages/Dashboard.tsx';
-import ForgotPassword from './pages/ForgotPassword.tsx';
-import Login from './pages/Login.tsx';
-import Register from './pages/Register.tsx';
-import ResetPassword from './pages/ResetPassword.tsx';
 
 function App() {
 	const [isDark, toggleDark] = useDarkMode();

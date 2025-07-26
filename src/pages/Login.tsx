@@ -1,12 +1,12 @@
+import ButtonProps from '@/components/custom/AuthButtonProps.tsx';
+import AuthCardTitle from '@/components/custom/AuthCardTitle.tsx';
+import Input from '@/components/custom/AuthInputProps.tsx';
+import AuthNavigation from '@/components/custom/AuthNavigation.tsx';
+import AuthProviders from '@/components/custom/AuthProviders.tsx';
+import AuthSeparation from '@/components/custom/AuthSeparation.tsx';
+import { useAuthentication } from '@/lib/hooks/useAuthentication.ts';
+import { cn } from '@/lib/utils/utils.ts';
 import { useState } from 'react';
-import ButtonProps from '../components/custom/AuthButtonProps.tsx';
-import AuthCardTitle from '../components/custom/AuthCardTitle.tsx';
-import Input from '../components/custom/AuthInputProps.tsx';
-import AuthNavigation from '../components/custom/AuthNavigation.tsx';
-import AuthProviders from '../components/custom/AuthProviders.tsx';
-import AuthSeparation from '../components/custom/AuthSeparation.tsx';
-import { useAuthentication } from '../lib/hooks/useAuthentication.ts';
-import { cn } from '../lib/utils/utils.ts';
 
 export default function Login() {
 	const [email, setEmail] = useState('');

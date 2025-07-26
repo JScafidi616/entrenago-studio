@@ -1,9 +1,9 @@
+import OnboardingModal from '@/components/Onboarding.tsx';
+import { cn } from '@/lib/utils/utils.ts';
+import { supabase } from '@/supabase/client.ts';
 import type { User } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
-import OnboardingModal from '../components/Onboarding.tsx';
-import { cn } from '../lib/utils/utils.ts';
-import { supabase } from '../supabase/client.ts';
 
 export default function Dashboard() {
 	const [user, setUser] = useState<User | null>(null);

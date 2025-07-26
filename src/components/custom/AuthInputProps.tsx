@@ -1,6 +1,6 @@
+import { cn } from '@/lib/utils/utils.ts';
 import React from 'react';
 import { Link } from 'wouter';
-import { cn } from '../../lib/utils/utils.ts';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	label: string;

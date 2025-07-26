@@ -1,3 +1,4 @@
+import { supabase } from '@/supabase/client.ts';
 import type { User } from '@supabase/supabase-js';
 import {
 	createContext,
@@ -7,7 +8,6 @@ import {
 	useState,
 } from 'react';
 import { useLocation } from 'wouter';
-import { supabase } from '../supabase/client.ts';
 
 interface AuthContextType {
 	user: User | null; // Define UserType según tu modelo de usuario
