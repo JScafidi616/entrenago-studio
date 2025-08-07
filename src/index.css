@@ -1,9 +1,35 @@
 @import 'tailwindcss';
-/*@tailwind base;*/
-/*@tailwind components;*/
-/*@tailwind utilities;*/
+@import 'tailwindcss-animated';
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	/* Definición de la animación con variables CSS */
+	--animate-zoomFadeIn: zoomFadeIn 0.3s ease-out forwards;
+	--animate-modalClose: modalClose 0.3s ease-out forwards;
+
+	/* Definición de los keyframes */
+	@keyframes zoomFadeIn {
+		0% {
+			opacity: 0;
+			transform: scale(0.95);
+		}
+		100% {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+	@keyframes modalClose {
+		0% {
+			opacity: 1;
+			transform: scale(1);
+		}
+		100% {
+			opacity: 0;
+			transform: scale(0.95);
+		}
+	}
+}
 
 :root {
 	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
