@@ -2,7 +2,7 @@ import { useOnboarding } from '@/lib/hooks/useOnboarding';
 import type { UseOnboardingProps } from '@/lib/types/onboarding';
 import { cn } from '@/lib/utils/utils';
 
-export const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
+const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 	const {
 		handleChange,
 		handleSubmit,
