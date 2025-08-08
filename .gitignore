@@ -26,3 +26,6 @@ dist-ssr
 !.env.example
 .env
 .env.local
+
+*storybook.log
+storybook-static
