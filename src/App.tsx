@@ -7,8 +7,9 @@ import ForgotPassword from '@/pages/ForgotPassword.tsx';
 import Login from '@/pages/Login.tsx';
 import Register from '@/pages/Register.tsx';
 import ResetPassword from '@/pages/ResetPassword.tsx';
+import { AnimatePresence, easeInOut, motion } from 'motion/react';
 import { useContext } from 'react';
-import { Redirect, Route, Switch } from 'wouter';
+import { Redirect, useLocation } from 'wouter';
 
 function App() {
 	const [isDark, toggleDark] = useDarkMode();
@@ -18,40 +19,85 @@ function App() {
 	}
 
 	const { user, loading } = auth;
+	const [location] = useLocation();
+	const pageVariants = {
+		initial: { opacity: 0 },
+		animate: {
+			opacity: 1,
+			transition: {
+				duration: 0.5,
+				ease: easeInOut,
+			},
+		},
+		exit: { opacity: 0 },
+	};
+
+	const pageTransition = {
+		duration: 0.5,
+		ease: easeInOut,
+	};
 
 	//Todo Generar un loading mas estilizado y con animaciones
 	if (loading) return <div>Cargando...</div>;
 
-	return (
-		<>
-			{/* Botón de tema fijo arriba a la derecha */}
-			<button
-				type='button'
-				className='fixed top-4 right-4 px-3 py-2 rounded border dark:border-gray-700 border-gray-300 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white shadow transition-colors z-50'
-				onClick={toggleDark}
-				aria-label='Cambiar tema'
-			>
-				{isDark ? '☀️ Light' : '🌙 Dark'}
-			</button>
-
-			<Switch>
-				{/* ... Las rutas */}
-				<Route path='/login' component={Login} />
-				<Route path='/register' component={Register} />
-				<Route path='/forgot-password' component={ForgotPassword} />
-				<Route path='/reset-password' component={ResetPassword} />
-				<Route path='/dashboard'>
-					{user ? <Dashboard /> : <Redirect to='/login' />}
-				</Route>
-				<Route path='/'>
-					{user ? <Redirect to='/dashboard' /> : <Redirect to='/login' />}
-				</Route>
-				<Route>
+	// Manually map routes to components depending on location and auth
+	const PageComponent = (() => {
+		switch (location) {
+			case '/login':
+				return Login;
+			case '/register':
+				return Register;
+			case '/forgot-password':
+				return ForgotPassword;
+			case '/reset-password':
+				return ResetPassword;
+			case '/dashboard':
+				return user ? Dashboard : () => <Redirect to='/login' />;
+			case '/':
+				return user
+					? () => <Redirect to='/dashboard' />
+					: () => <Redirect to='/login' />;
+			default:
+				return () => (
 					<div className={cn('p-4 text-center')}>
 						404 - Página no encontrada
 					</div>
-				</Route>
-			</Switch>
+				);
+		}
+	})();
+
+	return (
+		<>
+			{' '}
+			{/* Relative wrapper */}
+			<AnimatePresence mode='wait'>
+				<motion.div
+					key={`page-${location}`}
+					variants={pageVariants}
+					transition={pageTransition}
+					initial='initial'
+					animate='animate'
+					exit='exit'
+					className={cn(
+						'min-h-screen text-gray-900 dark:text-gray-100 dark:bg-gray-900 bg-white',
+					)}
+				>
+					{/* Theme toggle button */}
+					<button
+						type='button'
+						className={cn(
+							'fixed top-4 right-4 px-3 py-2 rounded border dark:border-gray-700 border-gray-300 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white shadow transition-colors z-50',
+						)}
+						onClick={toggleDark}
+						aria-label='Cambiar tema'
+					>
+						{isDark ? '☀️ Light' : '🌙 Dark'}
+					</button>
+
+					{/* Render the current page component */}
+					<PageComponent />
+				</motion.div>
+			</AnimatePresence>
 		</>
 	);
 }
