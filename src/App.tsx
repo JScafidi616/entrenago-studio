@@ -20,6 +20,7 @@ function App() {
 
 	const { user, loading } = auth;
 	const [location] = useLocation();
+
 	const pageVariants = {
 		initial: { opacity: 0 },
 		animate: {
