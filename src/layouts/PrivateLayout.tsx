@@ -43,7 +43,6 @@ export default function PrivateLayout({
 			<header
 			// className={cn('bg-white shadow-md py-4 px-6 dark:bg-neutral-800')}
 			></header>
-			{/* <Navbar /> */}
 			{/* Navigation */}
 			<nav className='border-b border-border/50 bg-background/95 dark:bg-neutral-800/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-neutral-800/60 sticky top-0 z-50 mx-4 mt-4 rounded-2xl shadow-sm'>
 				<div className='container mx-auto px-6'>
