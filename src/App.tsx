@@ -18,6 +18,7 @@ function App() {
 
 	const { user, loading } = auth;
 	const [location] = useLocation();
+	const isResetPasswordRoute = location.startsWith('/reset-password');
 
 	const pageVariants = {
 		initial: { opacity: 0 },
@@ -40,9 +41,12 @@ function App() {
 	if (loading) return <div>Cargando...</div>;
 
 	const isPrivateRoute =
-		user && privateRoutes[location as keyof typeof privateRoutes];
+		user &&
+		privateRoutes[location as keyof typeof privateRoutes] &&
+		!isResetPasswordRoute;
 	const isPublicRoute =
-		!user && publicRoutes[location as keyof typeof publicRoutes];
+		(!user && publicRoutes[location as keyof typeof publicRoutes]) ||
+		isResetPasswordRoute;
 
 	// Manually map routes to components depending on location and auth
 	let content: React.ReactNode;
