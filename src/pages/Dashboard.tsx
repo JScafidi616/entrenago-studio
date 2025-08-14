@@ -62,58 +62,30 @@ export default function Dashboard() {
 	};
 
 	return (
-		<div
-			className={cn(
-				'min-h-screen flex flex-col bg-gray-100 dark:bg-neutral-900',
-			)}
-		>
-			{/* Header */}
-			<header
-				className={cn('bg-white shadow-md py-4 px-6 dark:bg-neutral-800')}
-			>
-				<h1 className={cn('text-xl font-semibold dark:text-gray-300')}>
-					EntrenaGo Dashboard
-				</h1>
-			</header>
-
+		<>
 			{/* Contenido principal centrado */}
-			<main
+			<div
 				className={cn(
-					'flex-grow flex items-center justify-center text-center px-4',
+					'bg-white p-8 rounded-xl shadow-lg w-full max-w-md dark:bg-neutral-800',
 				)}
 			>
-				<div
+				<h2 className={cn('text-2xl font-bold mb-2 dark:text-gray-300')}>
+					Bienvenido al Dashboard 🏋️‍♂️
+				</h2>
+				{user && (
+					<p className={cn('mb-4 dark:text-gray-300')}>
+						Sesión activa como: <strong>{user.email}</strong>
+					</p>
+				)}
+				<button
+					onClick={handleLogout}
 					className={cn(
-						'bg-white p-8 rounded-xl shadow-lg w-full max-w-md dark:bg-neutral-800',
+						'px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg',
 					)}
 				>
-					<h2 className={cn('text-2xl font-bold mb-2 dark:text-gray-300')}>
-						Bienvenido al Dashboard 🏋️‍♂️
-					</h2>
-					{user && (
-						<p className={cn('mb-4 dark:text-gray-300')}>
-							Sesión activa como: <strong>{user.email}</strong>
-						</p>
-					)}
-					<button
-						onClick={handleLogout}
-						className={cn(
-							'px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg',
-						)}
-					>
-						Cerrar sesión
-					</button>
-				</div>
-			</main>
-
-			{/* Footer */}
-			<footer
-				className={cn(
-					'bg-white shadow-inner py-4 px-6 text-center text-sm text-gray-500 dark:bg-neutral-800 dark:text-gray-400',
-				)}
-			>
-				© {new Date().getFullYear()} EntrenaGo. Todos los derechos reservados.
-			</footer>
+					Cerrar sesión
+				</button>
+			</div>
 
 			{/* Modal de onboarding */}
 			<div
@@ -132,6 +104,6 @@ export default function Dashboard() {
 					/>
 				)}
 			</div>
-		</div>
+		</>
 	);
 }
