@@ -1,5 +1,7 @@
 // src/layouts/PrivateLayout.tsx
 
+import { BottomNav } from '@/components/custom/BottonNav.tsx';
+import { MobileNav } from '@/components/custom/MobileNav.tsx';
 import { ThemeToggle } from '@/components/custom/ThemeToggle.tsx';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils/utils';
@@ -134,7 +136,11 @@ export default function PrivateLayout({
 							</div>
 
 							{/* Mobile Menu */}
-							{/* <MobileNav currentSection={currentSection} setCurrentSection={setCurrentSection} /> */}
+							<MobileNav
+								currentSection={currentSection}
+								handleNavigation={handleNavigation} // Pass handleNavigation as a prop
+								setCurrentSection={setCurrentSection}
+							/>
 						</div>
 					</div>
 				</div>
@@ -157,6 +163,11 @@ export default function PrivateLayout({
 					</motion.div>
 				</AnimatePresence>
 			</main>
+			{/* Bottom Navigation - Mobile Only */}
+			<BottomNav
+				currentSection={currentSection}
+				handleNavigation={handleNavigation} // Pass handleNavigation as a prop
+			/>
 			{/* Footer */}
 			<footer
 				className={cn(
