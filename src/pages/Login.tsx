@@ -149,9 +149,7 @@ export default function Login() {
 					</div> */}
 
 					{errorMsg && (
-						<p className={cn('text-sm text-destructive text-red-500')}>
-							{errorMsg}
-						</p>
+						<p className={cn('text-sm text-destructive')}>{errorMsg}</p>
 					)}
 
 					{/* Submit Button */}
