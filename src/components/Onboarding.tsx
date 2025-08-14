@@ -36,7 +36,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 						name='full_name'
 						value={formData.full_name}
 						className={cn(
-							'w-full px-4 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-white dark:bg-gray-900 dark:border-gray-700 dark:text-white transition',
+							'w-full px-4 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary  dark:bg-gray-900 dark:border-gray-700 dark:text-white transition',
 						)}
 						onChange={handleChange}
 					/>
