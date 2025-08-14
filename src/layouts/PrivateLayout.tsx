@@ -69,11 +69,11 @@ export default function PrivateLayout({
 								<Dumbbell className={cn('h-5 w-5 md:h-6 md:w-6 text-white')} />
 							</div>
 							<span
-								className={cn('font-bold text-lg md:text-xl text-foreground')}
+								className={cn(
+									'text-xl md:text-xl font-bold text-foreground dark:text-gray-300',
+								)}
 							>
-								<h1 className={cn('text-xl font-semibold dark:text-gray-300')}>
-									Entrena GO
-								</h1>
+								Entrena GO
 							</span>
 						</div>
 

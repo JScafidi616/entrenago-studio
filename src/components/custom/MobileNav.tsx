@@ -43,9 +43,7 @@ export function MobileNav({
 						<div className='p-2 bg-gradient-to-r from-cyan-500 to-green-400 rounded-full shadow-md'>
 							<Dumbbell className='h-5 w-5 text-white' />
 						</div>
-						<span className='font-bold text-xl text-foreground'>
-							FitTracker
-						</span>
+						<span className='font-bold text-xl text-foreground'>EntrenaGo</span>
 					</div>
 
 					<nav className='flex flex-col space-y-3 px-4'>
