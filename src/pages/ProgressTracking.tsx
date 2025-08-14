@@ -66,6 +66,12 @@ export default function Dashboard() {
 				<h2 className={cn('text-2xl font-bold mb-2 dark:text-gray-300')}>
 					PROGRESS TRACKING HERE
 				</h2>
+
+				{user && (
+					<p className={cn('mb-4 dark:text-gray-300')}>
+						Sesión activa como: <strong>{user.email}</strong>
+					</p>
+				)}
 			</div>
 		</>
 	);
