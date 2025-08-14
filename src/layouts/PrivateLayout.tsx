@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils/utils';
 import { Dumbbell, User } from 'lucide-react';
 import { AnimatePresence, easeInOut, motion } from 'motion/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 
 export default function PrivateLayout({
@@ -13,8 +13,14 @@ export default function PrivateLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	const [currentSection, setCurrentSection] = useState('/dashboard');
 	const [location, setLocation] = useLocation(); // Hook de Wouter
+	const [currentSection, setCurrentSection] = useState(
+		location.replace(/^\/+/, '') || 'dashboard',
+	);
+
+	useEffect(() => {
+		setCurrentSection(location.replace(/^\/+/, '') || 'dashboard');
+	}, [location]);
 
 	const contentVariants = {
 		initial: { opacity: 0 },
