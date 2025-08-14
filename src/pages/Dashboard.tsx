@@ -118,7 +118,7 @@ export default function Dashboard() {
 			{/* Modal de onboarding */}
 			<div
 				className={cn(
-					`fixed inset-0 z-50 flex items-center justify-center bg-white/30 transition-all duration-300 ${
+					`fixed inset-0 z-50 flex items-center justify-center bg-white/30 dark:bg-gray-800/30 transition-all duration-300 ${
 						showOnboarding
 							? 'backdrop-blur-sm opacity-100'
 							: 'backdrop-blur-0 opacity-0 pointer-events-none'
