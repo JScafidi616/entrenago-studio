@@ -2,7 +2,7 @@ import { useAuth } from '@/context/AuthContext.tsx';
 import { cn } from '@/lib/utils/utils.ts';
 import { supabase } from '@/supabase/client.ts';
 import { useState } from 'react';
-import { Link, Redirect } from 'wouter';
+import { Link, Redirect, useLocation } from 'wouter';
 
 export default function ResetPassword() {
 	const [password, setPassword] = useState('');
@@ -10,6 +10,7 @@ export default function ResetPassword() {
 	const [loading, setLoading] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
 	const [success, setSuccess] = useState(false);
+	const [, setLocation] = useLocation();
 	// const [location] = useLocation();
 
 	// Extraer token de query params
@@ -35,18 +36,13 @@ export default function ResetPassword() {
 			setLoading(false);
 			return;
 		}
-		// const { error } = await supabase.auth.updateUser(
-		// 	{ password },
-		// 	{ accessToken: recoveryToken },
-		// );
-
 		const { error } = await supabase.auth.updateUser({ password });
 
 		if (error) {
 			setErrorMsg(error.message || 'Error al actualizar la contraseña');
 		} else {
 			setSuccess(true);
-			setTimeout(() => (window.location.href = '/login?reset=success'), 2000);
+			setTimeout(() => setLocation('/login?reset=success'), 2000);
 		}
 		setLoading(false);
 	};
