@@ -17,15 +17,16 @@ export default function PrivateLayout({
 	const [location, setLocation] = useLocation(); // Hook de Wouter
 
 	const contentVariants = {
-		initial: { opacity: 0, y: 10 },
+		initial: { opacity: 0 },
 		animate: {
 			opacity: 1,
-			transition: { duration: 0.3, ease: easeInOut },
 		},
-		exit: {
-			opacity: 0,
-			transition: { duration: 0.2, ease: easeInOut },
-		},
+		exit: { opacity: 0 },
+	};
+
+	const pageTransition = {
+		duration: 0.2,
+		ease: easeInOut,
 	};
 
 	const handleNavigation = (page: string) => {
@@ -41,66 +42,88 @@ export default function PrivateLayout({
 		>
 			{/* Header */}
 			<header
-			// className={cn('bg-white shadow-md py-4 px-6 dark:bg-neutral-800')}
+			// className={cn({cn('bg-white shadow-md py-4 px-6 dark:bg-neutral-800')}
 			></header>
 			{/* Navigation */}
-			<nav className='border-b border-border/50 bg-background/95 dark:bg-neutral-800/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-neutral-800/60 sticky top-0 z-50 mx-4 mt-4 rounded-2xl shadow-sm'>
-				<div className='container mx-auto px-6'>
-					<div className='flex items-center justify-between h-16 md:h-18'>
-						<div className='flex items-center space-x-3'>
-							<div className='p-2 bg-gradient-to-r from-cyan-500 to-green-400 rounded-full shadow-md'>
-								<Dumbbell className='h-5 w-5 md:h-6 md:w-6 text-white' />
+			<nav
+				className={cn(
+					'border-b border-border/50 bg-background/95 dark:bg-neutral-800/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-neutral-800/60 sticky top-0 z-50 mx-4 mt-4 rounded-2xl shadow-sm',
+				)}
+			>
+				<div className={cn('container mx-auto px-6')}>
+					<div className={cn('flex items-center justify-between h-16 md:h-18')}>
+						<div className={cn('flex items-center space-x-3')}>
+							<div
+								className={cn(
+									'p-2 bg-gradient-to-r from-cyan-500 to-green-400 rounded-full shadow-md',
+								)}
+							>
+								<Dumbbell className={cn('h-5 w-5 md:h-6 md:w-6 text-white')} />
 							</div>
-							<span className='font-bold text-lg md:text-xl text-foreground'>
+							<span
+								className={cn('font-bold text-lg md:text-xl text-foreground')}
+							>
 								<h1 className={cn('text-xl font-semibold dark:text-gray-300')}>
 									Entrena GO
 								</h1>
 							</span>
 						</div>
 
-						<div className='flex items-center space-x-2 md:space-x-4'>
+						<div className={cn('flex items-center space-x-2 md:space-x-4')}>
 							{/* Desktop Navigation - Moved to Right */}
-							<div className='hidden md:flex items-center space-x-2 bg-muted/30 dark:bg-neutral-700/30 rounded-2xl p-1'>
+							<div
+								className={cn(
+									'hidden md:flex items-center space-x-2 bg-muted/30 dark:bg-neutral-700/30 rounded-2xl p-1',
+								)}
+							>
 								<button
 									onClick={() => handleNavigation('/dashboard')}
-									className={`px-4 py-2 text-sm font-medium rounded-2xl transition-all duration-200 ${
-										currentSection === 'dashboard'
-											? 'bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md'
-											: 'text-muted-foreground hover:text-foreground hover:bg-background/50 dark:hover:bg-neutral-600/50'
-									}`}
+									className={cn(
+										`px-4 py-2 text-sm font-medium rounded-2xl transition-all duration-200 ${
+											currentSection === 'dashboard'
+												? 'bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md'
+												: 'text-muted-foreground hover:text-foreground hover:bg-background/50 dark:hover:bg-neutral-600/50'
+										}`,
+									)}
 								>
 									Dashboard
 								</button>
 								<button
 									onClick={() => handleNavigation('/progress-tracking')}
-									className={`px-4 py-2 text-sm font-medium rounded-2xl transition-all duration-200 ${
-										currentSection === 'progress-tracking'
-											? 'bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md'
-											: 'text-muted-foreground hover:text-foreground hover:bg-background/50 dark:hover:bg-neutral-600/50'
-									}`}
+									className={cn(
+										`px-4 py-2 text-sm font-medium rounded-2xl transition-all duration-200 ${
+											currentSection === 'progress-tracking'
+												? 'bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md'
+												: 'text-muted-foreground hover:text-foreground hover:bg-background/50 dark:hover:bg-neutral-600/50'
+										}`,
+									)}
 								>
 									Progress
 								</button>
 								<button
 									onClick={() => handleNavigation('/my-routines')}
-									className={`px-4 py-2 text-sm font-medium rounded-2xl transition-all duration-200 ${
-										currentSection === 'my-routines'
-											? 'bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md'
-											: 'text-muted-foreground hover:text-foreground hover:bg-background/50 dark:hover:bg-neutral-600/50'
-									}`}
+									className={cn(
+										`px-4 py-2 text-sm font-medium rounded-2xl transition-all duration-200 ${
+											currentSection === 'my-routines'
+												? 'bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md'
+												: 'text-muted-foreground hover:text-foreground hover:bg-background/50 dark:hover:bg-neutral-600/50'
+										}`,
+									)}
 								>
 									My Routines
 								</button>
 							</div>
 
-							<div className='flex items-center space-x-2'>
+							<div className={cn('flex items-center space-x-2')}>
 								<ThemeToggle />
 								<Button
 									variant='ghost'
 									size='icon'
-									className='hover:bg-accent rounded-2xl h-10 w-10 bg-muted/30 dark:bg-neutral-700/30'
+									className={cn(
+										'hover:bg-accent rounded-2xl h-10 w-10 bg-muted/30 dark:bg-neutral-700/30',
+									)}
 								>
-									<User className='h-5 w-5' />
+									<User className={cn('h-5 w-5')} />
 								</Button>
 							</div>
 
@@ -119,6 +142,7 @@ export default function PrivateLayout({
 					<motion.div
 						key={location} // re-animate on route change inside private
 						variants={contentVariants}
+						transition={pageTransition}
 						initial='initial'
 						animate='animate'
 						exit='exit'

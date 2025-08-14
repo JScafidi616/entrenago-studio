@@ -9,16 +9,18 @@ export default function PublicLayout({
 	children: React.ReactNode;
 }) {
 	const contentVariants = {
-		initial: { opacity: 0, y: 10 },
+		initial: { opacity: 0 },
 		animate: {
 			opacity: 1,
-			transition: { duration: 0.3, ease: easeInOut },
 		},
-		exit: {
-			opacity: 0,
-			transition: { duration: 0.2, ease: easeInOut },
-		},
+		exit: { opacity: 0 },
 	};
+
+	const pageTransition = {
+		duration: 0.3,
+		ease: easeInOut,
+	};
+
 	return (
 		<>
 			<span
@@ -33,6 +35,7 @@ export default function PublicLayout({
 					<motion.div
 						key={`page-${location}`} // re-animate on route change inside private
 						variants={contentVariants}
+						transition={pageTransition}
 						initial='initial'
 						animate='animate'
 						exit='exit'
