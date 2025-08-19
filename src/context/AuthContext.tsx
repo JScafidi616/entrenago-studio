@@ -1,3 +1,4 @@
+import { publicRoutes } from '@/routes';
 import { supabase } from '@/supabase/client.ts';
 import type { User } from '@supabase/supabase-js';
 import {
@@ -29,16 +30,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	// Function to determine if we're on the reset-password route with a token
 	const isResetPasswordRoute = () => location.startsWith('/reset-password');
 
+	const isPublicRoute = (path: string) =>
+		Object.keys(publicRoutes).includes(path);
+
 	useEffect(() => {
 		supabase.auth.getSession().then(({ data: { session } }) => {
 			setUser(session?.user ?? null);
 			setLoading(false);
 
-			if (
-				session?.user &&
-				(location === '/login' || location === '/') &&
-				!isResetPasswordRoute()
-			) {
+			if (session?.user && isPublicRoute(location) && !isResetPasswordRoute()) {
 				setLocation('/dashboard');
 			}
 		});
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 						break;
 					case 'SIGNED_IN':
 						setUser(session?.user ?? null);
-						if (!isResetPasswordRoute()) {
+						if (!isResetPasswordRoute() && isPublicRoute(location)) {
 							setLocation('/dashboard');
 						}
 						break;
