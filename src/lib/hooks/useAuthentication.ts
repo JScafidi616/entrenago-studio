@@ -56,13 +56,21 @@ export function useAuthentication() {
 	const handleOAuth = async ({ provider }: { provider: Provider }) => {
 		setLoading(true);
 		setErrorMsg('');
-		const { error } = await supabase.auth.signInWithOAuth({ provider });
+		const { data, error } = await supabase.auth.signInWithOAuth({
+			provider,
+			options: {
+				redirectTo: `${window.location.origin}/dashboard`,
+			},
+		});
 
 		if (error) {
 			console.error('OAuth Error:', error.message);
 			setErrorMsg(error.message);
-			setLoading(false);
+		} else {
+			console.log('Usuario logueado con provider:', data);
 		}
+
+		setLoading(false);
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
