@@ -57,7 +57,7 @@ function App() {
 	} else if (location === '/') {
 		content = user ? privateRoutes['/dashboard'] : publicRoutes['/login'];
 	} else {
-		content = <div className='p-4 text-center'>404 - Página no encontrada</div>;
+		content = <div className='p-4 text-center'>404 - Page not found...</div>; //todo create a standalone 404 page...
 	}
 
 	const Layout = isPrivateRoute ? PrivateLayout : PublicLayout;
