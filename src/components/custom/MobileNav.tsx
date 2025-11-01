@@ -40,9 +40,11 @@ export function MobileNav({
 				<Button
 					variant='ghost'
 					size='icon'
-					className='md:hidden rounded-full h-10 w-10 bg-muted/30 dark:bg-neutral-700/30 hover:bg-muted/50 dark:hover:bg-neutral-700/50'
+					className={cn(
+						'md:hidden rounded-full h-10 w-10 bg-muted/30 dark:bg-neutral-700/30 hover:bg-muted/50 dark:hover:bg-neutral-700/50',
+					)}
 				>
-					<Menu className='h-5 w-5' />
+					<Menu className={cn('h-5 w-5')} />
 				</Button>
 			</SheetTrigger>
 			<SheetContent
@@ -52,19 +54,27 @@ export function MobileNav({
 				)}
 			>
 				<div className={cn('flex flex-col space-y-6 mt-8')}>
-					<div className='px-4'>
-						<div className='flex items-center space-x-3 p-4 bg-gradient-to-r from-cyan-500/10 to-green-400/10 dark:from-cyan-500/20 dark:to-green-400/20 rounded-2xl border border-cyan-500/20'>
-							<Avatar className='h-12 w-12 ring-2 ring-cyan-500/50'>
+					<div className={cn('px-4')}>
+						<div
+							className={cn(
+								'flex items-center space-x-3 p-4 bg-gradient-to-r from-cyan-500/10 to-green-400/10 dark:from-cyan-500/20 dark:to-green-400/20 rounded-2xl border border-cyan-500/20',
+							)}
+						>
+							<Avatar className={cn('h-12 w-12 ring-2 ring-cyan-500/50')}>
 								<AvatarImage src='/diverse-user-avatars.png' alt='User' />
-								<AvatarFallback className='bg-gradient-to-r from-cyan-500 to-green-400 text-white font-semibold text-base'>
+								<AvatarFallback
+									className={cn(
+										'bg-gradient-to-r from-cyan-500 to-green-400 text-white font-semibold text-base',
+									)}
+								>
 									JD
 								</AvatarFallback>
 							</Avatar>
-							<div className='flex flex-col'>
-								<p className='text-base font-semibold text-foreground'>
+							<div className={cn('flex flex-col')}>
+								<p className={cn('text-base font-semibold text-foreground')}>
 									John Doe
 								</p>
-								<p className='text-xs text-muted-foreground'>
+								<p className={cn('text-xs text-muted-foreground')}>
 									john.doe@example.com
 								</p>
 							</div>
