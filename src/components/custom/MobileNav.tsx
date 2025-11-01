@@ -2,7 +2,18 @@
 
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Dumbbell, Home, Menu, TrendingUp } from 'lucide-react';
+import { cn } from '@/lib/utils/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
+import { DropdownMenuSeparator } from '@components/ui/dropdown-menu';
+import {
+	Dumbbell,
+	Home,
+	LogOut,
+	Menu,
+	Settings,
+	TrendingUp,
+	UserCircle,
+} from 'lucide-react';
 import { useState } from 'react';
 
 interface MobileNavProps {
@@ -36,17 +47,19 @@ export function MobileNav({
 			</SheetTrigger>
 			<SheetContent
 				side='right'
-				className='w-80 dark:bg-neutral-800 rounded-l-3xl border-l border-border/50'
+				className={cn(
+					'w-80 dark:bg-neutral-800 rounded-l-3xl border-l border-border/50',
+				)}
 			>
-				<div className='flex flex-col space-y-6 mt-8'>
-					<div className='flex items-center space-x-3 px-6'>
+				<div className={cn('flex flex-col space-y-6 mt-8')}>
+					<div className={cn('flex items-center space-x-3 px-6')}>
 						<div className='p-2 bg-gradient-to-r from-cyan-500 to-green-400 rounded-full shadow-md'>
 							<Dumbbell className='h-5 w-5 text-white' />
 						</div>
 						<span className='font-bold text-xl text-foreground'>EntrenaGo</span>
 					</div>
 
-					<nav className='flex flex-col space-y-3 px-4'>
+					<nav className={cn('flex flex-col space-y-3 px-4')}>
 						{navItems.map((item) => (
 							<button
 								key={item.id}
@@ -54,17 +67,79 @@ export function MobileNav({
 									handleNavigation(item.id);
 									setOpen(false);
 								}}
-								className={`flex items-center space-x-4 px-6 py-4 rounded-2xl text-left transition-all duration-200 ${
-									currentSection === item.id.replace(/^\/+/, '')
-										? 'bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-lg'
-										: 'text-muted-foreground hover:text-foreground hover:bg-accent/50 bg-muted/20'
-								}`}
+								className={cn(
+									`flex items-center space-x-4 px-6 py-4 rounded-2xl text-left transition-all duration-200 ${
+										currentSection === item.id.replace(/^\/+/, '')
+											? 'bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-lg'
+											: 'text-muted-foreground hover:text-foreground hover:bg-accent/50 bg-muted/20'
+									}`,
+								)}
 							>
 								<item.icon className='h-5 w-5' />
-								<span className='font-medium'>{item.label}</span>
+								<span className={cn('font-medium')}>{item.label}</span>
 							</button>
 						))}
 					</nav>
+
+					<DropdownMenuSeparator className={cn('bg-border/50 mx-4')} />
+
+					<div className={cn('px-4')}>
+						<div
+							className={cn(
+								'flex items-center space-x-3 p-3 bg-muted/20 dark:bg-neutral-700/20 rounded-2xl',
+							)}
+						>
+							<Avatar className={cn('h-10 w-10')}>
+								<AvatarImage src='/diverse-user-avatars.png' alt='User' />
+								<AvatarFallback
+									className={cn(
+										'bg-gradient-to-r from-cyan-500 to-green-400 text-white font-semibold',
+									)}
+								>
+									JD
+								</AvatarFallback>
+							</Avatar>
+							<div className={cn('flex flex-col')}>
+								<p className={cn('text-sm font-medium text-foreground')}>
+									John Doe
+								</p>
+								<p className={cn('text-xs text-muted-foreground')}>
+									john.doe@example.com
+								</p>
+							</div>
+						</div>
+
+						<div className={cn('mt-4 space-y-2')}>
+							<button
+								className={cn(
+									'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl hover:bg-accent/50 transition-colors duration-200',
+								)}
+							>
+								<UserCircle className={cn('h-5 w-5 text-muted-foreground')} />
+								<span className={cn('font-medium text-foreground')}>
+									Profile
+								</span>
+							</button>
+							<button
+								className={cn(
+									'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl hover:bg-accent/50 transition-colors duration-200',
+								)}
+							>
+								<Settings className={cn('h-5 w-5 text-muted-foreground')} />
+								<span className={cn('font-medium text-foreground')}>
+									Settings
+								</span>
+							</button>
+							<button
+								className={cn(
+									'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors duration-200 text-red-600 dark:text-red-400',
+								)}
+							>
+								<LogOut className={cn('h-5 w-5')} />
+								<span className={cn('font-medium')}>Log Out</span>
+							</button>
+						</div>
+					</div>
 				</div>
 			</SheetContent>
 		</Sheet>
