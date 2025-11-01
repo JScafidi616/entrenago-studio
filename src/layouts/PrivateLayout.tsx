@@ -127,14 +127,13 @@ export default function PrivateLayout({
 								<div className='hidden md:block'>
 									<UserDropdown />
 								</div>
+								{/* Mobile Menu */}
+								<MobileNav
+									currentSection={currentSection}
+									handleNavigation={handleNavigation} // Pass handleNavigation as a prop
+									setCurrentSection={setCurrentSection}
+								/>
 							</div>
-
-							{/* Mobile Menu */}
-							<MobileNav
-								currentSection={currentSection}
-								handleNavigation={handleNavigation} // Pass handleNavigation as a prop
-								setCurrentSection={setCurrentSection}
-							/>
 						</div>
 					</div>
 				</div>
