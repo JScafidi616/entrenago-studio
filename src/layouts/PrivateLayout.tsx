@@ -3,9 +3,9 @@
 import { BottomNav } from '@/components/custom/BottonNav.tsx';
 import { MobileNav } from '@/components/custom/MobileNav.tsx';
 import { ThemeToggle } from '@/components/custom/ThemeToggle.tsx';
-import { Button } from '@/components/ui/button';
+import { UserDropdown } from '@/components/custom/UserDropdown.tsx';
 import { cn } from '@/lib/utils/utils';
-import { Dumbbell, User } from 'lucide-react';
+import { Dumbbell } from 'lucide-react';
 import { AnimatePresence, easeInOut, motion } from 'motion/react';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
@@ -124,15 +124,7 @@ export default function PrivateLayout({
 
 							<div className={cn('flex items-center space-x-2')}>
 								<ThemeToggle />
-								<Button
-									variant='ghost'
-									size='icon'
-									className={cn(
-										'hover:bg-accent rounded-2xl h-10 w-10 bg-muted/30 dark:bg-neutral-700/30',
-									)}
-								>
-									<User className={cn('h-5 w-5')} />
-								</Button>
+								<UserDropdown />
 							</div>
 
 							{/* Mobile Menu */}
