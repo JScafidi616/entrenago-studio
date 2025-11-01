@@ -1,5 +1,6 @@
 import { supabase } from '@/supabase/client';
-import type { Provider } from '@supabase/supabase-js';
+import type { Provider, User } from '@supabase/supabase-js';
+
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 
@@ -7,6 +8,7 @@ export function useAuthentication() {
 	const [loading, setLoading] = useState(false);
 	const [errorMsg, setErrorMsg] = useState('');
 	const [location, setLocation] = useLocation(); // Hook de Wouter
+	const [user, setUser] = useState<User | null>(null);
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
@@ -26,6 +28,16 @@ export function useAuthentication() {
 		};
 
 		checkUser();
+		// Escuchar cambios en el estado de autenticación
+		const { data: authListener } = supabase.auth.onAuthStateChange(
+			(_event, session) => {
+				setUser(session?.user ?? null);
+			},
+		);
+
+		return () => {
+			authListener.subscription.unsubscribe();
+		};
 	}, [setLocation]);
 
 	const handleLogin = async ({
@@ -73,6 +85,21 @@ export function useAuthentication() {
 		setLoading(false);
 	};
 
+	const handleLogout = async () => {
+		setLoading(true);
+		const { error } = await supabase.auth.signOut();
+
+		if (error) {
+			console.error('Error al cerrar sesión:', error.message);
+			setErrorMsg(error.message);
+		} else {
+			setUser(null);
+			setLocation('/login');
+		}
+
+		setLoading(false);
+	};
+
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -93,8 +120,10 @@ export function useAuthentication() {
 	};
 
 	return {
+		user,
 		handleLogin,
 		handleOAuth,
+		handleLogout,
 		handleRegister,
 		handleChange,
 		showSuccess,
@@ -103,5 +132,6 @@ export function useAuthentication() {
 		formData,
 		setFormData,
 		location,
+		setLocation,
 	};
 }
