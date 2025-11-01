@@ -52,14 +52,26 @@ export function MobileNav({
 				)}
 			>
 				<div className={cn('flex flex-col space-y-6 mt-8')}>
-					<div className={cn('flex items-center space-x-3 px-6')}>
-						<div className='p-2 bg-gradient-to-r from-cyan-500 to-green-400 rounded-full shadow-md'>
-							<Dumbbell className='h-5 w-5 text-white' />
+					<div className='px-4'>
+						<div className='flex items-center space-x-3 p-4 bg-gradient-to-r from-cyan-500/10 to-green-400/10 dark:from-cyan-500/20 dark:to-green-400/20 rounded-2xl border border-cyan-500/20'>
+							<Avatar className='h-12 w-12 ring-2 ring-cyan-500/50'>
+								<AvatarImage src='/diverse-user-avatars.png' alt='User' />
+								<AvatarFallback className='bg-gradient-to-r from-cyan-500 to-green-400 text-white font-semibold text-base'>
+									JD
+								</AvatarFallback>
+							</Avatar>
+							<div className='flex flex-col'>
+								<p className='text-base font-semibold text-foreground'>
+									John Doe
+								</p>
+								<p className='text-xs text-muted-foreground'>
+									john.doe@example.com
+								</p>
+							</div>
 						</div>
-						<span className='font-bold text-xl text-foreground'>EntrenaGo</span>
 					</div>
 
-					<nav className={cn('flex flex-col space-y-3 px-4')}>
+					{/* <nav className={cn('flex flex-col space-y-3 px-4')}>
 						{navItems.map((item) => (
 							<button
 								key={item.id}
@@ -79,36 +91,11 @@ export function MobileNav({
 								<span className={cn('font-medium')}>{item.label}</span>
 							</button>
 						))}
-					</nav>
+					</nav> */}
 
 					<DropdownMenuSeparator className={cn('bg-border/50 mx-4')} />
-
+					{/* User Profile/Settings Navigation */}
 					<div className={cn('px-4')}>
-						<div
-							className={cn(
-								'flex items-center space-x-3 p-3 bg-muted/20 dark:bg-neutral-700/20 rounded-2xl',
-							)}
-						>
-							<Avatar className={cn('h-10 w-10')}>
-								<AvatarImage src='/diverse-user-avatars.png' alt='User' />
-								<AvatarFallback
-									className={cn(
-										'bg-gradient-to-r from-cyan-500 to-green-400 text-white font-semibold',
-									)}
-								>
-									JD
-								</AvatarFallback>
-							</Avatar>
-							<div className={cn('flex flex-col')}>
-								<p className={cn('text-sm font-medium text-foreground')}>
-									John Doe
-								</p>
-								<p className={cn('text-xs text-muted-foreground')}>
-									john.doe@example.com
-								</p>
-							</div>
-						</div>
-
 						<div className={cn('mt-4 space-y-2')}>
 							<button
 								className={cn(
