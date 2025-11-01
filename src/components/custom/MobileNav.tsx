@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { useAuthentication } from '@/lib/hooks/useAuthentication.ts';
 import { cn } from '@/lib/utils/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { DropdownMenuSeparator } from '@components/ui/dropdown-menu';
@@ -26,6 +27,7 @@ export function MobileNav({
 	currentSection,
 	handleNavigation,
 }: MobileNavProps) {
+	const { user, handleLogout } = useAuthentication();
 	const [open, setOpen] = useState(false);
 
 	const navItems = [
@@ -33,6 +35,20 @@ export function MobileNav({
 		{ id: '/progress-tracking', label: 'Progress', icon: TrendingUp },
 		{ id: '/my-routines', label: 'Routines', icon: Dumbbell },
 	];
+
+	const getInitials = (): string => {
+		const fullName = user?.user_metadata?.full_name;
+
+		if (fullName) {
+			const names = fullName.trim().split(' ');
+			return names.length > 1
+				? (names[0][0] + names[names.length - 1][0]).toUpperCase()
+				: names[0].substring(0, 2).toUpperCase();
+		}
+
+		// Fallback to email
+		return user?.email?.substring(0, 2).toUpperCase() || '??';
+	};
 
 	return (
 		<Sheet open={open} onOpenChange={setOpen}>
@@ -67,16 +83,26 @@ export function MobileNav({
 										'bg-gradient-to-r from-cyan-500 to-green-400 text-white font-semibold text-base',
 									)}
 								>
-									JD
+									{getInitials()}
 								</AvatarFallback>
 							</Avatar>
-							<div className={cn('flex flex-col')}>
-								<p className={cn('text-base font-semibold text-foreground')}>
-									John Doe
-								</p>
-								<p className={cn('text-xs text-muted-foreground')}>
-									john.doe@example.com
-								</p>
+							<div className={cn('flex flex-col min-w-0')}>
+								{user && (
+									<>
+										<p
+											className={cn(
+												'text-base font-semibold text-foreground truncate',
+											)}
+										>
+											{user.user_metadata?.full_name ||
+												user.email?.split('@')[0] ||
+												'Usuario'}
+										</p>
+										<p className={cn('text-xs text-muted-foreground truncate')}>
+											{user.email}
+										</p>
+									</>
+								)}
 							</div>
 						</div>
 					</div>
@@ -128,6 +154,7 @@ export function MobileNav({
 								</span>
 							</button>
 							<button
+								onClick={handleLogout}
 								className={cn(
 									'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors duration-200 text-red-600 dark:text-red-400',
 								)}

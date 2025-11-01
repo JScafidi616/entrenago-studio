@@ -9,9 +9,12 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useAuthentication } from '@/lib/hooks/useAuthentication.ts';
 import { LogOut, Settings, UserCircle } from 'lucide-react';
 
 export function UserDropdown() {
+	const { user, handleLogout } = useAuthentication();
+
 	const handleProfileClick = () => {
 		console.log('Navigate to Profile');
 		// Add your profile navigation logic here
@@ -21,10 +24,18 @@ export function UserDropdown() {
 		console.log('Navigate to Settings');
 		// Add your settings navigation logic here
 	};
+	const getInitials = (): string => {
+		const fullName = user?.user_metadata?.full_name;
 
-	const handleLogoutClick = () => {
-		console.log('Logout user');
-		// Add your logout logic here
+		if (fullName) {
+			const names = fullName.trim().split(' ');
+			return names.length > 1
+				? (names[0][0] + names[names.length - 1][0]).toUpperCase()
+				: names[0].substring(0, 2).toUpperCase();
+		}
+
+		// Fallback to email
+		return user?.email?.substring(0, 2).toUpperCase() || '??';
 	};
 
 	return (
@@ -38,7 +49,7 @@ export function UserDropdown() {
 					<Avatar className='h-6 w-6'>
 						<AvatarImage src='/diverse-user-avatars.png' alt='User' />
 						<AvatarFallback className='bg-gradient-to-r from-cyan-500 to-green-400 text-white text-xs font-semibold'>
-							JD
+							{getInitials()}
 						</AvatarFallback>
 					</Avatar>
 				</Button>
@@ -51,14 +62,22 @@ export function UserDropdown() {
 					<Avatar className='h-10 w-10'>
 						<AvatarImage src='/diverse-user-avatars.png' alt='User' />
 						<AvatarFallback className='bg-gradient-to-r from-cyan-500 to-green-400 text-white font-semibold'>
-							JD
+							{getInitials()}
 						</AvatarFallback>
 					</Avatar>
-					<div className='flex flex-col'>
-						<p className='text-sm font-medium text-foreground'>John Doe</p>
-						<p className='text-xs text-muted-foreground'>
-							john.doe@example.com
-						</p>
+					<div className='flex flex-col min-w-0'>
+						{user && (
+							<>
+								<p className='text-sm font-medium text-foreground truncate'>
+									{user.user_metadata?.full_name ||
+										user.email?.split('@')[0] ||
+										'Usuario'}
+								</p>
+								<p className='text-xs text-muted-foreground truncate'>
+									{user.email}
+								</p>
+							</>
+						)}
 					</div>
 				</div>
 
@@ -83,7 +102,7 @@ export function UserDropdown() {
 				<DropdownMenuSeparator className='bg-border/50' />
 
 				<DropdownMenuItem
-					onClick={handleLogoutClick}
+					onClick={handleLogout}
 					className='flex items-center space-x-3 px-3 py-2 cursor-pointer hover:bg-red-50 dark:hover:bg-red-950/30 rounded-xl mx-1 transition-colors duration-200 text-red-600 dark:text-red-400'
 				>
 					<LogOut className='h-4 w-4' />
