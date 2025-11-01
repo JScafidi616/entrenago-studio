@@ -81,7 +81,7 @@ export function MobileNav({
 						</div>
 					</div>
 
-					{/* <nav className={cn('flex flex-col space-y-3 px-4')}>
+					<nav className={cn('flex flex-col space-y-3 px-4')}>
 						{navItems.map((item) => (
 							<button
 								key={item.id}
@@ -101,7 +101,7 @@ export function MobileNav({
 								<span className={cn('font-medium')}>{item.label}</span>
 							</button>
 						))}
-					</nav> */}
+					</nav>
 
 					<DropdownMenuSeparator className={cn('bg-border/50 mx-4')} />
 					{/* User Profile/Settings Navigation */}
