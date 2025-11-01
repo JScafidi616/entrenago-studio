@@ -124,7 +124,9 @@ export default function PrivateLayout({
 
 							<div className={cn('flex items-center space-x-2')}>
 								<ThemeToggle />
-								<UserDropdown />
+								<div className='hidden md:block'>
+									<UserDropdown />
+								</div>
 							</div>
 
 							{/* Mobile Menu */}
