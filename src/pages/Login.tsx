@@ -40,13 +40,13 @@ export default function Login() {
 				<div className='space-y-3'>
 					<AuthProviders
 						providerName='Google'
-						providerDescription='Registrarse con Google'
+						providerDescription='Iniciar Sesion con Google'
 						providerImage='/icons/google_icon_socials.svg'
 						authClick={() => handleOAuth({ provider: 'google' })}
 					/>
 					<AuthProviders
 						providerName='Facebook'
-						providerDescription='Registrarse con Facebook'
+						providerDescription='Iniciar Sesion con Facebook'
 						providerImage='/icons/facebook_icon_socials.svg'
 						authClick={() => handleOAuth({ provider: 'facebook' })}
 					/>
