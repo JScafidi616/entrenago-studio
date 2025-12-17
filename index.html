@@ -2,6 +2,22 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
+		<!-- Prevent theme flash -->
+		<script>
+			(() => {
+				try {
+					const stored = localStorage.getItem('theme');
+					const systemDark = window.matchMedia(
+						'(prefers-color-scheme: dark)',
+					).matches;
+					const theme = stored ?? (systemDark ? 'dark' : 'light');
+
+					if (theme === 'dark') {
+						document.documentElement.classList.add('dark');
+					}
+				} catch (_) {}
+			})();
+		</script>
 		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
 		<link href="/src/index.css" rel="stylesheet" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
