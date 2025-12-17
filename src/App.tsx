@@ -9,6 +9,19 @@ import PrivateLayout from '@/layouts/PrivateLayout';
 import PublicLayout from '@/layouts/PublicLayout';
 import { privateRoutes, publicRoutes } from '@/routes';
 
+// Loading component for Suspense fallback
+const LoadingFallback = () => (
+	<div className='fixed inset-0 z-50 flex items-center justify-center bg-gray-100 dark:bg-neutral-900'>
+		<div
+			className='h-10 w-10 animate-spin rounded-full border-4 
+                   border-gray-300 border-t-gray-800 
+                   dark:border-gray-700 dark:border-t-white bg-transparent'
+			role='status'
+			aria-label='Loading...'
+		></div>
+	</div>
+);
+
 function App() {
 	// const [isDark, toggleDark] = useDarkMode();
 	const auth = useContext(AuthContext);
@@ -38,7 +51,7 @@ function App() {
 	};
 
 	//Todo Generar un loading mas estilizado y con animaciones
-	if (loading) return <div>Cargando...</div>;
+	if (loading) return <LoadingFallback />;
 
 	const isPrivateRoute =
 		user &&
