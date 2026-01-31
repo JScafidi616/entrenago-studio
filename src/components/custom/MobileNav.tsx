@@ -1,7 +1,12 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import {
+	Sheet,
+	SheetClose,
+	SheetContent,
+	SheetTrigger,
+} from '@/components/ui/sheet';
 import { useAuthentication } from '@/lib/hooks/useAuthentication.ts';
 import { cn } from '@/lib/utils/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
@@ -66,45 +71,49 @@ export function MobileNav({
 			<SheetContent
 				side='right'
 				className={cn(
-					'w-80 dark:bg-neutral-800 rounded-l-3xl border-l border-border/50',
+					'w-80 dark:bg-neutral-800 rounded-l-3xl border-l border-border/50 pl-2 pt-2',
 				)}
 			>
-				<div className={cn('flex flex-col space-y-6 mt-8')}>
+				<div className={cn('flex flex-col space-y-6 mt-4')}>
 					<div className={cn('px-4')}>
-						<div
-							className={cn(
-								'flex items-center space-x-3 p-4 bg-gradient-to-r from-cyan-500/10 to-green-400/10 dark:from-cyan-500/20 dark:to-green-400/20 rounded-2xl border border-cyan-500/20',
-							)}
-						>
-							<Avatar className={cn('h-12 w-12 ring-2 ring-cyan-500/50')}>
-								<AvatarImage src='/diverse-user-avatars.png' alt='User' />
-								<AvatarFallback
-									className={cn(
-										'bg-gradient-to-r from-cyan-500 to-green-400 text-white font-semibold text-base',
-									)}
-								>
-									{getInitials()}
-								</AvatarFallback>
-							</Avatar>
-							<div className={cn('flex flex-col min-w-0')}>
-								{user && (
-									<>
-										<p
-											className={cn(
-												'text-base font-semibold text-foreground truncate',
-											)}
-										>
-											{user.user_metadata?.full_name ||
-												user.email?.split('@')[0] ||
-												'Usuario'}
-										</p>
-										<p className={cn('text-xs text-muted-foreground truncate')}>
-											{user.email}
-										</p>
-									</>
+						<SheetClose asChild>
+							<div
+								className={cn(
+									'flex items-center space-x-3 p-4 bg-gradient-to-r from-cyan-500/10 to-green-400/10 dark:from-cyan-500/20 dark:to-green-400/20 rounded-2xl border border-cyan-500/20',
 								)}
+							>
+								<Avatar className={cn('h-12 w-12 ring-2 ring-cyan-500/50')}>
+									<AvatarImage src='/diverse-user-avatars.png' alt='User' />
+									<AvatarFallback
+										className={cn(
+											'bg-gradient-to-r from-cyan-500 to-green-400 text-white font-semibold text-base',
+										)}
+									>
+										{getInitials()}
+									</AvatarFallback>
+								</Avatar>
+								<div className={cn('flex flex-col min-w-0')}>
+									{user && (
+										<>
+											<p
+												className={cn(
+													'text-base font-semibold text-foreground truncate',
+												)}
+											>
+												{user.user_metadata?.full_name ||
+													user.email?.split('@')[0] ||
+													'Usuario'}
+											</p>
+											<p
+												className={cn('text-xs text-muted-foreground truncate')}
+											>
+												{user.email}
+											</p>
+										</>
+									)}
+								</div>
 							</div>
-						</div>
+						</SheetClose>
 					</div>
 
 					<nav className={cn('flex flex-col space-y-3 px-4')}>
@@ -131,38 +140,38 @@ export function MobileNav({
 
 					<DropdownMenuSeparator className={cn('bg-border/50 mx-4')} />
 					{/* User Profile/Settings Navigation */}
-					<div className={cn('px-4')}>
-						<div className={cn('mt-4 space-y-2')}>
+					<div className={cn('flex flex-col space-y-3 mt-4 px-4')}>
+						<SheetClose asChild>
 							<button
 								className={cn(
-									'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl hover:bg-accent/50 transition-colors duration-200',
+									'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl transition-all duration-200 text-muted-foreground hover:text-foreground hover:bg-accent/50 bg-muted/20',
 								)}
 							>
-								<UserCircle className={cn('h-5 w-5 text-muted-foreground')} />
-								<span className={cn('font-medium text-foreground')}>
-									Profile
-								</span>
+								<UserCircle className={cn('h-5 w-5')} />
+								<span className={cn('font-medium')}>Profile</span>
 							</button>
+						</SheetClose>
+						<SheetClose asChild>
 							<button
 								className={cn(
-									'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl hover:bg-accent/50 transition-colors duration-200',
+									'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl transition-all duration-200 text-muted-foreground hover:text-foreground hover:bg-accent/50 bg-muted/20',
 								)}
 							>
-								<Settings className={cn('h-5 w-5 text-muted-foreground')} />
-								<span className={cn('font-medium text-foreground')}>
-									Settings
-								</span>
+								<Settings className={cn('h-5 w-5')} />
+								<span className={cn('font-medium')}>Settings</span>
 							</button>
+						</SheetClose>
+						<SheetClose asChild>
 							<button
 								onClick={handleLogout}
 								className={cn(
-									'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors duration-200 text-red-600 dark:text-red-400',
+									'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl hover:bg-red-400 hover:text-red-200 dark:hover:text-red-950 dark:hover:bg-red-700 transition-colors duration-200 text-red-600 dark:text-red-400',
 								)}
 							>
 								<LogOut className={cn('h-5 w-5')} />
 								<span className={cn('font-medium')}>Log Out</span>
 							</button>
-						</div>
+						</SheetClose>
 					</div>
 				</div>
 			</SheetContent>
