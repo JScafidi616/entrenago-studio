@@ -138,11 +138,7 @@ export default function PrivateLayout({
 					</div>
 				</div>
 			</nav>
-			<main
-				className={cn(
-					'flex-grow flex items-center justify-center text-center px-4',
-				)}
-			>
+			<main className={cn('flex-grow w-full px-6 py-6 md:py-8')}>
 				<AnimatePresence mode='wait'>
 					<motion.div
 						key={location} // re-animate on route change inside private
@@ -152,7 +148,9 @@ export default function PrivateLayout({
 						animate='animate'
 						exit='exit'
 					>
-						{children}
+						<div className='flex min-h-[70vh] w-full items-center justify-center'>
+							{children}
+						</div>
 					</motion.div>
 				</AnimatePresence>
 			</main>
