@@ -16,87 +16,59 @@ import {
 	Target,
 	Zap,
 } from 'lucide-react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'wouter';
 
+// Workout template data (without dates - will be calculated dynamically)
 const weeklyRoutine = [
 	{
-		day: 'Mon',
-		fullDay: 'Monday',
-		date: '15',
 		workout: 'Push Day',
 		category: 'strength',
 		icon: Dumbbell,
 		exercises: 6,
 		duration: 45,
-		completed: true,
 	},
 	{
-		day: 'Tue',
-		fullDay: 'Tuesday',
-		date: '16',
 		workout: 'Pull Day',
 		category: 'strength',
 		icon: Dumbbell,
 		exercises: 5,
 		duration: 40,
-		completed: true,
 	},
 	{
-		day: 'Wed',
-		fullDay: 'Wednesday',
-		date: '17',
-		workout: null,
+		workout: null, // Rest day
 		category: null,
 		icon: null,
 		exercises: 0,
 		duration: 0,
-		completed: false,
 	},
 	{
-		day: 'Thu',
-		fullDay: 'Thursday',
-		date: '18',
 		workout: 'Legs & Core',
 		category: 'strength',
 		icon: Target,
 		exercises: 8,
 		duration: 60,
-		completed: false,
-		isToday: true,
 	},
 	{
-		day: 'Fri',
-		fullDay: 'Friday',
-		date: '19',
 		workout: 'Upper Body',
 		category: 'strength',
 		icon: Dumbbell,
 		exercises: 7,
 		duration: 50,
-		completed: false,
 	},
 	{
-		day: 'Sat',
-		fullDay: 'Saturday',
-		date: '20',
 		workout: 'HIIT Cardio',
 		category: 'cardio',
 		icon: Zap,
 		exercises: 4,
 		duration: 30,
-		completed: false,
 	},
 	{
-		day: 'Sun',
-		fullDay: 'Sunday',
-		date: '21',
-		workout: null,
+		workout: null, // Rest day
 		category: null,
 		icon: null,
 		exercises: 0,
 		duration: 0,
-		completed: false,
 	},
 ];
 
@@ -152,22 +124,72 @@ const todayWorkout = {
 	difficulty: 'Intermediate',
 };
 
+// Helper function to generate the current week's schedule
+const generateWeekSchedule = () => {
+	const now = new Date();
+	const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+	const currentDate = now.getDate();
+
+	// Calculate the start of the week (Monday)
+	const mondayOffset = currentDay === 0 ? -6 : 1 - currentDay;
+	const monday = new Date(now);
+	monday.setDate(currentDate + mondayOffset);
+
+	const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+	const fullDays = [
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday',
+		'Sunday',
+	];
+
+	return days.map((day, index) => {
+		const date = new Date(monday);
+		date.setDate(monday.getDate() + index);
+
+		const isToday =
+			date.getDate() === now.getDate() &&
+			date.getMonth() === now.getMonth() &&
+			date.getFullYear() === now.getFullYear();
+
+		const isPast = date < now && !isToday;
+
+		return {
+			day,
+			fullDay: fullDays[index],
+			date: date.getDate().toString(),
+			dateObj: date,
+			isToday,
+			completed: isPast, // Auto-mark past days as completed
+			...weeklyRoutine[index],
+		};
+	});
+};
+
 export default function Dashboard() {
 	const { user } = useAuthentication();
 	const [, setLocation] = useLocation();
 	const [showOnboarding, setShowOnboarding] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
 	// const [isWorkoutModalOpen, setIsWorkoutModalOpen] = useState(false);
+
+	// Generate the week schedule dynamically (memoized to prevent recalculation)
+	const weeklyRoutine = useMemo(() => generateWeekSchedule(), []);
+	const todayIndex = weeklyRoutine.findIndex((d) => d.isToday);
+
 	const [activeScrollIndex, setActiveScrollIndex] = useState(
-		weeklyRoutine.findIndex((d) => d.isToday),
+		todayIndex >= 0 ? todayIndex : 0,
 	);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-	const todayIndex = weeklyRoutine.findIndex((d) => d.isToday);
+	const hasScrolledRef = useRef(false);
 
 	const scrollToCard = useCallback((index: number) => {
 		const container = scrollContainerRef.current;
 		if (!container) return;
+
 		const cards = container.querySelectorAll<HTMLElement>('[data-day-card]');
 		if (cards[index]) {
 			const card = cards[index];
@@ -180,14 +202,35 @@ export default function Dashboard() {
 			container.scrollTo({ left: clampedScroll, behavior: 'smooth' });
 		}
 	}, []);
+
 	// Auto-scroll to today on mount
 	useEffect(() => {
-		if (todayIndex >= 0) {
-			// Small delay to ensure DOM is ready
-			const timer = setTimeout(() => scrollToCard(todayIndex), 150);
+		if (
+			todayIndex >= 0 &&
+			scrollContainerRef.current &&
+			!hasScrolledRef.current
+		) {
+			const timer = setTimeout(() => {
+				const container = scrollContainerRef.current;
+				if (!container) return;
+
+				const cards =
+					container.querySelectorAll<HTMLElement>('[data-day-card]');
+				const todayCard = cards[todayIndex];
+
+				if (todayCard) {
+					todayCard.scrollIntoView({
+						behavior: 'auto', // Instant on first load
+						block: 'nearest',
+						inline: 'center',
+					});
+					hasScrolledRef.current = true;
+				}
+			}, 150);
+
 			return () => clearTimeout(timer);
 		}
-	}, [todayIndex, scrollToCard]);
+	}, [todayIndex]);
 
 	// Track active card on scroll
 	useEffect(() => {
@@ -525,12 +568,12 @@ export default function Dashboard() {
 									<Card
 										className={`relative transition-all duration-300 h-full ${
 											day.isToday
-												? 'ring-2 ring-cyan-400 bg-gradient-to-br from-cyan-950/40 to-green-950/40 shadow-lg shadow-cyan-500/10'
+												? 'ring-2 ring-cyan-400 bg-gradient-to-br from-cyan-50 to-green-50 dark:from-cyan-950/40 dark:to-green-950/40 shadow-lg shadow-cyan-500/10'
 												: ''
 										} ${
 											day.completed
-												? 'bg-green-950/30 border-green-800/60'
-												: 'border-border/40 bg-neutral-800/60'
+												? 'bg-green-50 border-green-200 dark:bg-green-950/30 dark:border-green-800/60'
+												: 'border-border/40 bg-card/80 dark:bg-neutral-800/60'
 										} ${
 											activeScrollIndex === index && !day.isToday
 												? 'scale-[1.02] shadow-md'
@@ -654,7 +697,7 @@ export default function Dashboard() {
 						</div>
 					</div>
 
-					{/* Desktop: Grid Layout (unchanged) */}
+					{/* Desktop: Grid Layout */}
 					<div className='hidden md:grid md:grid-cols-7 gap-3'>
 						{weeklyRoutine.map((day, index) => (
 							<Card
