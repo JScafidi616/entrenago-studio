@@ -636,20 +636,14 @@ export default function Dashboard() {
 	return (
 		<>
 			{/* Contenido principal centrado */}
-			<div
-				className={cn(
-					'w-full max-w-7xl mx-auto" p-4 sm:p-6 md:p-8 bg-white rounded-xl shadow-lg dark:bg-neutral-800',
-				)}
-			>
-				{currentSection === 'dashboard' && renderDashboard()}
+			{currentSection === 'dashboard' && renderDashboard()}
 
-				{/* <h2 className={cn('text-2xl font-bold mb-2 dark:text-gray-300')}>
+			{/* <h2 className={cn('text-2xl font-bold mb-2 dark:text-gray-300')}>
 					Bienvenido al Dashboard 🏋️‍♂️
 				</h2>
 				<p className={cn('mb-4 dark:text-gray-300')}>
 					Pronto habra algo aqui LOL
 				</p> */}
-			</div>
 
 			{/* <main className="container mx-auto px-6 py-6 md:py-8 max-w-7xl">
         {currentSection === "dashboard" && renderDashboard()}
