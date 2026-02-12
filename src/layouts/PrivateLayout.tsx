@@ -148,7 +148,7 @@ export default function PrivateLayout({
 						animate='animate'
 						exit='exit'
 					>
-						<div className='flex min-h-[70vh] w-full items-center justify-center'>
+						<div className='container mx-auto px-6 py-6 md:py-8 max-w-7xl'>
 							{children}
 						</div>
 					</motion.div>
