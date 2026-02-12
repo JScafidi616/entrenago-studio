@@ -10,7 +10,6 @@ export default function Dashboard() {
 	const [, setLocation] = useLocation();
 	const [showOnboarding, setShowOnboarding] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const [currentSection, setCurrentSection] = useState('routines');
 
 	useEffect(() => {
 		const checkSessionAndProfile = async () => {
@@ -157,7 +156,7 @@ export default function Dashboard() {
 	return (
 		<>
 			{/* Contenido principal centrado */}
-			{currentSection === 'routines' && renderMyRoutines()}
+			{renderMyRoutines()}
 		</>
 	);
 }
