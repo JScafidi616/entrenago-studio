@@ -16,16 +16,205 @@ import {
 	Target,
 	Zap,
 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'wouter';
+
+const weeklyRoutine = [
+	{
+		day: 'Mon',
+		fullDay: 'Monday',
+		date: '15',
+		workout: 'Push Day',
+		category: 'strength',
+		icon: Dumbbell,
+		exercises: 6,
+		duration: 45,
+		completed: true,
+	},
+	{
+		day: 'Tue',
+		fullDay: 'Tuesday',
+		date: '16',
+		workout: 'Pull Day',
+		category: 'strength',
+		icon: Dumbbell,
+		exercises: 5,
+		duration: 40,
+		completed: true,
+	},
+	{
+		day: 'Wed',
+		fullDay: 'Wednesday',
+		date: '17',
+		workout: null,
+		category: null,
+		icon: null,
+		exercises: 0,
+		duration: 0,
+		completed: false,
+	},
+	{
+		day: 'Thu',
+		fullDay: 'Thursday',
+		date: '18',
+		workout: 'Legs & Core',
+		category: 'strength',
+		icon: Target,
+		exercises: 8,
+		duration: 60,
+		completed: false,
+		isToday: true,
+	},
+	{
+		day: 'Fri',
+		fullDay: 'Friday',
+		date: '19',
+		workout: 'Upper Body',
+		category: 'strength',
+		icon: Dumbbell,
+		exercises: 7,
+		duration: 50,
+		completed: false,
+	},
+	{
+		day: 'Sat',
+		fullDay: 'Saturday',
+		date: '20',
+		workout: 'HIIT Cardio',
+		category: 'cardio',
+		icon: Zap,
+		exercises: 4,
+		duration: 30,
+		completed: false,
+	},
+	{
+		day: 'Sun',
+		fullDay: 'Sunday',
+		date: '21',
+		workout: null,
+		category: null,
+		icon: null,
+		exercises: 0,
+		duration: 0,
+		completed: false,
+	},
+];
+
+const todayWorkout = {
+	name: 'Legs & Core',
+	category: 'strength',
+	icon: Target,
+	exercises: [
+		{
+			name: 'Squats',
+			sets: '4x12',
+			rest: '90s',
+			category: 'strength',
+			icon: Dumbbell,
+		},
+		{
+			name: 'Romanian Deadlifts',
+			sets: '3x10',
+			rest: '90s',
+			category: 'strength',
+			icon: Dumbbell,
+		},
+		{
+			name: 'Bulgarian Split Squats',
+			sets: '3x8 each',
+			rest: '60s',
+			category: 'bodyweight',
+			icon: Activity,
+		},
+		{
+			name: 'Leg Press',
+			sets: '3x15',
+			rest: '90s',
+			category: 'strength',
+			icon: Dumbbell,
+		},
+		{
+			name: 'Plank',
+			sets: '3x60s',
+			rest: '30s',
+			category: 'core',
+			icon: Target,
+		},
+		{
+			name: 'Russian Twists',
+			sets: '3x20',
+			rest: '30s',
+			category: 'core',
+			icon: Target,
+		},
+	],
+	estimatedTime: 60,
+	difficulty: 'Intermediate',
+};
 
 export default function Dashboard() {
 	const { user } = useAuthentication();
 	const [, setLocation] = useLocation();
 	const [showOnboarding, setShowOnboarding] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const [currentSection, setCurrentSection] = useState('dashboard');
 	// const [isWorkoutModalOpen, setIsWorkoutModalOpen] = useState(false);
+	const [activeScrollIndex, setActiveScrollIndex] = useState(
+		weeklyRoutine.findIndex((d) => d.isToday),
+	);
+	const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+	const todayIndex = weeklyRoutine.findIndex((d) => d.isToday);
+
+	const scrollToCard = useCallback((index: number) => {
+		const container = scrollContainerRef.current;
+		if (!container) return;
+		const cards = container.querySelectorAll<HTMLElement>('[data-day-card]');
+		if (cards[index]) {
+			const card = cards[index];
+			const containerWidth = container.offsetWidth;
+			const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+			// Desired scroll: center the card, but clamp so we never show empty space
+			const idealScroll = cardCenter - containerWidth / 2;
+			const maxScroll = container.scrollWidth - containerWidth;
+			const clampedScroll = Math.max(0, Math.min(idealScroll, maxScroll));
+			container.scrollTo({ left: clampedScroll, behavior: 'smooth' });
+		}
+	}, []);
+	// Auto-scroll to today on mount
+	useEffect(() => {
+		if (todayIndex >= 0) {
+			// Small delay to ensure DOM is ready
+			const timer = setTimeout(() => scrollToCard(todayIndex), 150);
+			return () => clearTimeout(timer);
+		}
+	}, [todayIndex, scrollToCard]);
+
+	// Track active card on scroll
+	useEffect(() => {
+		const container = scrollContainerRef.current;
+		if (!container) return;
+
+		const handleScroll = () => {
+			const cards = container.querySelectorAll<HTMLElement>('[data-day-card]');
+			const containerCenter = container.scrollLeft + container.offsetWidth / 2;
+			let closestIndex = 0;
+			let closestDistance = Infinity;
+
+			cards.forEach((card, index) => {
+				const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+				const distance = Math.abs(containerCenter - cardCenter);
+				if (distance < closestDistance) {
+					closestDistance = distance;
+					closestIndex = index;
+				}
+			});
+
+			setActiveScrollIndex(closestIndex);
+		};
+
+		container.addEventListener('scroll', handleScroll, { passive: true });
+		return () => container.removeEventListener('scroll', handleScroll);
+	}, []);
 
 	useEffect(() => {
 		const checkSessionAndProfile = async () => {
@@ -70,140 +259,8 @@ export default function Dashboard() {
 
 	if (isLoading) return null; // También podrías renderizar un spinner
 
-	const todayWorkout = {
-		name: 'Legs & Core',
-		category: 'strength',
-		icon: Target,
-		exercises: [
-			{
-				name: 'Squats',
-				sets: '4x12',
-				rest: '90s',
-				category: 'strength',
-				icon: Dumbbell,
-			},
-			{
-				name: 'Romanian Deadlifts',
-				sets: '3x10',
-				rest: '90s',
-				category: 'strength',
-				icon: Dumbbell,
-			},
-			{
-				name: 'Bulgarian Split Squats',
-				sets: '3x8 each',
-				rest: '60s',
-				category: 'bodyweight',
-				icon: Activity,
-			},
-			{
-				name: 'Leg Press',
-				sets: '3x15',
-				rest: '90s',
-				category: 'strength',
-				icon: Dumbbell,
-			},
-			{
-				name: 'Plank',
-				sets: '3x60s',
-				rest: '30s',
-				category: 'core',
-				icon: Target,
-			},
-			{
-				name: 'Russian Twists',
-				sets: '3x20',
-				rest: '30s',
-				category: 'core',
-				icon: Target,
-			},
-		],
-		estimatedTime: 60,
-		difficulty: 'Intermediate',
-	};
-	const weeklyRoutine = [
-		{
-			day: 'Mon',
-			fullDay: 'Monday',
-			date: '15',
-			workout: 'Push Day',
-			category: 'strength',
-			icon: Dumbbell,
-			exercises: 6,
-			duration: 45,
-			completed: true,
-		},
-		{
-			day: 'Tue',
-			fullDay: 'Tuesday',
-			date: '16',
-			workout: 'Pull Day',
-			category: 'strength',
-			icon: Dumbbell,
-			exercises: 5,
-			duration: 40,
-			completed: true,
-		},
-		{
-			day: 'Wed',
-			fullDay: 'Wednesday',
-			date: '17',
-			workout: null,
-			category: null,
-			icon: null,
-			exercises: 0,
-			duration: 0,
-			completed: false,
-		},
-		{
-			day: 'Thu',
-			fullDay: 'Thursday',
-			date: '18',
-			workout: 'Legs & Core',
-			category: 'strength',
-			icon: Target,
-			exercises: 8,
-			duration: 60,
-			completed: false,
-			isToday: true,
-		},
-		{
-			day: 'Fri',
-			fullDay: 'Friday',
-			date: '19',
-			workout: 'Upper Body',
-			category: 'strength',
-			icon: Dumbbell,
-			exercises: 7,
-			duration: 50,
-			completed: false,
-		},
-		{
-			day: 'Sat',
-			fullDay: 'Saturday',
-			date: '20',
-			workout: 'HIIT Cardio',
-			category: 'cardio',
-			icon: Zap,
-			exercises: 4,
-			duration: 30,
-			completed: false,
-		},
-		{
-			day: 'Sun',
-			fullDay: 'Sunday',
-			date: '21',
-			workout: null,
-			category: null,
-			icon: null,
-			exercises: 0,
-			duration: 0,
-			completed: false,
-		},
-	];
-
 	const renderDashboard = () => (
-		<div className='space-y-6 md:space-y-8 pb-4 md:pb-8 px-2'>
+		<div className='space-y-6 md:space-y-8 pb-12 md:pb-8 px-2'>
 			{/* Mobile Today's Workout - Priority on mobile */}
 			<div className='block md:hidden'>
 				<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl'>
@@ -453,96 +510,143 @@ export default function Dashboard() {
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					{/* Mobile: Horizontal Scroll */}
+					{/* Mobile: Horizontal Scroll with auto-focus on today */}
 					<div className='md:hidden'>
-						<div className='flex gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory'>
+						<div
+							ref={scrollContainerRef}
+							className='flex gap-3 overflow-x-auto py-3 scrollbar-hide snap-x snap-mandatory px-1'
+						>
 							{weeklyRoutine.map((day, index) => (
-								<Card
+								<div
 									key={index}
-									className={`relative transition-all duration-200 flex-shrink-0 w-32 snap-center ${
-										day.isToday
-											? 'ring-2 ring-cyan-500 bg-gradient-to-br from-cyan-50 to-green-50 dark:from-cyan-950/30 dark:to-green-950/30 shadow-lg'
-											: ''
-									} ${
-										day.completed
-											? 'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800'
-											: 'border-border/50 bg-card/30'
-									} rounded-2xl`}
+									data-day-card
+									className='flex-shrink-0 w-36 snap-center'
 								>
-									<CardContent className='p-3'>
-										<div className='text-center space-y-2'>
-											<div className='flex flex-col items-center'>
-												<p className='text-sm font-medium text-foreground'>
-													{day.day}
-												</p>
-												<p className='text-2xl font-bold text-foreground'>
-													{day.date}
-												</p>
-											</div>
-
-											{day.workout ? (
-												<div className='space-y-2'>
-													<div className='flex flex-col items-center space-y-1'>
-														{day.icon && (
-															<day.icon className='h-4 w-4 text-cyan-500' />
-														)}
-														<p className='text-sm font-semibold text-center text-foreground leading-tight'>
-															{day.workout}
-														</p>
-													</div>
-													<div className='text-xs text-muted-foreground space-y-1'>
-														<div className='flex items-center justify-center'>
-															<Dumbbell className='h-3 w-3 mr-1' />
-															<span>{day.exercises}</span>
-														</div>
-														<div className='flex items-center justify-center'>
-															<Clock className='h-3 w-3 mr-1' />
-															<span>{day.duration}m</span>
-														</div>
-													</div>
-													{day.completed && (
-														<Badge
-															variant='secondary'
-															className='w-full text-xs bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-200 py-1'
-														>
-															✓ Done
-														</Badge>
-													)}
-													{day.isToday && (
-														<Badge className='w-full text-xs bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md py-1'>
-															Today
-														</Badge>
-													)}
-												</div>
-											) : (
-												<div className='text-center'>
-													<p className='text-sm text-muted-foreground'>
-														Rest Day
+									<Card
+										className={`relative transition-all duration-300 h-full ${
+											day.isToday
+												? 'ring-2 ring-cyan-400 bg-gradient-to-br from-cyan-950/40 to-green-950/40 shadow-lg shadow-cyan-500/10'
+												: ''
+										} ${
+											day.completed
+												? 'bg-green-950/30 border-green-800/60'
+												: 'border-border/40 bg-neutral-800/60'
+										} ${
+											activeScrollIndex === index && !day.isToday
+												? 'scale-[1.02] shadow-md'
+												: ''
+										} rounded-2xl`}
+									>
+										<CardContent className='p-4'>
+											<div className='text-center space-y-2.5'>
+												<div className='flex flex-col items-center gap-0.5'>
+													<p className='text-xs font-medium text-muted-foreground uppercase tracking-wider'>
+														{day.day}
 													</p>
-													<div className='h-12 flex items-center justify-center'>
-														<Badge
-															variant='outline'
-															className='border-border/50 text-muted-foreground text-xs py-1'
-														>
-															No workout
-														</Badge>
-													</div>
+													<p className='text-3xl font-bold text-foreground leading-none'>
+														{day.date}
+													</p>
 												</div>
-											)}
-										</div>
-									</CardContent>
-								</Card>
+
+												{day.workout ? (
+													<div className='space-y-2.5'>
+														<div className='flex flex-col items-center gap-1.5'>
+															{day.icon && (
+																<div
+																	className={`p-1.5 rounded-full ${
+																		day.isToday
+																			? 'bg-cyan-500/20'
+																			: day.completed
+																				? 'bg-green-500/20'
+																				: 'bg-muted/40'
+																	}`}
+																>
+																	<day.icon
+																		className={`h-4 w-4 ${
+																			day.isToday
+																				? 'text-cyan-400'
+																				: day.completed
+																					? 'text-green-400'
+																					: 'text-muted-foreground'
+																		}`}
+																	/>
+																</div>
+															)}
+															<p className='text-sm font-semibold text-foreground leading-tight'>
+																{day.workout}
+															</p>
+														</div>
+
+														<div className='flex items-center justify-center gap-3 text-xs text-muted-foreground'>
+															<span className='flex items-center gap-1'>
+																<Dumbbell className='h-3 w-3' />
+																{day.exercises}
+															</span>
+															<span className='flex items-center gap-1'>
+																<Clock className='h-3 w-3' />
+																{day.duration}m
+															</span>
+														</div>
+
+														{day.completed && (
+															<Badge
+																variant='secondary'
+																className='w-full text-xs bg-green-900/50 text-green-300 border-green-700/50 py-1'
+															>
+																Done
+															</Badge>
+														)}
+														{day.isToday && (
+															<Badge className='w-full text-xs bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md shadow-cyan-500/20 py-1'>
+																Today
+															</Badge>
+														)}
+													</div>
+												) : (
+													<div className='text-center py-2'>
+														<p className='text-xs text-muted-foreground mb-2'>
+															Rest Day
+														</p>
+														<div className='h-10 flex items-center justify-center'>
+															<Badge
+																variant='outline'
+																className='border-border/40 text-muted-foreground/70 text-xs py-1'
+															>
+																Recovery
+															</Badge>
+														</div>
+													</div>
+												)}
+											</div>
+										</CardContent>
+									</Card>
+								</div>
 							))}
 						</div>
 
-						{/* Scroll indicator dots for mobile */}
-						<div className='flex justify-center mt-3'>
-							<div className='flex space-x-1'>
-								{weeklyRoutine.map((_, index) => (
-									<div
+						{/* Interactive scroll indicator dots */}
+						<div className='flex justify-center mt-4 pb-1'>
+							<div className='flex items-center gap-2 bg-neutral-800/80 rounded-full px-3 py-2'>
+								{weeklyRoutine.map((day, index) => (
+									<button
 										key={index}
-										className={`h-1.5 w-1.5 rounded-full transition-all duration-200 ${
-											index < 4 ? 'bg-cyan-500' : 'bg-muted-foreground/30'
+										onClick={() => {
+											scrollToCard(index);
+											setActiveScrollIndex(index);
+										}}
+										aria-label={`Scroll to ${day.fullDay}`}
+										className={`rounded-full transition-all duration-300 ${
+											activeScrollIndex === index
+												? day.isToday
+													? 'h-2.5 w-6 bg-gradient-to-r from-cyan-500 to-green-400 shadow-sm shadow-cyan-500/30'
+													: day.completed
+														? 'h-2.5 w-6 bg-green-500'
+														: 'h-2.5 w-6 bg-foreground/70'
+												: day.isToday
+													? 'h-2 w-2 bg-cyan-500/50'
+													: day.completed
+														? 'h-2 w-2 bg-green-500/40'
+														: 'h-2 w-2 bg-muted-foreground/30'
 										}`}
 									/>
 								))}
@@ -636,20 +740,8 @@ export default function Dashboard() {
 	return (
 		<>
 			{/* Contenido principal centrado */}
-			{currentSection === 'dashboard' && renderDashboard()}
+			{renderDashboard()}
 
-			{/* <h2 className={cn('text-2xl font-bold mb-2 dark:text-gray-300')}>
-					Bienvenido al Dashboard 🏋️‍♂️
-				</h2>
-				<p className={cn('mb-4 dark:text-gray-300')}>
-					Pronto habra algo aqui LOL
-				</p> */}
-
-			{/* <main className="container mx-auto px-6 py-6 md:py-8 max-w-7xl">
-        {currentSection === "dashboard" && renderDashboard()}
-        {currentSection === "progress" && renderProgress()}
-        {currentSection === "routines" && renderMyRoutines()}
-      </main> */}
 			{/* Modal de onboarding */}
 			<div
 				className={cn(
