@@ -316,7 +316,7 @@ export default function Dashboard() {
 						</div>
 
 						<Button
-							onClick={() => setIsWorkoutModalOpen(true)}
+							// onClick={() => setIsWorkoutModalOpen(true)}
 							className='w-full bg-gradient-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white font-semibold py-3 shadow-lg hover:shadow-xl transition-all duration-200'
 							size='lg'
 						>
@@ -445,7 +445,7 @@ export default function Dashboard() {
 							</div>
 
 							<Button
-								onClick={() => setIsWorkoutModalOpen(true)}
+								// onClick={() => setIsWorkoutModalOpen(true)}
 								className='w-full bg-gradient-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white font-semibold py-3 shadow-lg hover:shadow-xl transition-all duration-200'
 								size='lg'
 							>
