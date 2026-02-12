@@ -669,7 +669,7 @@ export default function Dashboard() {
 
 						{/* Interactive scroll indicator dots */}
 						<div className='flex justify-center mt-4 pb-1'>
-							<div className='flex items-center gap-2 bg-neutral-800/80 rounded-full px-3 py-2'>
+							<div className='flex items-center gap-2 bg-muted/90 dark:bg-neutral-800/80 rounded-full px-3 py-2'>
 								{weeklyRoutine.map((day, index) => (
 									<button
 										key={index}
