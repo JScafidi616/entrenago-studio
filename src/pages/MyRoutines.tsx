@@ -1,7 +1,6 @@
 import { Badge } from '@/components/ui/badge.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { cn } from '@/lib/utils/utils.ts';
 import { supabase } from '@/supabase/client.ts';
 import { Activity, Clock, Dumbbell, Target, Zap } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -158,13 +157,7 @@ export default function Dashboard() {
 	return (
 		<>
 			{/* Contenido principal centrado */}
-			<div
-				className={cn(
-					'w-full max-w-7xl mx-auto" p-4 sm:p-6 md:p-8 bg-white rounded-xl shadow-lg dark:bg-neutral-800',
-				)}
-			>
-				{currentSection === 'routines' && renderMyRoutines()}
-			</div>
+			{currentSection === 'routines' && renderMyRoutines()}
 		</>
 	);
 }
