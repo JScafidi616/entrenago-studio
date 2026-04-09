@@ -9,18 +9,22 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Supabase health endpoint
+      - name: Ping Supabase health endpoint ⚠️
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: |
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            "$SUPABASE_URL/rest/v1/" \
-            -H "apikey: $SUPABASE_KEY" \
-            -H "Authorization: Bearer $SUPABASE_KEY")
+         STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${SUPABASE_URL}/rest/v1/" \
+            -H "apikey: ${SUPABASE_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_KEY}")
           echo "Response status: $STATUS"
           if [ "$STATUS" -lt 200 ] || [ "$STATUS" -gt 299 ]; then
-            echo "Ping failed with status $STATUS"
+            echo "*******************************"
+            echo "Ping failed with a status $STATUS"
+            echo "*******************************"
             exit 1
           fi
-          echo "Project is alive!"
+          echo "*******************************"
+          echo "        Project is alive!      "
+          echo "*******************************"
