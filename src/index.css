@@ -2,6 +2,10 @@
 @import 'tailwindcss/utilities';
 @import 'tailwindcss-animated';
 @import 'tw-animate-css';
+@tailwind utilities;
+@utility no-scrollbar {
+	@apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
 
 /* Dark variant */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -169,6 +173,36 @@
 }
 
 /* Utilities */
-.animate-fade-in {
-	animation: fadeIn 0.8s ease-out forwards;
+
+/* Custom scrollbar styles for weekly schedule */
+@layer utilities {
+	.animate-fade-in {
+		animation: fadeIn 0.8s ease-out forwards;
+	}
+	.scrollbar-hide {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	.scrollbar-hide::-webkit-scrollbar {
+		display: none;
+	}
+
+	/* Custom mobile-friendly scrollbar for weekly schedule */
+	.weekly-scroll::-webkit-scrollbar {
+		height: 4px;
+	}
+
+	.weekly-scroll::-webkit-scrollbar-track {
+		@apply bg-muted/30 rounded-full;
+	}
+
+	.weekly-scroll::-webkit-scrollbar-thumb {
+		@apply bg-cyan-500/50 rounded-full;
+	}
+
+	.weekly-scroll::-webkit-scrollbar-thumb:hover {
+		@apply bg-cyan-500/70;
+	}
 }

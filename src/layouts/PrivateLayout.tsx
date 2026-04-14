@@ -45,7 +45,7 @@ export default function PrivateLayout({
 	return (
 		<div
 			className={cn(
-				'min-h-screen flex flex-col bg-gray-100 dark:bg-neutral-900',
+				'min-h-screen flex flex-col bg-gray-100 dark:bg-neutral-900 transition-colors duration-300',
 			)}
 		>
 			{/* Header */}
@@ -55,7 +55,7 @@ export default function PrivateLayout({
 			{/* Navigation */}
 			<nav
 				className={cn(
-					'border-b border-border/50 bg-background/95 dark:bg-neutral-800/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-neutral-800/60 sticky top-0 z-50 mx-4 mt-4 rounded-2xl shadow-sm',
+					'border-b border-border/50 bg-background/95 dark:bg-neutral-800/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-neutral-800/60 sticky top-1 z-50 mx-4 mt-4 rounded-2xl shadow-sm',
 				)}
 			>
 				<div className={cn('container mx-auto px-6')}>
@@ -140,7 +140,7 @@ export default function PrivateLayout({
 			</nav>
 			<main
 				className={cn(
-					'flex-grow flex items-center justify-center text-center px-4',
+					'container mx-auto flex-grow w-full px-6 py-6 md:py-8 max-w-7xl',
 				)}
 			>
 				<AnimatePresence mode='wait'>
@@ -152,7 +152,9 @@ export default function PrivateLayout({
 						animate='animate'
 						exit='exit'
 					>
+						{/* <div className='container mx-auto px-6 py-6 md:py-8 max-w-7xl'> */}
 						{children}
+						{/* </div> */}
 					</motion.div>
 				</AnimatePresence>
 			</main>
