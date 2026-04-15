@@ -58,36 +58,39 @@ export default defineConfig({
 		rollupOptions: {
 			output: {
 				manualChunks: {
-					// React core
-					'react-vendor': ['react', 'react-dom'],
-
-					// Routing
-					router: ['wouter'],
-
-					// UI components - Radix UI - biggest chunk
-					'radix-ui': [
-						'@radix-ui/react-avatar',
-						'@radix-ui/react-dialog',
-						'@radix-ui/react-dropdown-menu',
-						'@radix-ui/react-slot',
-					],
-
-					// Animation library - motion can be large
-					motion: ['motion'],
-
-					// Icons - Can be heavy
-					icons: ['lucide-react', 'react-icons'],
-
-					// Data fetching
-					query: ['@tanstack/react-query', '@tanstack/react-query-devtools'],
-
-					// Supabase
-					supabase: ['@supabase/supabase-js'],
+					vendor: ['react', 'react-dom'],
 				},
+				// manualChunks: {
+				// 	// React core
+				// 	'react-vendor': ['react', 'react-dom'],
+
+				// 	// Routing
+				// 	router: ['wouter'],
+
+				// 	// UI components - Radix UI - biggest chunk
+				// 	'radix-ui': [
+				// 		'@radix-ui/react-avatar',
+				// 		'@radix-ui/react-dialog',
+				// 		'@radix-ui/react-dropdown-menu',
+				// 		'@radix-ui/react-slot',
+				// 	],
+
+				// 	// Animation library - motion can be large
+				// 	motion: ['motion'],
+
+				// 	// Icons - Can be heavy
+				// 	icons: ['lucide-react', 'react-icons'],
+
+				// 	// Data fetching
+				// 	query: ['@tanstack/react-query', '@tanstack/react-query-devtools'],
+
+				// 	// Supabase
+				// 	supabase: ['@supabase/supabase-js'],
+				// },
 			},
 		},
 
 		// Optionally increase the limit if needed after chunking
-		chunkSizeWarningLimit: 600,
+		chunkSizeWarningLimit: 1000,
 	},
 });
