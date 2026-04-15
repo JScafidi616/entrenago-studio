@@ -74,6 +74,9 @@ function App() {
 	}
 
 	const Layout = isPrivateRoute ? PrivateLayout : PublicLayout;
+	// added only for debugging purposes, can be removed later
+	// console.log('********* APP STARTED - app tsx *********');
+	// console.log('ENV:', import.meta.env);
 
 	return (
 		<>
