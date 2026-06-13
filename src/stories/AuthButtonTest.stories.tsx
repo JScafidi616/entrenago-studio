@@ -19,7 +19,7 @@ const meta = {
 			control: { type: 'text' },
 			description: 'Button content',
 		},
-		loading: {
+		isPending: {
 			control: { type: 'boolean' },
 			description: 'Shows loading state with "Cargando..." text',
 		},
@@ -52,7 +52,7 @@ export const Default: Story = {
 export const Loading: Story = {
 	args: {
 		children: 'Submit',
-		loading: true,
+		isPending: true,
 	},
 };
 
@@ -102,7 +102,7 @@ export const InForm: Story = {
 	render: () => (
 		<div className='space-y-4 w-64'>
 			<AuthButtonTest>Primary Action</AuthButtonTest>
-			<AuthButtonTest loading>Loading Action</AuthButtonTest>
+			<AuthButtonTest isPending>Loading Action</AuthButtonTest>
 			<AuthButtonTest disabled>Disabled Action</AuthButtonTest>
 		</div>
 	),
