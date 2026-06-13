@@ -1,19 +1,21 @@
 // src/main.jsx
-import App from '@/App';
-import { AuthProvider } from '@/context/AuthContext.tsx';
-import '@/index.css';
 import React from 'react';
-import { createRoot } from 'react-dom/client';
-
+import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { App } from '@/App';
+import { AuthProvider } from '@/context/AuthContext.tsx';
+import '@/styles/global.css';
+
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 // Crear una instancia del cliente de React Query
-const queryClient = new QueryClient();
-const container = document.getElementById('root')!; // Aquí el "non-null assertion"
-const root = createRoot(container);
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: { staleTime: 1000 * 60 * 5, retry: 1 },
+	},
+});
 
-root.render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
 			<AuthProvider>

@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import '../App.css';
 import AuthButtonTest from '../components/custom/AuthButtonProps';
-import '../index.css';
 
 const meta = {
 	title: 'Components/Button',
@@ -37,7 +35,7 @@ const meta = {
 			options: ['button', 'submit', 'reset'],
 			description: 'Button type attribute',
 		},
-	},
+	} as any,
 } satisfies Meta<typeof AuthButtonTest>;
 
 export default meta;

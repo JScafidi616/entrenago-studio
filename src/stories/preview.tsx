@@ -2,9 +2,7 @@ import { withThemeByClassName } from '@storybook/addon-themes';
 import type { Decorator, Preview } from '@storybook/react-vite';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
-import { Router } from 'wouter';
-import '../App.css';
-import '../index.css';
+import { Router } from 'react-router-dom';
 
 const queryClient = new QueryClient({
 	defaultOptions: {

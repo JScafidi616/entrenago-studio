@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils/utils.ts';
+import { cn } from '@/utils/utils';
 import React from 'react';
-import { Link } from 'wouter';
+import { Link } from 'react-router-dom';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	label: string;
@@ -37,7 +37,7 @@ const Input: React.FC<InputProps> = ({
 					</label>
 					<div className='text-xs text-primary hover:underline text-green-600 dark:text-green-400'>
 						<Link
-							href={linkHref}
+							to={linkHref}
 							role='button'
 							className='text-primary font-medium text-green-600 dark:text-green-400 hover:underline'
 						>

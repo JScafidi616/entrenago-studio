@@ -1,5 +1,5 @@
-import type { FormData, UseOnboardingProps } from '@/lib/types/onboarding';
-import { supabase } from '@/supabase/client';
+import type { FormData, UseOnboardingProps } from '@/types/onboarding';
+import { supabase } from '@/lib/supabase/supabase';
 import { useEffect, useState } from 'react';
 
 export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {

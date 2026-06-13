@@ -1,35 +1,40 @@
-import { cn } from '@/lib/utils/utils.ts';
-import { supabase } from '@/supabase/client.ts';
+import { cn } from '@/utils/utils';
+import { supabase } from '@/lib/supabase/supabase';
 import { useState } from 'react';
-import { Link } from 'wouter';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useForgotPassword } from '@/features/auth/hooks/useAuthentications';
 
-export default function ForgotPassword() {
+export const ForgotPassword = () => {
 	const [email, setEmail] = useState('');
-	const [loading, setLoading] = useState(false);
-	const [submitted, setSubmitted] = useState(false);
-	const [errorMsg, setErrorMsg] = useState('');
-	const [successMsg, setSuccessMsg] = useState('');
+	const [isSuccess, setIsSuccess] = useState(false);
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	const { mutate: forgotPassword, isPending, error } = useForgotPassword();
+
+	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		setLoading(true);
-		setErrorMsg('');
-		setSuccessMsg('');
-
-		const { error } = await supabase.auth.resetPasswordForEmail(email, {
-			redirectTo: window.location.origin + '/reset-password',
+		forgotPassword(email, {
+			onSuccess: () => setIsSuccess(true),
 		});
-
-		if (error) {
-			setErrorMsg(error.message);
-		} else {
-			setSuccessMsg(
-				'Si el correo existe en nuestro sistema, recibirás un enlace para restablecer tu contraseña.',
-			);
-			setSubmitted(true);
-		}
-		setLoading(false);
 	};
+
+	if (isSuccess) {
+		return (
+			<div className='text-center space-y-4'>
+				<h2 className='text-2xl font-bold'>Check your email</h2>
+				<p className='text-gray-600'>
+					Si una cuenta está asociada al correo <strong>{email}</strong>,
+					recibiras un enlace para restablecer tu contraseña en breve. Por favor
+					revisa tu bandeja de entrada y carpeta de spam.
+				</p>
+				<Link
+					to='/login'
+					className='inline-block mt-4 text-blue-600 hover:underline font-medium'
+				>
+					&larr; De vuelta al inicio de sesión
+				</Link>
+			</div>
+		);
+	}
 
 	return (
 		<div
@@ -49,36 +54,35 @@ export default function ForgotPassword() {
 					Ingresa tu correo electrónico y te enviaremos un enlace para
 					restablecer tu contraseña.
 				</p>
-				{!submitted ? (
-					<form onSubmit={handleSubmit} className={cn('space-y-4')}>
-						<input
-							type='email'
-							placeholder='Correo electrónico'
-							className={cn('w-full p-2 border rounded dark:text-gray-500')}
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-							required
-						/>
-						{errorMsg && <div className={cn('text-red-600')}>{errorMsg}</div>}
-						<button
-							type='submit'
-							className={cn(
-								'w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700',
-							)}
-							disabled={loading}
-						>
-							{loading ? 'Enviando...' : 'Enviar enlace de recuperación'}
-						</button>
-					</form>
-				) : (
-					<div className={cn('text-green-600 mb-4')}>{successMsg}</div>
-				)}
+
+				<form onSubmit={handleSubmit} className={cn('space-y-4')}>
+					<input
+						type='email'
+						placeholder='Correo electrónico'
+						className={cn('w-full p-2 border rounded dark:text-gray-500')}
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+						required
+					/>
+					{error && <div className={cn('text-red-600')}>{error.message}</div>}
+					<button
+						type='submit'
+						className={cn(
+							'w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700',
+						)}
+						disabled={isPending}
+					>
+						{isPending ? 'Enviando...' : 'Enviar enlace de recuperación'}
+					</button>
+				</form>
+
 				<div className={cn('mt-4 text-center')}>
-					<Link href='/login' className={cn('text-blue-600 hover:underline')}>
-						Volver al inicio de sesión
+					Recordaste tu contraseña?{' '}
+					<Link to='/login' className={cn('text-blue-600 hover:underline')}>
+						Inicia sesión
 					</Link>
 				</div>
 			</div>
 		</div>
 	);
-}
+};

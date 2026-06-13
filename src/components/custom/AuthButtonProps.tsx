@@ -3,19 +3,19 @@ import type React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	children: React.ReactNode;
-	loading?: boolean;
+	isPending?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ children, loading, ...rest }) => (
+const Button: React.FC<ButtonProps> = ({ children, isPending, ...rest }) => (
 	<button
 		type='submit'
-		disabled={loading || rest.disabled}
+		disabled={isPending || rest.disabled}
 		className={cn(
 			'w-full py-2 bg-primary text-primary-foreground font-semibold rounded-md hover:bg-primary/90 transition bg-gradient-to-r from-cyan-500 to-green-400',
 		)}
 		{...rest}
 	>
-		{loading ? 'Cargando...' : children}
+		{isPending ? 'Cargando...' : children}
 	</button>
 );
 

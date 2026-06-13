@@ -4,25 +4,50 @@ import { BottomNav } from '@/components/custom/BottonNav.tsx';
 import { MobileNav } from '@/components/custom/MobileNav.tsx';
 import { ThemeToggle } from '@/components/custom/ThemeToggle.tsx';
 import { UserDropdown } from '@/components/custom/UserDropdown.tsx';
-import { cn } from '@/lib/utils/utils';
+import { cn } from '@/utils/utils';
 import { Dumbbell } from 'lucide-react';
 import { AnimatePresence, easeInOut, motion } from 'motion/react';
-import { useEffect, useState } from 'react';
-import { useLocation } from 'wouter';
+import {
+	NavLink,
+	Outlet,
+	useLocation,
+	useNavigate,
+	useOutlet,
+} from 'react-router-dom'; //Oulet avoided to maintain animation
 
-export default function PrivateLayout({
+// Reusable Desktop Navigation Link Component
+const DesktopNavLink = ({
+	to,
 	children,
 }: {
+	to: string;
 	children: React.ReactNode;
-}) {
-	const [location, setLocation] = useLocation(); // Hook de Wouter
-	const [currentSection, setCurrentSection] = useState(
-		location.replace(/^\/+/, '') || 'dashboard',
-	);
+}) => (
+	<NavLink
+		to={to}
+		className={({ isActive }) =>
+			cn(
+				'px-4 py-2 text-sm font-medium rounded-2xl transition-all duration-200',
+				isActive
+					? 'bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md'
+					: 'text-muted-foreground hover:text-foreground hover:bg-background/50 dark:hover:bg-neutral-600/50',
+			)
+		}
+	>
+		{children}
+	</NavLink>
+);
 
-	useEffect(() => {
-		setCurrentSection(location.replace(/^\/+/, '') || 'dashboard');
-	}, [location]);
+export default function AppLayout() {
+	const location = useLocation();
+	const navigate = useNavigate();
+	const currentOutlet = useOutlet();
+	// Derive current section directly from the URL path to avoid manual state management
+	const currentSection = location.pathname.replace(/^\/+/, '') || 'dashboard';
+
+	const handleNavigation = (page: string) => {
+		navigate(page);
+	};
 
 	const contentVariants = {
 		initial: { opacity: 0 },
@@ -30,16 +55,6 @@ export default function PrivateLayout({
 			opacity: 1,
 		},
 		exit: { opacity: 0 },
-	};
-
-	const pageTransition = {
-		duration: 0.2,
-		ease: easeInOut,
-	};
-
-	const handleNavigation = (page: string) => {
-		setLocation(page);
-		setCurrentSection(page.replace(/^\/+/, ''));
 	};
 
 	return (
@@ -84,42 +99,11 @@ export default function PrivateLayout({
 									'hidden md:flex items-center space-x-2 bg-muted/30 dark:bg-neutral-700/30 rounded-2xl p-1',
 								)}
 							>
-								<button
-									onClick={() => handleNavigation('/dashboard')}
-									className={cn(
-										`px-4 py-2 text-sm font-medium rounded-2xl transition-all duration-200 ${
-											currentSection === 'dashboard'
-												? 'bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md'
-												: 'text-muted-foreground hover:text-foreground hover:bg-background/50 dark:hover:bg-neutral-600/50'
-										}`,
-									)}
-								>
-									Dashboard
-								</button>
-								<button
-									onClick={() => handleNavigation('/progress-tracking')}
-									className={cn(
-										`px-4 py-2 text-sm font-medium rounded-2xl transition-all duration-200 ${
-											currentSection === 'progress-tracking'
-												? 'bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md'
-												: 'text-muted-foreground hover:text-foreground hover:bg-background/50 dark:hover:bg-neutral-600/50'
-										}`,
-									)}
-								>
+								<DesktopNavLink to='/dashboard'>Dashboard</DesktopNavLink>
+								<DesktopNavLink to='/progress-tracking'>
 									Progress
-								</button>
-								<button
-									onClick={() => handleNavigation('/my-routines')}
-									className={cn(
-										`px-4 py-2 text-sm font-medium rounded-2xl transition-all duration-200 ${
-											currentSection === 'my-routines'
-												? 'bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md'
-												: 'text-muted-foreground hover:text-foreground hover:bg-background/50 dark:hover:bg-neutral-600/50'
-										}`,
-									)}
-								>
-									My Routines
-								</button>
+								</DesktopNavLink>
+								<DesktopNavLink to='/my-routines'>My Routines</DesktopNavLink>
 							</div>
 
 							<div className={cn('flex items-center space-x-2')}>
@@ -131,7 +115,7 @@ export default function PrivateLayout({
 								<MobileNav
 									currentSection={currentSection}
 									handleNavigation={handleNavigation} // Pass handleNavigation as a prop
-									setCurrentSection={setCurrentSection}
+									setCurrentSection={() => {}}
 								/>
 							</div>
 						</div>
@@ -145,16 +129,14 @@ export default function PrivateLayout({
 			>
 				<AnimatePresence mode='wait'>
 					<motion.div
-						key={location} // re-animate on route change inside private
+						key={location.pathname} // re-animate on route change inside private
 						variants={contentVariants}
-						transition={pageTransition}
 						initial='initial'
 						animate='animate'
 						exit='exit'
+						transition={{ duration: 0.2, ease: easeInOut }}
 					>
-						{/* <div className='container mx-auto px-6 py-6 md:py-8 max-w-7xl'> */}
-						{children}
-						{/* </div> */}
+						{currentOutlet}
 					</motion.div>
 				</AnimatePresence>
 			</main>

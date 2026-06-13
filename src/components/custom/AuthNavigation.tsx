@@ -1,5 +1,5 @@
 import cn from 'clsx';
-import { Link } from 'wouter';
+import { Link } from 'react-router-dom';
 
 interface AuthNavigationProps {
 	textQuestion: string;
@@ -20,7 +20,7 @@ const AuthNavigation = ({
 		>
 			{textQuestion + ' '}
 			<Link
-				href={location}
+				to={location}
 				className={cn(
 					'text-primary text-green-600 dark:text-green-400 hover:underline font-medium',
 				)}

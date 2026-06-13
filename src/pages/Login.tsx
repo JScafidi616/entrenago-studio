@@ -4,15 +4,39 @@ import Input from '@/components/custom/AuthInputProps.tsx';
 import AuthNavigation from '@/components/custom/AuthNavigation.tsx';
 import AuthProviders from '@/components/custom/AuthProviders.tsx';
 import AuthSeparation from '@/components/custom/AuthSeparation.tsx';
-import { useAuthentication } from '@/lib/hooks/useAuthentication.ts';
-import { cn } from '@/lib/utils/utils.ts';
+import { useLogin } from '@/features/auth/hooks/useAuthentications';
+import { useOAuthSignIn } from '@/features/auth/hooks/useOAuthSignIn';
+import type { Provider } from '@supabase/supabase-js';
+import { cn } from '@/utils/utils';
+import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 
 export default function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const { showSuccess, handleOAuth, handleLogin, errorMsg, loading } =
-		useAuthentication();
+	const navigate = useNavigate();
+	const { mutate: login, isPending, error } = useLogin();
+	const { signInWithProvider } = useOAuthSignIn();
+
+	// Handles manual login with email and password
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		login(
+			{ email, password },
+			{
+				onSuccess: () => navigate('/dashboard', { replace: true }),
+			},
+		);
+	};
+
+	// Handles OAuth login with Google or Facebook
+	const handleOAuth = async ({ provider }: { provider: Provider }) => {
+		try {
+			await signInWithProvider(provider);
+		} catch (err) {
+			alert('Failed to sign in with Google. Please try again.');
+		}
+	};
 
 	return (
 		<div
@@ -30,11 +54,6 @@ export default function Login() {
 					title='Inicia sesión en EntrenaGo'
 					description='Bienvenido de nuevo, por favor inicia sesión'
 				/>
-				{showSuccess && (
-					<div className={cn('mb-4 p-2 bg-green-100 text-green-700 rounded')}>
-						¡Contraseña actualizada correctamente! Ahora puedes iniciar sesión.
-					</div>
-				)}
 
 				{/* Provider Auth Section */}
 				<div className='space-y-3'>
@@ -53,13 +72,7 @@ export default function Login() {
 				</div>
 				<AuthSeparation />
 
-				<form
-					onSubmit={(e) => {
-						e.preventDefault();
-						handleLogin({ email, password });
-					}}
-					className='space-y-4'
-				>
+				<form onSubmit={handleSubmit} className='space-y-4'>
 					{/* Email Section */}
 					<Input
 						label='Correo electrónico'
@@ -71,30 +84,6 @@ export default function Login() {
 						onChange={(e) => setEmail(e.target.value)}
 						required
 					/>
-
-					{/* <div>
-						<label
-							htmlFor='email'
-							className={cn(
-								'block text-sm mb-1 text-foreground dark:text-gray-300',
-							)}
-						>
-							Correo electrónico
-						</label>
-						<input
-							id='email'
-							type='email'
-							name='email'
-							autoComplete='email'
-							placeholder='Ingresa tu correo electrónico'
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-							required
-							className={cn(
-								'w-full px-4 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-white',
-							)}
-						/>
-					</div> */}
 
 					{/* Password Section */}
 					<Input
@@ -110,50 +99,16 @@ export default function Login() {
 						required
 					/>
 
-					{/* <div>
-						<div className={cn('flex justify-between items-center mb-1')}>
-							<label
-								htmlFor='password'
-								className='text-sm text-foreground dark:text-gray-300'
-							>
-								Contraseña
-							</label>
-							<div
-								className={cn(
-									'text-xs text-primary hover:underline text-green-600 dark:text-green-400',
-								)}
-							>
-								<Link
-									href='/forgot-password'
-									role='button'
-									className={cn(
-										'text-primary font-medium text-green-600 dark:text-green-400 hover:underline',
-									)}
-								>
-									¿Olvidaste tu contraseña?
-								</Link>
-							</div>
-						</div>
-						<input
-							id='password'
-							type='password'
-							autoComplete='current-password'
-							placeholder='Ingresa tu contraseña'
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							required
-							className={cn(
-								'w-full px-4 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-white',
-							)}
-						/>
-					</div> */}
-
-					{errorMsg && (
-						<p className={cn('text-sm text-destructive')}>{errorMsg}</p>
+					{error && (
+						<p className={cn('text-sm text-destructive')}>{error.message}</p>
 					)}
 
 					{/* Submit Button */}
-					<ButtonProps type='submit' title='Iniciar sesión' loading={loading}>
+					<ButtonProps
+						type='submit'
+						title='Iniciar sesión'
+						isPending={isPending}
+					>
 						Iniciar sesión
 					</ButtonProps>
 				</form>
@@ -161,7 +116,7 @@ export default function Login() {
 				{/* Navigation to Register */}
 				<AuthNavigation
 					textQuestion={'¿No tienes una cuenta?'}
-					location={'register'}
+					location={'/register'}
 					clickAction={'Crear cuenta'}
 				/>
 			</div>

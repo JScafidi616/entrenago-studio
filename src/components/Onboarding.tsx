@@ -1,6 +1,6 @@
-import { useOnboarding } from '@/lib/hooks/useOnboarding';
-import type { UseOnboardingProps } from '@/lib/types/onboarding';
-import { cn } from '@/lib/utils/utils';
+import { useOnboarding } from '@/features/onboarding/components/hooks/useOnboarding';
+import type { UseOnboardingProps } from '@/types/onboarding';
+import { cn } from '@/utils/utils';
 
 const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 	const {
