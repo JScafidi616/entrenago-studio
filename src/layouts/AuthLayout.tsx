@@ -1,6 +1,6 @@
 // src/layouts/PublicLayout.tsx
 import { ThemeToggle } from '@/components/custom/ThemeToggle.tsx';
-import { Outlet, useLocation, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
+import { useLocation, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
 import { AnimatePresence, easeInOut, motion } from 'motion/react';
 import { cn } from '@/utils/utils';
 

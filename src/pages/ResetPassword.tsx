@@ -2,7 +2,7 @@ import { cn } from '@/utils/utils';
 import { useResetPassword } from '@/features/auth/hooks/useAuthentications';
 import { useState, useEffect } from 'react';
 // import { Link, Navigate, useLocation } from 'wouter';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const ResetPassword = () => {
 	const [password, setPassword] = useState('');

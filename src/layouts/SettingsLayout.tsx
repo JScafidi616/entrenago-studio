@@ -1,10 +1,4 @@
-import {
-	Outlet,
-	useLocation,
-	NavLink,
-	Link,
-	useOutlet,
-} from 'react-router-dom';
+import { useLocation, NavLink, Link, useOutlet } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { useAuth } from '../context/AuthContext';
 

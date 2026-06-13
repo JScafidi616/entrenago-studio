@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase/supabase';
-import type { Provider, User } from '@supabase/supabase-js';
+import type { Provider } from '@supabase/supabase-js';
 
 // export type OAuthProvider = 'google' | 'github' | 'apple';
 

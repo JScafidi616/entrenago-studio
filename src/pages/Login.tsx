@@ -8,7 +8,7 @@ import { useLogin } from '@/features/auth/hooks/useAuthentications';
 import { useOAuthSignIn } from '@/features/auth/hooks/useOAuthSignIn';
 import type { Provider } from '@supabase/supabase-js';
 import { cn } from '@/utils/utils';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 export default function Login() {

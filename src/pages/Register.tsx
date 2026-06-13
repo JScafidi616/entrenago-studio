@@ -5,7 +5,7 @@ import AuthNavigation from '@/components/custom/AuthNavigation.tsx';
 import AuthProviders from '@/components/custom/AuthProviders.tsx';
 import AuthSeparation from '@/components/custom/AuthSeparation.tsx';
 import { useRegister } from '@/features/auth/hooks/useAuthentications';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import type { Provider } from '@supabase/supabase-js';
 import { useOAuthSignIn } from '@/features/auth/hooks/useOAuthSignIn';
@@ -19,7 +19,7 @@ export default function Register() {
 	const { signInWithProvider } = useOAuthSignIn();
 	const navigate = useNavigate();
 
-	const { mutate: register, isPending, error } = useRegister();
+	const { mutate: register, error } = useRegister();
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();

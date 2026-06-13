@@ -1,8 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress.tsx';
-import { supabase } from '@/lib/supabase/supabase';
-import { useEffect, useState } from 'react';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 

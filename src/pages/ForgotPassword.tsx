@@ -1,7 +1,6 @@
 import { cn } from '@/utils/utils';
-import { supabase } from '@/lib/supabase/supabase';
 import { useState } from 'react';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useForgotPassword } from '@/features/auth/hooks/useAuthentications';
 
 export const ForgotPassword = () => {

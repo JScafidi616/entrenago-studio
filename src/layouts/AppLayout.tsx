@@ -7,13 +7,7 @@ import { UserDropdown } from '@/components/custom/UserDropdown.tsx';
 import { cn } from '@/utils/utils';
 import { Dumbbell } from 'lucide-react';
 import { AnimatePresence, easeInOut, motion } from 'motion/react';
-import {
-	NavLink,
-	Outlet,
-	useLocation,
-	useNavigate,
-	useOutlet,
-} from 'react-router-dom'; //Oulet avoided to maintain animation
+import { NavLink, useLocation, useNavigate, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
 
 // Reusable Desktop Navigation Link Component
 const DesktopNavLink = ({

@@ -1,10 +1,8 @@
 import { Badge } from '@/components/ui/badge.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { supabase } from '@/lib/supabase/supabase';
+
 import { Activity, Clock, Dumbbell, Target, Zap } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 
 export const MyRoutines = () => {
 	const renderMyRoutines = () => (
