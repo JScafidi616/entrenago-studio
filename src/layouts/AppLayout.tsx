@@ -1,8 +1,8 @@
 // src/layouts/PrivateLayout.tsx
 
-import { BottomNav } from '@/components/custom/BottonNav.tsx';
-import { MobileNav } from '@/components/custom/MobileNav.tsx';
-import { ThemeToggle } from '@/components/custom/ThemeToggle.tsx';
+import { BottomNav } from '@/features/navigation/components/BottonNav';
+import { MobileNav } from '@/features/navigation/components/MobileNav';
+import { ThemeToggle } from '@/features/darkMode/components/ThemeToggle';
 import { UserDropdown } from '@/components/custom/UserDropdown.tsx';
 import { cn } from '@/utils/utils';
 import { Dumbbell } from 'lucide-react';

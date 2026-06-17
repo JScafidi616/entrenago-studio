@@ -1,9 +1,9 @@
-import ButtonProps from '@/components/custom/AuthButtonProps.tsx';
-import AuthCardTitle from '@/components/custom/AuthCardTitle.tsx';
-import Input from '@/components/custom/AuthInputProps.tsx';
-import AuthNavigation from '@/components/custom/AuthNavigation.tsx';
-import AuthProviders from '@/components/custom/AuthProviders.tsx';
-import AuthSeparation from '@/components/custom/AuthSeparation.tsx';
+import ButtonProps from '@/features/auth/components/AuthButtonProps';
+import AuthCardTitle from '@/features/auth/components/AuthCardTitle';
+import Input from '@/features/auth/components/AuthInputProps';
+import AuthNavigation from '@/features/auth/components/AuthNavigation';
+import AuthProviders from '@/features/auth/components/AuthProviders';
+import AuthSeparation from '@/features/auth/components/AuthSeparation';
 import { useRegister } from '@/features/auth/hooks/useAuthentications';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';

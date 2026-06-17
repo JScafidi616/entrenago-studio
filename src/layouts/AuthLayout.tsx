@@ -1,5 +1,5 @@
 // src/layouts/PublicLayout.tsx
-import { ThemeToggle } from '@/components/custom/ThemeToggle.tsx';
+import { ThemeToggle } from '@/features/darkMode/components/ThemeToggle';
 import { useLocation, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
 import { AnimatePresence, easeInOut, motion } from 'motion/react';
 import { cn } from '@/utils/utils';

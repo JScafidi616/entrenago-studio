@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import AuthButtonTest from '../components/custom/AuthButtonProps';
+import AuthButtonTest from '../features/auth/components/AuthButtonProps';
 
 const meta = {
 	title: 'Components/Button',
