@@ -3,7 +3,6 @@ import { supabase } from '@/lib/supabase/supabase';
 import { useEffect, useState } from 'react';
 
 export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
-	const [startAnimation, setStartAnimation] = useState(false);
 
 	const [step, setStep] = useState(1);
 	const [loading, setLoading] = useState(true);
@@ -13,15 +12,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 		goal: '',
 		userType: '',
 	});
-	const [isClosing, setIsClosing] = useState(false);
 
-	useEffect(() => {
-		const timeout = setTimeout(() => {
-			setStartAnimation(true);
-		}, 50);
-
-		return () => clearTimeout(timeout);
-	}, []);
 
 	useEffect(() => {
 		document.body.classList.add('overflow-hidden');
@@ -71,11 +62,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 			return;
 		}
 
-		setIsClosing(true);
-
-    setTimeout(() => {
-      onComplete();
-    }, 300);
+		onComplete();
 	};
 
 	return {
@@ -88,9 +75,6 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 		setFormData,
 		skipStep1,
 		setSkipStep1,
-		startAnimation,
-		setStartAnimation,
 		userId,
-		isClosing,
 	};
 }

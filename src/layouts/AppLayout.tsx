@@ -156,18 +156,19 @@ export default function AppLayout() {
 						initial='initial'
 						animate='animate'
 						exit='exit'
-						transition={{ duration: 0.2, ease: easeInOut }}
+						transition={{ duration: 0.3, ease: easeInOut }}
 					>
 						{/* Content */}
 						{currentOutlet}
 						{/* Modal de onboarding */}
-
-						{showOnboarding && user && (
-							<OnboardingModal
-								userId={user.id}
-								onComplete={() => setShowOnboarding(false)}
-							/>
-						)}
+						<AnimatePresence>
+							{showOnboarding && user && (
+								<OnboardingModal
+									userId={user.id}
+									onComplete={() => setShowOnboarding(false)}
+								/>
+							)}
+						</AnimatePresence>
 					</motion.div>
 				</AnimatePresence>
 			</main>

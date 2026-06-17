@@ -1,6 +1,7 @@
 import { useOnboarding } from '@/features/onboarding/hooks/useOnboarding';
 import type { UseOnboardingProps } from '@/types/onboarding';
 import { cn } from '@/utils/utils';
+import { motion } from 'motion/react';
 // import { useEffect } from 'react';
 
 const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
@@ -13,26 +14,28 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 		formData,
 		setFormData,
 		skipStep1,
-		isClosing,
 	} = useOnboarding({ userId, onComplete });
 
 	if (loading) return null;
 
 	return (
-		<div
+		<motion.div
 			className={cn(
-				`fixed inset-0 z-[9999] flex items-center justify-center bg-white/30 dark:bg-gray-800/30 transition-all duration-300 backdrop-blur-sm ${
-					isClosing
-						? 'opacity-0 pointer-events-none'
-						: 'backdrop-blur-sm opacity-100 duration-200'
-				}`,
+				'fixed inset-0 z-[9999] flex items-center justify-center bg-white/30 dark:bg-gray-800/30',
 			)}
+			initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+			animate={{ opacity: 1, backdropFilter: 'blur(4px)' }}
+			exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+			transition={{ duration: 0.25 }}
 		>
-			<div
+			<motion.div
 				className={cn(
-					'bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-md border  dark:bg-neutral-800 transition-all duration-300 transform animate-zoomFadeIn',
-					isClosing ? 'opacity-0 scale-95' : 'opacity-100 scale-100',
+					'bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-md border  dark:bg-neutral-800',
 				)}
+				initial={{ opacity: 0, scale: 0.95 }}
+				animate={{ opacity: 1, scale: 1 }}
+				exit={{ opacity: 0, scale: 0.95 }}
+				transition={{ duration: 0.25 }}
 			>
 				{/* Step 1 - Consulta el nombre del usuario si este no fue agregado */}
 				{!skipStep1 && step === 1 && (
@@ -139,8 +142,8 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 						</button>
 					</>
 				)}
-			</div>
-		</div>
+			</motion.div>
+		</motion.div>
 	);
 };
 
