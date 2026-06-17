@@ -1,10 +1,10 @@
-import OnboardingModal from '@/features/onboarding/components/Onboarding';
+// import OnboardingModal from '@/features/onboarding/components/Onboarding';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { cn } from '@/utils/utils';
-import { supabase } from '@/lib/supabase/supabase';
+// import { cn } from '@/utils/utils';
+// import { supabase } from '@/lib/supabase/supabase';
 import {
 	Activity,
 	Calendar,
@@ -16,8 +16,8 @@ import {
 	Zap,
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
+// import { useNavigate } from 'react-router-dom';
+// import { useAuth } from '@/context/AuthContext';
 
 // Workout template data (without dates - will be calculated dynamically)
 const weeklyRoutine = [
@@ -170,10 +170,9 @@ const generateWeekSchedule = () => {
 };
 
 export const Dashboard = () => {
-	const { user } = useAuth();
+	// const { user } = useAuth();
 	// Generate the week schedule dynamically (memoized to prevent recalculation)
 	const weeklyRoutine = useMemo(() => generateWeekSchedule(), []);
-	const [showOnboarding, setShowOnboarding] = useState(false);
 	const todayIndex = weeklyRoutine.findIndex((d) => d.isToday);
 	const [activeScrollIndex, setActiveScrollIndex] = useState(
 		todayIndex >= 0 ? todayIndex : 0,
@@ -196,7 +195,7 @@ export const Dashboard = () => {
 			container.scrollTo({ left: clampedScroll, behavior: 'smooth' });
 		}
 	}, []);
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 
 	// Auto-scroll to today on mount
 	useEffect(() => {
@@ -253,48 +252,6 @@ export const Dashboard = () => {
 		container.addEventListener('scroll', handleScroll, { passive: true });
 		return () => container.removeEventListener('scroll', handleScroll);
 	}, []);
-
-	// Check onboarding status on mount
-	useEffect(() => {
-		const checkSessionAndProfile = async () => {
-			const { data, error } = await supabase.auth.getSession();
-			const session = data.session;
-
-			if (error) {
-				console.error('Error al obtener la sesión:', error.message);
-			}
-			if (!session) {
-				navigate('/login');
-				return;
-			}
-
-			const { data: profile, error: profileError } = await supabase
-				.from('profiles')
-				.select('onboarded')
-				.eq('id', session.user.id)
-				.single();
-
-			if (profileError) {
-				console.error('Error al obtener perfil:', profileError.message);
-			}
-
-			setShowOnboarding(!profile?.onboarded);
-		};
-
-		checkSessionAndProfile();
-	});
-
-	// Lock body scroll when onboarding is open
-	useEffect(() => {
-		if (showOnboarding) {
-			document.body.style.overflow = 'hidden';
-		} else {
-			document.body.style.overflow = 'auto';
-		}
-		return () => {
-			document.body.style.overflow = 'auto';
-		};
-	}, [showOnboarding]);
 
 	return (
 		<>
@@ -779,23 +736,6 @@ export const Dashboard = () => {
 						</div>
 					</CardContent>
 				</Card>
-			</div>
-			{/* Modal de onboarding */}
-			<div
-				className={cn(
-					`fixed inset-0 z-50 flex items-center justify-center bg-white/30 dark:bg-gray-800/30 transition-all duration-300 ${
-						showOnboarding
-							? 'backdrop-blur-sm opacity-100 duration-300'
-							: 'backdrop-blur-0 opacity-0 pointer-events-none'
-					}`,
-				)}
-			>
-				{showOnboarding && user && (
-					<OnboardingModal
-						userId={user.id}
-						onComplete={() => setShowOnboarding(false)}
-					/>
-				)}
 			</div>
 		</>
 	);
