@@ -24,9 +24,9 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 				'fixed inset-0 z-[9999] flex items-center justify-center bg-white/30 dark:bg-gray-800/30',
 			)}
 			initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-			animate={{ opacity: 1, backdropFilter: 'blur(4px)' }}
+			animate={{ opacity: 1, backdropFilter: 'blur(8px)' }}
 			exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-			transition={{ duration: 0.25 }}
+			transition={{ duration: 0.25, ease: 'easeInOut' }}
 		>
 			<motion.div
 				className={cn(
@@ -35,7 +35,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 				initial={{ opacity: 0, scale: 0.95 }}
 				animate={{ opacity: 1, scale: 1 }}
 				exit={{ opacity: 0, scale: 0.95 }}
-				transition={{ duration: 0.25 }}
+				transition={{ duration: 0.2 }}
 			>
 				{/* Step 1 - Consulta el nombre del usuario si este no fue agregado */}
 				{!skipStep1 && step === 1 && (
