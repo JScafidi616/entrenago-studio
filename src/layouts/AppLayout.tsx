@@ -8,6 +8,10 @@ import { cn } from '@/utils/utils';
 import { Dumbbell } from 'lucide-react';
 import { AnimatePresence, easeInOut, motion } from 'motion/react';
 import { NavLink, useLocation, useNavigate, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabase/supabase';
+import OnboardingModal from '../features/onboarding/components/Onboarding';
 
 // Reusable Desktop Navigation Link Component
 const DesktopNavLink = ({
@@ -38,6 +42,9 @@ export default function AppLayout() {
 	const currentOutlet = useOutlet();
 	// Derive current section directly from the URL path to avoid manual state management
 	const currentSection = location.pathname.replace(/^\/+/, '') || 'dashboard';
+	//
+	const { user } = useAuth();
+	const [showOnboarding, setShowOnboarding] = useState(false);
 
 	const handleNavigation = (page: string) => {
 		navigate(page);
@@ -50,6 +57,27 @@ export default function AppLayout() {
 		},
 		exit: { opacity: 0 },
 	};
+
+	useEffect(() => {
+		const checkSessionAndProfile = async () => {
+			if (!user) return;
+
+			const { data: profile, error } = await supabase
+				.from('profiles')
+				.select('onboarded')
+				.eq('id', user.id)
+				.single();
+
+			if (error) {
+				console.error(error);
+				return;
+			}
+
+			setShowOnboarding(!profile?.onboarded);
+		};
+
+		checkSessionAndProfile();
+	}, [user]);
 
 	return (
 		<div
@@ -130,7 +158,16 @@ export default function AppLayout() {
 						exit='exit'
 						transition={{ duration: 0.2, ease: easeInOut }}
 					>
+						{/* Content */}
 						{currentOutlet}
+						{/* Modal de onboarding */}
+
+						{showOnboarding && user && (
+							<OnboardingModal
+								userId={user.id}
+								onComplete={() => setShowOnboarding(false)}
+							/>
+						)}
 					</motion.div>
 				</AnimatePresence>
 			</main>
