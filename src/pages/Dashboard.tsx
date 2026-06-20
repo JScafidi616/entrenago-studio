@@ -521,8 +521,6 @@ export const Dashboard = () => {
 						</CardTitle>
 					</CardHeader>
 					<CardContent className='h-auto md:h-75'>
-						{'//md:h-[300px] '}
-
 						{/* Mobile: Horizontal Scroll with auto-focus on today */}
 						<>
 							<div
