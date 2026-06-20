@@ -57,7 +57,7 @@ const weeklyRoutine = [
 		duration: 50,
 	},
 	{
-		workout: 'HIIT Cardio',
+		workout: 'HIT Cardio',
 		category: 'cardio',
 		icon: Zap,
 		exercises: 4,
@@ -179,78 +179,88 @@ export const Dashboard = () => {
 	);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 	const hasScrolledRef = useRef(false);
-	const scrollToCard = useCallback((index: number) => {
+
+	// function to scroll to a specific card by index with optional smooth behavior
+	function scrollToCard(index: number, behavior: ScrollBehavior = 'smooth') {
 		const container = scrollContainerRef.current;
+
 		if (!container) return;
 
 		const cards = container.querySelectorAll<HTMLElement>('[data-day-card]');
-		if (cards[index]) {
-			const card = cards[index];
-			const containerWidth = container.offsetWidth;
-			const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-			// Desired scroll: center the card, but clamp so we never show empty space
-			const idealScroll = cardCenter - containerWidth / 2;
-			const maxScroll = container.scrollWidth - containerWidth;
-			const clampedScroll = Math.max(0, Math.min(idealScroll, maxScroll));
-			container.scrollTo({ left: clampedScroll, behavior: 'smooth' });
+
+		const card = cards[index];
+
+		if (!card) return;
+
+		const target =
+			card.offsetLeft - container.clientWidth / 2 + card.offsetWidth / 2;
+
+		const maxScroll = container.scrollWidth - container.clientWidth;
+
+		container.scrollTo({
+			left: Math.max(0, Math.min(target, maxScroll)),
+			behavior,
+		});
+	}
+
+	useEffect(() => {
+		if (todayIndex < 0 || hasScrolledRef.current) {
+			return;
 		}
-	}, []);
-	// const navigate = useNavigate();
+
+		const timer = setTimeout(() => {
+			scrollToCard(todayIndex);
+			hasScrolledRef.current = true;
+			setActiveScrollIndex(todayIndex);
+		}, 100);
+
+		return () => clearTimeout(timer);
+	}, [todayIndex]);
 
 	// Auto-scroll to today on mount
 	useEffect(() => {
-		if (
-			todayIndex >= 0 &&
-			scrollContainerRef.current &&
-			!hasScrolledRef.current
-		) {
-			const timer = setTimeout(() => {
-				const container = scrollContainerRef.current;
-				if (!container) return;
-
-				const cards =
-					container.querySelectorAll<HTMLElement>('[data-day-card]');
-				const todayCard = cards[todayIndex];
-
-				if (todayCard) {
-					todayCard.scrollIntoView({
-						behavior: 'auto', // Instant on first load
-						block: 'nearest',
-						inline: 'center',
-					});
-					hasScrolledRef.current = true;
-				}
-			}, 150);
-
-			return () => clearTimeout(timer);
-		}
-	}, [todayIndex]);
-
-	// Track active card on scroll
-	useEffect(() => {
 		const container = scrollContainerRef.current;
+
 		if (!container) return;
 
+		let frame = 0;
+
 		const handleScroll = () => {
-			const cards = container.querySelectorAll<HTMLElement>('[data-day-card]');
-			const containerCenter = container.scrollLeft + container.offsetWidth / 2;
-			let closestIndex = 0;
-			let closestDistance = Infinity;
+			cancelAnimationFrame(frame);
 
-			cards.forEach((card, index) => {
-				const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-				const distance = Math.abs(containerCenter - cardCenter);
-				if (distance < closestDistance) {
-					closestDistance = distance;
-					closestIndex = index;
-				}
+			frame = requestAnimationFrame(() => {
+				const cards =
+					container.querySelectorAll<HTMLElement>('[data-day-card]');
+
+				const center = container.scrollLeft + container.clientWidth / 2;
+
+				let closest = 0;
+				let distance = Infinity;
+
+				cards.forEach((card, index) => {
+					const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+
+					const d = Math.abs(center - cardCenter);
+
+					if (d < distance) {
+						distance = d;
+						closest = index;
+					}
+				});
+
+				setActiveScrollIndex(closest);
 			});
-
-			setActiveScrollIndex(closestIndex);
 		};
 
 		container.addEventListener('scroll', handleScroll, { passive: true });
-		return () => container.removeEventListener('scroll', handleScroll);
+
+		handleScroll();
+
+		return () => {
+			cancelAnimationFrame(frame);
+
+			container.removeEventListener('scroll', handleScroll);
+		};
 	}, []);
 
 	return (
@@ -504,45 +514,45 @@ export const Dashboard = () => {
 				</div>
 
 				{/* Weekly Schedule - Mobile Optimized with Horizontal Scroll */}
-				<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl'>
+				<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
 					<CardHeader className='pb-3 md:pb-6'>
 						<CardTitle className='flex items-center text-foreground text-lg md:text-xl'>
 							<Calendar className='h-5 w-5 mr-2' />
 							This Week's Schedule
 						</CardTitle>
 					</CardHeader>
-					<CardContent>
+					<CardContent className='h-auto md:h-[300px]'>
 						{/* Mobile: Horizontal Scroll with auto-focus on today */}
-						<div className='md:hidden'>
+						<>
 							<div
 								ref={scrollContainerRef}
-								className='flex gap-3 overflow-x-auto py-3 scrollbar-hide snap-x snap-mandatory px-1'
+								className='flex px-2 gap-3 overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain py-3 scrollbar-hide snap-x snap-proximity'
 							>
 								{weeklyRoutine.map((day, index) => (
 									<div
 										key={index}
 										data-day-card
-										className='flex-shrink-0 w-36 snap-center'
+										className='flex-none md:flex-1 w-36 snap-center '
 									>
 										<Card
 											className={`relative transition-all duration-300 h-full ${
 												day.isToday
-													? 'ring-2 ring-cyan-400 bg-gradient-to-br from-cyan-50 to-green-50 dark:from-cyan-950/40 dark:to-green-950/40 shadow-lg shadow-cyan-500/10'
+													? 'ring-cyan-400 bg-linear-to-br from-cyan-50 to-green-50 dark:from-cyan-950/30 dark:to-green-950/30 shadow-lg'
 													: ''
 											} ${
 												day.completed
-													? 'bg-green-50 border-green-200 dark:bg-green-950/30 dark:border-green-800/60'
+													? ' ring-green-400 bg-green-50 border-green-200 dark:bg-green-950/30 dark:border-green-800/60'
 													: 'border-border/40 bg-card/80 dark:bg-neutral-800/60'
 											} ${
-												activeScrollIndex === index && !day.isToday
-													? 'scale-[1.02] shadow-md'
+												activeScrollIndex === index
+													? 'scale-[1.05] shadow-md ring-2'
 													: ''
 											} rounded-2xl`}
 										>
-											<CardContent className='p-4'>
-												<div className='text-center space-y-2.5'>
-													<div className='flex flex-col items-center gap-0.5'>
-														<p className='text-xs font-medium text-muted-foreground uppercase tracking-wider'>
+											<CardContent className='p-6'>
+												<div className='text-center space-y-2'>
+													<div className='flex flex-col items-center'>
+														<p className='text-xs font-medium text-foreground uppercase tracking-wider'>
 															{day.day}
 														</p>
 														<p className='text-3xl font-bold text-foreground leading-none'>
@@ -593,13 +603,13 @@ export const Dashboard = () => {
 															{day.completed && (
 																<Badge
 																	variant='secondary'
-																	className='w-full text-xs bg-green-900/50 text-green-300 border-green-700/50 py-1'
+																	className='w-full justify-center text-xs bg-green-900/50 text-green-300 border-green-700/50 py-1'
 																>
-																	Done
+																	✓ Done
 																</Badge>
 															)}
 															{day.isToday && (
-																<Badge className='w-full text-xs bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md shadow-cyan-500/20 py-1'>
+																<Badge className='w-full justify-center text-xs bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md shadow-cyan-500/20 py-1'>
 																	Today
 																</Badge>
 															)}
@@ -640,7 +650,7 @@ export const Dashboard = () => {
 											className={`rounded-full transition-all duration-300 ${
 												activeScrollIndex === index
 													? day.isToday
-														? 'h-2.5 w-6 bg-gradient-to-r from-cyan-500 to-green-400 shadow-sm shadow-cyan-500/30'
+														? 'h-2.5 w-6 bg-gradient-to-r from-cyan-500 to-green-400 shadow-sm shadow-cyan-500/30 '
 														: day.completed
 															? 'h-2.5 w-6 bg-green-500'
 															: 'h-2.5 w-6 bg-foreground/70'
@@ -654,86 +664,7 @@ export const Dashboard = () => {
 									))}
 								</div>
 							</div>
-						</div>
-
-						{/* Desktop: Grid Layout */}
-						<div className='hidden md:grid md:grid-cols-7 gap-3'>
-							{weeklyRoutine.map((day, index) => (
-								<Card
-									key={index}
-									className={`relative transition-all duration-200 ${
-										day.isToday
-											? 'ring-2 ring-cyan-500 bg-gradient-to-br from-cyan-50 to-green-50 dark:from-cyan-950/30 dark:to-green-950/30 shadow-lg'
-											: ''
-									} ${
-										day.completed
-											? 'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800'
-											: 'border-border/50 bg-card/30'
-									} rounded-2xl`}
-								>
-									<CardContent className='p-4'>
-										<div className='text-center space-y-2'>
-											<div className='flex flex-col items-center'>
-												<p className='text-sm font-medium text-foreground'>
-													{day.day}
-												</p>
-												<p className='text-2xl font-bold text-foreground'>
-													{day.date}
-												</p>
-											</div>
-
-											{day.workout ? (
-												<div className='space-y-2'>
-													<div className='flex flex-col items-center space-y-1'>
-														{day.icon && (
-															<day.icon className='h-4 w-4 text-cyan-500' />
-														)}
-														<p className='text-sm font-semibold text-center text-foreground leading-tight'>
-															{day.workout}
-														</p>
-													</div>
-													<div className='text-xs text-muted-foreground space-y-1'>
-														<div className='flex items-center justify-center'>
-															<Dumbbell className='h-3 w-3 mr-1' />
-															<span>{day.exercises}</span>
-														</div>
-														<div className='flex items-center justify-center'>
-															<Clock className='h-3 w-3 mr-1' />
-															<span>{day.duration}m</span>
-														</div>
-													</div>
-													{day.completed && (
-														<Badge
-															variant='secondary'
-															className='w-full text-xs bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-200 py-0.5'
-														>
-															✓
-														</Badge>
-													)}
-													{day.isToday && (
-														<Badge className='w-full text-xs bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md py-0.5'>
-															Today
-														</Badge>
-													)}
-												</div>
-											) : (
-												<div className='text-center'>
-													<p className='text-xs text-muted-foreground'>Rest</p>
-													<div className='h-8 flex items-center justify-center'>
-														<Badge
-															variant='outline'
-															className='border-border/50 text-muted-foreground text-xs py-0.5'
-														>
-															Rest
-														</Badge>
-													</div>
-												</div>
-											)}
-										</div>
-									</CardContent>
-								</Card>
-							))}
-						</div>
+						</>
 					</CardContent>
 				</Card>
 			</div>
