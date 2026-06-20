@@ -531,22 +531,31 @@ export const Dashboard = () => {
 									<div
 										key={index}
 										data-day-card
-										className='flex-none md:flex-1 w-36 snap-center '
+										className='flex-none md:flex-1 w-36 snap-center pb-3'
 									>
 										<Card
 											className={`relative transition-all duration-300 h-full ${
 												day.isToday
-													? 'ring-cyan-400 bg-linear-to-br from-cyan-50 to-green-50 dark:from-cyan-950/30 dark:to-green-950/30 shadow-lg'
+													? 'ring-cyan-400 bg-linear-to-br from-cyan-300/30 to-green-300/30 border-cyan-300 dark:from-cyan-950/40 dark:to-green-950/40 dark:border-cyan-800/60 '
 													: ''
 											} ${
 												day.completed
-													? ' ring-green-400 bg-green-50 border-green-200 dark:bg-green-950/30 dark:border-green-800/60'
+													? 'ring-green-400 bg-linear-to-br from-lime-300/30 to-green-300/30 border-green-300 dark:from-lime-950/40 dark:to-green-950/40 dark:border-green-800/60 '
 													: 'border-border/40 bg-card/80 dark:bg-neutral-800/60'
-											} ${
+											}	${
 												activeScrollIndex === index
 													? 'scale-[1.05] shadow-md ring-2'
 													: ''
-											} rounded-2xl`}
+											} ${
+												activeScrollIndex === index && day.isToday
+													? 'from-cyan-500/20 to-green-500/20 dark:from-cyan-900/30 dark:to-green-900/50 ring-cyan-300'
+													: ''
+											} ${
+												activeScrollIndex === index && day.completed
+													? 'from-lime-400/20 to-green-400/20 dark:from-lime-900/30 dark:to-green-900/50 ring-green-400/90'
+													: ''
+											}
+													rounded-2xl shadow-lg`}
 										>
 											<CardContent className='p-6'>
 												<div className='text-center space-y-2'>
@@ -634,7 +643,8 @@ export const Dashboard = () => {
 									</div>
 								))}
 							</div>
-
+						</>
+						<>
 							{/* Interactive scroll indicator dots */}
 							<div className='flex justify-center mt-4 pb-1'>
 								<div className='flex items-center gap-2 bg-muted/90 dark:bg-neutral-800/80 rounded-full px-3 py-2'>
