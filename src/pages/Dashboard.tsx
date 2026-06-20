@@ -269,7 +269,7 @@ export const Dashboard = () => {
 			<div className='space-y-6 md:space-y-8 pb-12 md:pb-8 px-2'>
 				{/* Mobile Today's Workout - Priority on mobile */}
 				<div className='block md:hidden'>
-					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl'>
+					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
 						<CardHeader className='pb-3'>
 							<CardTitle className='flex items-center justify-between text-foreground text-lg'>
 								<div className='flex items-center space-x-2'>
@@ -323,7 +323,7 @@ export const Dashboard = () => {
 
 							<Button
 								// onClick={() => setIsWorkoutModalOpen(true)}
-								className='w-full bg-gradient-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white font-semibold py-3 shadow-lg hover:shadow-xl transition-all duration-200'
+								className='w-full bg-linear-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white font-semibold py-3 shadow-lg hover:shadow-xl transition-all duration-200'
 								size='lg'
 							>
 								<Play className='h-5 w-5 mr-2' />
@@ -335,7 +335,7 @@ export const Dashboard = () => {
 
 				{/* Header Stats - Responsive Grid */}
 				<div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 px-2'>
-					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'>
+					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'>
 						<CardContent className='p-4 md:p-6'>
 							<div className='flex items-center space-x-3'>
 								<div className='p-2 bg-orange-100 dark:bg-orange-900/30 rounded-full'>
@@ -352,7 +352,7 @@ export const Dashboard = () => {
 							</div>
 						</CardContent>
 					</Card>
-					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'>
+					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'>
 						<CardContent className='p-4 md:p-6'>
 							<div className='flex items-center space-x-3'>
 								<div className='p-2 bg-blue-100 dark:bg-blue-900/30 rounded-full'>
@@ -369,7 +369,7 @@ export const Dashboard = () => {
 							</div>
 						</CardContent>
 					</Card>
-					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'>
+					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'>
 						<CardContent className='p-4 md:p-6'>
 							<div className='flex items-center space-x-3'>
 								<div className='p-2 bg-green-100 dark:bg-green-900/30 rounded-full'>
@@ -386,7 +386,7 @@ export const Dashboard = () => {
 							</div>
 						</CardContent>
 					</Card>
-					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'>
+					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'>
 						<CardContent className='p-4 md:p-6'>
 							<div className='flex items-center space-x-3'>
 								<div className='p-2 bg-purple-100 dark:bg-purple-900/30 rounded-full'>
@@ -409,7 +409,7 @@ export const Dashboard = () => {
 				<div className='hidden md:grid md:grid-cols-3 gap-6'>
 					{/* Today's Workout - Desktop */}
 					<div className='md:col-span-2'>
-						<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl'>
+						<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
 							<CardHeader>
 								<CardTitle className='flex items-center justify-between text-foreground'>
 									<span>Today's Workout</span>
@@ -456,7 +456,7 @@ export const Dashboard = () => {
 
 								<Button
 									// onClick={() => setIsWorkoutModalOpen(true)}
-									className='w-full bg-gradient-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white font-semibold py-3 shadow-lg hover:shadow-xl transition-all duration-200'
+									className='w-full bg-linear-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white font-semibold py-3 shadow-lg hover:shadow-xl transition-all duration-200'
 									size='lg'
 								>
 									<Play className='h-5 w-5 mr-2' />
@@ -465,10 +465,9 @@ export const Dashboard = () => {
 							</CardContent>
 						</Card>
 					</div>
-
 					{/* Weekly Progress - Desktop */}
 					<div>
-						<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl'>
+						<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
 							<CardHeader>
 								<CardTitle className='text-foreground'>
 									Weekly Progress
@@ -492,7 +491,7 @@ export const Dashboard = () => {
 
 				{/* Mobile Weekly Progress */}
 				<div className='block md:hidden'>
-					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl'>
+					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
 						<CardHeader className='pb-3'>
 							<CardTitle className='text-foreground text-lg'>
 								Weekly Progress
@@ -521,7 +520,9 @@ export const Dashboard = () => {
 							This Week's Schedule
 						</CardTitle>
 					</CardHeader>
-					<CardContent className='h-auto md:h-[300px]'>
+					<CardContent className='h-auto md:h-75'>
+						{'//md:h-[300px] '}
+
 						{/* Mobile: Horizontal Scroll with auto-focus on today */}
 						<>
 							<div
@@ -609,7 +610,7 @@ export const Dashboard = () => {
 																</Badge>
 															)}
 															{day.isToday && (
-																<Badge className='w-full justify-center text-xs bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md shadow-cyan-500/20 py-1'>
+																<Badge className='w-full justify-center text-xs bg-linear-to-r from-cyan-500 to-green-400 text-white shadow-md shadow-cyan-500/20 py-1'>
 																	Today
 																</Badge>
 															)}
@@ -650,7 +651,7 @@ export const Dashboard = () => {
 											className={`rounded-full transition-all duration-300 ${
 												activeScrollIndex === index
 													? day.isToday
-														? 'h-2.5 w-6 bg-gradient-to-r from-cyan-500 to-green-400 shadow-sm shadow-cyan-500/30 '
+														? 'h-2.5 w-6 bg-linear-to-r from-cyan-500 to-green-400 shadow-sm shadow-cyan-500/30 '
 														: day.completed
 															? 'h-2.5 w-6 bg-green-500'
 															: 'h-2.5 w-6 bg-foreground/70'
