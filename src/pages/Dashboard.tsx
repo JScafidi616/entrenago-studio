@@ -12,6 +12,7 @@ import {
 	Clock,
 	Dumbbell,
 	Flame,
+	Indent,
 	Play,
 	Target,
 	Zap,
@@ -559,6 +560,7 @@ export const Dashboard = () => {
 										data-day-card
 										onClick={() => {
 											setActiveScrollIndex(index);
+											scrollToCard(index);
 										}}
 										className={cn('flex-none md:flex-1 w-36 snap-center pb-3')}
 									>
