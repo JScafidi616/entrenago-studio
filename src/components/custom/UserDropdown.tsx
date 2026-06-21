@@ -9,11 +9,11 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useAuthentication } from '@/lib/hooks/useAuthentication.ts';
+import { useAuth } from '@/context/AuthContext';
 import { LogOut, Settings, UserCircle } from 'lucide-react';
 
-export function UserDropdown() {
-	const { user, handleLogout } = useAuthentication();
+export const UserDropdown = () => {
+	const { user, signOut } = useAuth();
 
 	const handleProfileClick = () => {
 		console.log('Navigate to Profile');
@@ -102,7 +102,7 @@ export function UserDropdown() {
 				<DropdownMenuSeparator className='bg-border/50' />
 
 				<DropdownMenuItem
-					onClick={handleLogout}
+					onClick={() => signOut()}
 					className='flex items-center space-x-3 px-3 py-2 cursor-pointer hover:bg-red-50 dark:hover:bg-red-950/30 rounded-xl mx-1 transition-colors duration-200 text-red-600 dark:text-red-400'
 				>
 					<LogOut className='h-4 w-4' />
@@ -111,4 +111,4 @@ export function UserDropdown() {
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);
-}
+};

@@ -1,59 +1,10 @@
 import { Badge } from '@/components/ui/badge.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { supabase } from '@/supabase/client.ts';
+
 import { Activity, Clock, Dumbbell, Target, Zap } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useLocation } from 'wouter';
 
-export default function Dashboard() {
-	const [, setLocation] = useLocation();
-	const [showOnboarding, setShowOnboarding] = useState(false);
-	const [isLoading, setIsLoading] = useState(true);
-
-	useEffect(() => {
-		const checkSessionAndProfile = async () => {
-			const { data, error } = await supabase.auth.getSession();
-			const session = data.session;
-
-			if (error) {
-				console.error('Error al obtener la sesión:', error.message);
-			}
-			if (!session) {
-				setLocation('/login');
-				return;
-			}
-
-			const { data: profile, error: profileError } = await supabase
-				.from('profiles')
-				.select('onboarded')
-				.eq('id', session.user.id)
-				.single();
-
-			if (profileError) {
-				console.error('Error al obtener perfil:', profileError.message);
-			}
-
-			setShowOnboarding(!profile?.onboarded);
-			setIsLoading(false);
-		};
-
-		checkSessionAndProfile();
-	}, [setLocation]);
-
-	useEffect(() => {
-		if (showOnboarding) {
-			document.body.style.overflow = 'hidden';
-		} else {
-			document.body.style.overflow = 'auto';
-		}
-		return () => {
-			document.body.style.overflow = 'auto';
-		};
-	}, [showOnboarding]);
-
-	if (isLoading) return null; // También podrías renderizar un spinner
-
+export const MyRoutines = () => {
 	const renderMyRoutines = () => (
 		<div className='space-y-6 md:space-y-8 pb-24 md:pb-8 px-2'>
 			<div className='flex flex-col md:flex-row md:items-center justify-between space-y-3 md:space-y-0'>
@@ -159,4 +110,4 @@ export default function Dashboard() {
 			{renderMyRoutines()}
 		</>
 	);
-}
+};

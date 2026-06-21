@@ -1,13 +1,12 @@
 // src/layouts/PublicLayout.tsx
-import { ThemeToggle } from '@/components/custom/ThemeToggle.tsx';
+import { ThemeToggle } from '@/features/darkMode/components/ThemeToggle';
+import { useLocation, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
 import { AnimatePresence, easeInOut, motion } from 'motion/react';
-import { cn } from '../lib/utils';
+import { cn } from '@/utils/utils';
 
-export default function PublicLayout({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
+export const AuthLayout = () => {
+	const location = useLocation();
+	const currentOutlet = useOutlet();
 	const contentVariants = {
 		initial: { opacity: 0 },
 		animate: {
@@ -16,13 +15,9 @@ export default function PublicLayout({
 		exit: { opacity: 0 },
 	};
 
-	const pageTransition = {
-		duration: 0.3,
-		ease: easeInOut,
-	};
-
 	return (
 		<>
+			{/* Simple Logo/Brand */}
 			<span
 				className={cn(
 					'fixed top-4 right-4 px-3 py-2 rounded border dark:border-gray-700 border-gray-300 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white shadow transition-colors z-50',
@@ -31,19 +26,20 @@ export default function PublicLayout({
 				<ThemeToggle />
 			</span>
 			<div className={cn('bg-gray-100 dark:bg-neutral-900')}>
+				{/* AnimatePresence handles the exit animation of the old page */}
 				<AnimatePresence mode='wait'>
 					<motion.div
-						key={`page-${location}`} // re-animate on route change inside private
+						key={location.pathname} // re-animate on route change inside private
 						variants={contentVariants}
-						transition={pageTransition}
 						initial='initial'
 						animate='animate'
 						exit='exit'
+						transition={{ duration: 0.2, ease: easeInOut }}
 					>
-						{children}
+						{currentOutlet}
 					</motion.div>
 				</AnimatePresence>
 			</div>
 		</>
 	);
-}
+};

@@ -1,9 +1,8 @@
-import type { FormData, UseOnboardingProps } from '@/lib/types/onboarding';
-import { supabase } from '@/supabase/client';
+import type { FormData, UseOnboardingProps } from '@/types/onboarding';
+import { supabase } from '@/lib/supabase/supabase';
 import { useEffect, useState } from 'react';
 
 export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
-	const [startAnimation, setStartAnimation] = useState(false);
 
 	const [step, setStep] = useState(1);
 	const [loading, setLoading] = useState(true);
@@ -14,9 +13,16 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 		userType: '',
 	});
 
+
 	useEffect(() => {
-		setTimeout(() => setStartAnimation(true), 50);
 		document.body.classList.add('overflow-hidden');
+
+		return () => {
+			document.body.classList.remove('overflow-hidden');
+		};
+	}, []);
+		
+	useEffect(() => {
 		const fetchProfileName = async () => {
 			const { data } = await supabase
 				.from('profiles')
@@ -31,9 +37,6 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 			setLoading(false); // Siempre quitar el loading después del fetch
 		};
 		fetchProfileName();
-		return () => {
-			document.body.classList.remove('overflow-hidden');
-		};
 	}, [userId]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,15 +47,20 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	};
 
 	const handleSubmit = async () => {
-		await supabase
-			.from('profiles')
-			.update({
-				full_name: formData.full_name,
-				goal: formData.goal,
-				user_type: formData.userType,
-				onboarded: true,
-			})
-			.eq('id', userId);
+		const { error } = await supabase
+		.from('profiles')
+		.update({
+			full_name: formData.full_name,
+			goal: formData.goal,
+			user_type: formData.userType,
+			onboarded: true,
+		})
+		.eq('id', userId);
+
+		if (error) {
+			console.error(error);
+			return;
+		}
 
 		onComplete();
 	};
@@ -67,8 +75,6 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 		setFormData,
 		skipStep1,
 		setSkipStep1,
-		startAnimation,
-		setStartAnimation,
 		userId,
 	};
 }

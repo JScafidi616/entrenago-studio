@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import '../App.css';
-import AuthButtonTest from '../components/custom/AuthButtonProps';
-import '../index.css';
+import AuthButtonTest from '../features/auth/components/AuthButtonProps';
 
 const meta = {
 	title: 'Components/Button',
@@ -21,7 +19,7 @@ const meta = {
 			control: { type: 'text' },
 			description: 'Button content',
 		},
-		loading: {
+		isPending: {
 			control: { type: 'boolean' },
 			description: 'Shows loading state with "Cargando..." text',
 		},
@@ -37,7 +35,7 @@ const meta = {
 			options: ['button', 'submit', 'reset'],
 			description: 'Button type attribute',
 		},
-	},
+	} as any,
 } satisfies Meta<typeof AuthButtonTest>;
 
 export default meta;
@@ -54,7 +52,7 @@ export const Default: Story = {
 export const Loading: Story = {
 	args: {
 		children: 'Submit',
-		loading: true,
+		isPending: true,
 	},
 };
 
@@ -104,7 +102,7 @@ export const InForm: Story = {
 	render: () => (
 		<div className='space-y-4 w-64'>
 			<AuthButtonTest>Primary Action</AuthButtonTest>
-			<AuthButtonTest loading>Loading Action</AuthButtonTest>
+			<AuthButtonTest isPending>Loading Action</AuthButtonTest>
 			<AuthButtonTest disabled>Disabled Action</AuthButtonTest>
 		</div>
 	),

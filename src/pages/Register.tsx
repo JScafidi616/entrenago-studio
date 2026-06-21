@@ -1,15 +1,78 @@
-import ButtonProps from '@/components/custom/AuthButtonProps.tsx';
-import AuthCardTitle from '@/components/custom/AuthCardTitle.tsx';
-import Input from '@/components/custom/AuthInputProps.tsx';
-import AuthNavigation from '@/components/custom/AuthNavigation.tsx';
-import AuthProviders from '@/components/custom/AuthProviders.tsx';
-import AuthSeparation from '@/components/custom/AuthSeparation.tsx';
-import { useAuthentication } from '@/lib/hooks/useAuthentication.ts';
-import { cn } from '@/lib/utils/utils.ts';
+import ButtonProps from '@/features/auth/components/AuthButtonProps';
+import AuthCardTitle from '@/features/auth/components/AuthCardTitle';
+import Input from '@/features/auth/components/AuthInputProps';
+import AuthNavigation from '@/features/auth/components/AuthNavigation';
+import AuthProviders from '@/features/auth/components/AuthProviders';
+import AuthSeparation from '@/features/auth/components/AuthSeparation';
+import { useRegister } from '@/features/auth/hooks/useAuthentications';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import type { Provider } from '@supabase/supabase-js';
+import { useOAuthSignIn } from '@/features/auth/hooks/useOAuthSignIn';
+import { cn } from '@/utils/utils';
 
 export default function Register() {
-	const { handleOAuth, handleRegister, formData, handleChange, errorMsg } =
-		useAuthentication();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+	const [isSuccess, setIsSuccess] = useState(false);
+	const { signInWithProvider } = useOAuthSignIn();
+	const navigate = useNavigate();
+
+	const { mutate: register, error } = useRegister();
+
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		if (password !== confirmPassword) {
+			alert('Passwords do not match');
+			return;
+		}
+
+		register(
+			{ email, password },
+			{
+				onSuccess: () => {
+					setIsSuccess(true);
+					// Optional: Auto-redirect to login after a few seconds
+					setTimeout(() => navigate('/login'), 3000);
+				},
+			},
+		);
+	};
+	// Handles OAuth login with Google or Facebook
+	const handleOAuth = async ({ provider }: { provider: Provider }) => {
+		try {
+			await signInWithProvider(provider);
+		} catch (err) {
+			alert('Failed to sign in with Google. Please try again.');
+		}
+	};
+	if (isSuccess) {
+		return (
+			<div className='text-center space-y-4'>
+				<div className='mx-auto w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center'>
+					<svg
+						className='w-6 h-6'
+						fill='none'
+						stroke='currentColor'
+						viewBox='0 0 24 24'
+					>
+						<path
+							strokeLinecap='round'
+							strokeLinejoin='round'
+							strokeWidth={2}
+							d='M5 13l4 4L19 7'
+						/>
+					</svg>
+				</div>
+				<h2 className='text-2xl font-bold'>Check your email</h2>
+				<p className='text-gray-600'>
+					We've sent a confirmation link to <strong>{email}</strong>.
+				</p>
+				<p className='text-sm text-gray-500'>Redirecting to login...</p>
+			</div>
+		);
+	}
 
 	return (
 		<div
@@ -111,7 +174,7 @@ export default function Register() {
 				</div>
 				<AuthSeparation />
 
-				<form onSubmit={handleRegister} className={cn('space-y-4')}>
+				<form onSubmit={handleSubmit} className={cn('space-y-4')}>
 					{/* Email Section */}
 					<Input
 						label='Correo electrónico'
@@ -120,33 +183,10 @@ export default function Register() {
 						type='email'
 						autoComplete='email'
 						placeholder='Ingresa tu correo electrónico'
-						value={formData.email}
-						onChange={handleChange}
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
 						required
 					/>
-
-					{/* <div>
-						<label
-							className={cn(
-								'block text-sm mb-1 text-foreground dark:text-gray-300',
-							)}
-						>
-							Correo electrónico
-						</label>
-						<input
-							id='email'
-							type='email'
-							name='email'
-							autoComplete='email'
-							placeholder='Ingresa tu correo electrónico'
-							value={formData.email}
-							onChange={handleChange}
-							required
-							className={cn(
-								'w-full px-4 py-2 bg-white border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary',
-							)}
-						/>
-					</div> */}
 
 					{/* Password Section */}
 					<Input
@@ -156,33 +196,10 @@ export default function Register() {
 						type='password'
 						autoComplete='current-password'
 						placeholder='Ingresa tu contraseña'
-						value={formData.password}
-						onChange={handleChange}
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
 						required
 					/>
-
-					{/* <div>
-						<label
-							className={cn(
-								'block text-sm mb-1 text-foreground dark:text-gray-300',
-							)}
-						>
-							Contraseña
-						</label>
-						<input
-							id='password'
-							type='password'
-							name='password'
-							autoComplete='current-password'
-							placeholder='Ingresa tu contraseña'
-							value={formData.password}
-							onChange={handleChange}
-							required
-							className={cn(
-								'w-full px-4 py-2 bg-white border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary',
-							)}
-						/>
-					</div> */}
 
 					{/* Re-enter Password Section */}
 					<Input
@@ -192,37 +209,14 @@ export default function Register() {
 						type='password'
 						autoComplete='current-password'
 						placeholder='Re-ingresa tu contraseña'
-						value={formData.confirmPassword}
-						onChange={handleChange}
+						value={confirmPassword}
+						onChange={(e) => setConfirmPassword(e.target.value)}
 						required
 					/>
 
-					{/* <div>
-						<label
-							className={cn(
-								'block text-sm mb-1 text-foreground dark:text-gray-300',
-							)}
-						>
-							Confirmar contraseña
-						</label>
-						<input
-							id='confirmPassword'
-							type='password'
-							name='confirmPassword'
-							autoComplete='current-password'
-							placeholder='Re-ingresa tu contraseña'
-							value={formData.confirmPassword}
-							onChange={handleChange}
-							required
-							className={cn(
-								'w-full px-4 py-2 bg-white border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary',
-							)}
-						/>
-					</div> */}
-
-					{errorMsg && (
+					{error && (
 						<p className={cn('text-sm text-destructive text-red-500')}>
-							{errorMsg}
+							{error.message}
 						</p>
 					)}
 
@@ -235,7 +229,7 @@ export default function Register() {
 				{/* Navigation to Login */}
 				<AuthNavigation
 					textQuestion={'¿Ya tienes cuenta?'}
-					location={'login'}
+					location={'/login'}
 					clickAction={'Iniciar sesión'}
 				/>
 			</div>

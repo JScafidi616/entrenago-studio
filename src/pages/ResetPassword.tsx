@@ -1,53 +1,74 @@
-import { useAuth } from '@/context/AuthContext.tsx';
-import { cn } from '@/lib/utils/utils.ts';
-import { supabase } from '@/supabase/client.ts';
-import { useState } from 'react';
-import { Link, Redirect, useLocation } from 'wouter';
+import { cn } from '@/utils/utils';
+import { useResetPassword } from '@/features/auth/hooks/useAuthentications';
+import { useState, useEffect } from 'react';
+// import { Link, Navigate, useLocation } from 'wouter';
+import { Link, useNavigate } from 'react-router-dom';
 
-export default function ResetPassword() {
+export const ResetPassword = () => {
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
-	const [loading, setLoading] = useState(false);
-	const [errorMsg, setErrorMsg] = useState('');
-	const [success, setSuccess] = useState(false);
-	const [, setLocation] = useLocation();
-	// const [location] = useLocation();
+	const navigate = useNavigate();
+	const {
+		mutate: resetPassword,
+		isPending,
+		isSuccess,
+		error,
+	} = useResetPassword();
 
-	// Extraer token de query params
-	//const { recoveryToken } = useAuth();
-	const recoveryToken = useAuth();
+	// Delay redirect to let the user read the success message
+	useEffect(() => {
+		if (isSuccess) {
+			const timer = setTimeout(() => {
+				navigate('/login', { replace: true });
+			}, 2500); // 2.5 seconds is the sweet spot for reading
 
-	if (!recoveryToken) {
-		return <div>No se proporcionó un token válido</div>;
-	}
+			return () => clearTimeout(timer);
+		}
+	}, [isSuccess, navigate]);
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		setLoading(true);
-		setErrorMsg('');
-
 		if (password !== confirmPassword) {
-			setErrorMsg('Las contraseñas no coinciden.');
-			setLoading(false);
+			alert('Las contraseñas no coinciden');
 			return;
 		}
-		if (!recoveryToken) {
-			setErrorMsg('Token de recuperación no disponible.');
-			setLoading(false);
-			return;
-		}
-		const { error } = await supabase.auth.updateUser({ password });
 
-		if (error) {
-			setErrorMsg(error.message || 'Error al actualizar la contraseña');
-		} else {
-			setSuccess(true);
-			setTimeout(() => setLocation('/login?reset=success'), 2000);
-		}
-		setLoading(false);
+		resetPassword(password);
 	};
-
-	if (!recoveryToken) return <Redirect to='/login' />;
+	if (isSuccess) {
+		return (
+			<div className='max-w-md mx-auto mt-20 p-8 bg-white rounded-xl shadow-lg text-center space-y-4'>
+				<div className='mx-auto w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center'>
+					<svg
+						className='w-6 h-6'
+						fill='none'
+						stroke='currentColor'
+						viewBox='0 0 24 24'
+					>
+						<path
+							strokeLinecap='round'
+							strokeLinejoin='round'
+							strokeWidth={2}
+							d='M5 13l4 4L19 7'
+						/>
+					</svg>
+				</div>
+				<h2 className='text-xl font-bold text-gray-900'>
+					¡Contraseña actualizada!
+				</h2>
+				<p className='text-gray-600'>
+					Tu contraseña ha sido restablecida correctamente. Serás redirigido al
+					inicio de sesión en unos segundos...
+				</p>
+				<Link
+					to='/login'
+					className='inline-block text-sm text-blue-600 hover:underline font-medium'
+				>
+					Ir al inicio de sesión ahora
+				</Link>
+			</div>
+		);
+	}
 
 	return (
 		<div
@@ -63,54 +84,42 @@ export default function ResetPassword() {
 				<h1 className={cn('text-2xl font-bold mb-4 dark:text-gray-300')}>
 					Restablecer contraseña
 				</h1>
-
-				{success ? (
-					<div className={cn('text-green-600 mb-4')}>
-						¡Contraseña actualizada correctamente! Redirigiendo...
-					</div>
-				) : (
-					<>
-						<form onSubmit={handleSubmit} className={cn('space-y-4')}>
-							<input
-								type='password'
-								placeholder='Nueva contraseña'
-								className={cn('w-full p-2 border rounded dark:text-gray-400')}
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-								required
-								minLength={6}
-							/>
-							<input
-								type='password'
-								placeholder='Confirmar nueva contraseña'
-								className={cn('w-full p-2 border rounded dark:text-gray-400')}
-								value={confirmPassword}
-								onChange={(e) => setConfirmPassword(e.target.value)}
-								required
-								minLength={6}
-							/>
-							{errorMsg && <div className={cn('text-red-600')}>{errorMsg}</div>}
-							<button
-								type='submit'
-								className={cn(
-									'w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700',
-								)}
-								disabled={loading}
-							>
-								{loading ? 'Actualizando...' : 'Establecer nueva contraseña'}
-							</button>
-						</form>
-						<div className={cn('mt-4 text-center')}>
-							<Link
-								href='/login'
-								className={cn('text-blue-600 hover:underline')}
-							>
-								Volver al inicio de sesión
-							</Link>
-						</div>
-					</>
-				)}
+				<form onSubmit={handleSubmit} className={cn('space-y-4')}>
+					<input
+						type='password'
+						placeholder='Nueva contraseña'
+						className={cn('w-full p-2 border rounded dark:text-gray-400')}
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+						required
+						minLength={6}
+					/>
+					<input
+						type='password'
+						placeholder='Confirmar nueva contraseña'
+						className={cn('w-full p-2 border rounded dark:text-gray-400')}
+						value={confirmPassword}
+						onChange={(e) => setConfirmPassword(e.target.value)}
+						required
+						minLength={6}
+					/>
+					{error && <div className={cn('text-red-600')}>{error.message}</div>}
+					<button
+						type='submit'
+						className={cn(
+							'w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700',
+						)}
+						disabled={isPending}
+					>
+						{isPending ? 'Actualizando...' : 'Establecer nueva contraseña'}
+					</button>
+				</form>
+				<div className={cn('mt-4 text-center')}>
+					<Link to='/login' className={cn('text-blue-600 hover:underline')}>
+						Volver al inicio de sesión
+					</Link>
+				</div>
 			</div>
 		</div>
 	);
-}
+};
