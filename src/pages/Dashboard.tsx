@@ -1,4 +1,5 @@
 // import OnboardingModal from '@/features/onboarding/components/Onboarding';
+import { cn } from '@/utils/utils';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,7 +16,7 @@ import {
 	Target,
 	Zap,
 } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 // import { useAuth } from '@/context/AuthContext';
 
@@ -174,9 +175,7 @@ export const Dashboard = () => {
 	// Generate the week schedule dynamically (memoized to prevent recalculation)
 	const weeklyRoutine = useMemo(() => generateWeekSchedule(), []);
 	const todayIndex = weeklyRoutine.findIndex((d) => d.isToday);
-	const [activeScrollIndex, setActiveScrollIndex] = useState(
-		todayIndex >= 0 ? todayIndex : 0,
-	);
+	const [activeScrollIndex, setActiveScrollIndex] = useState(todayIndex);
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
 	const hasScrolledRef = useRef(false);
 
@@ -202,19 +201,17 @@ export const Dashboard = () => {
 			behavior,
 		});
 	}
-
-	useEffect(() => {
+	// Auto-scroll to today on initial load (only once)
+	useLayoutEffect(() => {
 		if (todayIndex < 0 || hasScrolledRef.current) {
 			return;
 		}
 
-		const timer = setTimeout(() => {
-			scrollToCard(todayIndex);
-			hasScrolledRef.current = true;
+		requestAnimationFrame(() => {
+			scrollToCard(todayIndex, 'auto');
 			setActiveScrollIndex(todayIndex);
-		}, 100);
-
-		return () => clearTimeout(timer);
+			hasScrolledRef.current = true;
+		});
 	}, [todayIndex]);
 
 	// Auto-scroll to today on mount
@@ -231,6 +228,23 @@ export const Dashboard = () => {
 			frame = requestAnimationFrame(() => {
 				const cards =
 					container.querySelectorAll<HTMLElement>('[data-day-card]');
+
+				const maxScroll = container.scrollWidth - container.clientWidth;
+
+				if (maxScroll <= 5) {
+					setActiveScrollIndex(todayIndex);
+					return;
+				}
+
+				if (container.scrollLeft <= 5) {
+					setActiveScrollIndex(0);
+					return;
+				}
+
+				if (container.scrollLeft >= maxScroll - 5) {
+					setActiveScrollIndex(cards.length - 1);
+					return;
+				}
 
 				const center = container.scrollLeft + container.clientWidth / 2;
 
@@ -266,9 +280,9 @@ export const Dashboard = () => {
 	return (
 		<>
 			{/* Contenido principal centrado */}
-			<div className='space-y-6 md:space-y-8 pb-12 md:pb-8 px-2'>
+			<div className={cn('space-y-6 md:space-y-8 pb-12 md:pb-8 px-2')}>
 				{/* Mobile Today's Workout - Priority on mobile */}
-				<div className='block md:hidden'>
+				<div className={cn('block md:hidden')}>
 					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
 						<CardHeader className='pb-3'>
 							<CardTitle className='flex items-center justify-between text-foreground text-lg'>
@@ -334,7 +348,9 @@ export const Dashboard = () => {
 				</div>
 
 				{/* Header Stats - Responsive Grid */}
-				<div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 px-2'>
+				<div
+					className={cn('grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 px-2')}
+				>
 					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'>
 						<CardContent className='p-4 md:p-6'>
 							<div className='flex items-center space-x-3'>
@@ -406,7 +422,7 @@ export const Dashboard = () => {
 				</div>
 
 				{/* Desktop Layout */}
-				<div className='hidden md:grid md:grid-cols-3 gap-6'>
+				<div className={cn('hidden md:grid md:grid-cols-3 gap-6')}>
 					{/* Today's Workout - Desktop */}
 					<div className='md:col-span-2'>
 						<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
@@ -490,7 +506,7 @@ export const Dashboard = () => {
 				</div>
 
 				{/* Mobile Weekly Progress */}
-				<div className='block md:hidden'>
+				<div className={cn('block md:hidden')}>
 					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
 						<CardHeader className='pb-3'>
 							<CardTitle className='text-foreground text-lg'>
@@ -513,57 +529,85 @@ export const Dashboard = () => {
 				</div>
 
 				{/* Weekly Schedule - Mobile Optimized with Horizontal Scroll */}
-				<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
-					<CardHeader className='pb-3 md:pb-6'>
-						<CardTitle className='flex items-center text-foreground text-lg md:text-xl'>
-							<Calendar className='h-5 w-5 mr-2' />
+				<Card
+					className={cn(
+						'border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl',
+					)}
+				>
+					<CardHeader className={cn('pb-3 md:pb-6')}>
+						<CardTitle
+							className={cn(
+								'flex items-center text-foreground text-lg md:text-xl',
+							)}
+						>
+							<Calendar className={cn('h-5 w-5 mr-2')} />
 							This Week's Schedule
 						</CardTitle>
 					</CardHeader>
-					<CardContent className='h-auto md:h-75'>
+					<CardContent className={cn('h-auto md:h-77')}>
 						{/* Mobile: Horizontal Scroll with auto-focus on today */}
 						<>
 							<div
 								ref={scrollContainerRef}
-								className='flex px-2 gap-3 overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain py-3 scrollbar-hide snap-x snap-proximity'
+								className={cn(
+									'flex px-2 gap-3 overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain py-3 scrollbar-hide snap-x snap-proximity',
+								)}
 							>
 								{weeklyRoutine.map((day, index) => (
 									<div
 										key={index}
 										data-day-card
-										className='flex-none md:flex-1 w-36 snap-center pb-3'
+										onClick={() => {
+											setActiveScrollIndex(index);
+										}}
+										className={cn('flex-none md:flex-1 w-36 snap-center pb-3')}
 									>
 										<Card
-											className={`relative transition-all duration-300 h-full ${
+											className={cn(`relative transition-all duration-500 ease-in-out h-full ${
+												activeScrollIndex !== index &&
+												'hover:scale-[1.02] hover:-translate-y-1 hover:shadow-xl '
+											} ${
 												day.isToday
 													? 'ring-cyan-400 bg-linear-to-br from-cyan-300/30 to-green-300/30 border-cyan-300 dark:from-cyan-950/40 dark:to-green-950/40 dark:border-cyan-800/60 '
 													: ''
 											} ${
 												day.completed
 													? 'ring-green-400 bg-linear-to-br from-lime-300/30 to-green-300/30 border-green-300 dark:from-lime-950/40 dark:to-green-950/40 dark:border-green-800/60 '
-													: 'border-border/40 bg-card/80 dark:bg-neutral-800/60'
+													: ''
+											}	${
+												!day.completed && !day.isToday
+													? 'border-border/40 bg-card/80 dark:bg-neutral-800/60 '
+													: ''
 											}	${
 												activeScrollIndex === index
-													? 'scale-[1.05] shadow-md ring-2'
-													: ''
+													? 'scale-[1.05] shadow-md ring-2 cursor-default'
+													: 'cursor-pointer'
 											} ${
 												activeScrollIndex === index && day.isToday
-													? 'from-cyan-500/20 to-green-500/20 dark:from-cyan-900/30 dark:to-green-900/50 ring-cyan-300'
+													? 'from-cyan-500/20 to-green-500/20 dark:from-cyan-900/30 dark:to-green-900/50 ring-cyan-300 '
 													: ''
 											} ${
 												activeScrollIndex === index && day.completed
-													? 'from-lime-400/20 to-green-400/20 dark:from-lime-900/30 dark:to-green-900/50 ring-green-400/90'
+													? 'from-lime-400/20 to-green-400/20 dark:from-lime-900/30 dark:to-green-900/50 ring-green-400/90 '
 													: ''
 											}
-													rounded-2xl shadow-lg`}
+											rounded-2xl shadow-lg`)}
 										>
 											<CardContent className='p-6'>
-												<div className='text-center space-y-2'>
-													<div className='flex flex-col items-center'>
-														<p className='text-xs font-medium text-foreground uppercase tracking-wider'>
+												<div className={cn('text-center space-y-2')}>
+													<div className={cn('flex flex-col items-center')}>
+														<p
+															className={cn(
+																'text-xs font-medium text-foreground uppercase tracking-wider',
+															)}
+														>
 															{day.day}
 														</p>
-														<p className='text-3xl font-bold text-foreground leading-none'>
+														<p
+															className={cn(
+																'text-3xl font-bold text-foreground leading-none',
+															)}
+														>
 															{day.date}
 														</p>
 													</div>
@@ -623,14 +667,24 @@ export const Dashboard = () => {
 															)}
 														</div>
 													) : (
-														<div className='text-center py-2'>
-															<p className='text-xs text-muted-foreground mb-2'>
+														<div className={cn('text-center py-2')}>
+															<p
+																className={cn(
+																	'text-xs text-muted-foreground mb-2',
+																)}
+															>
 																Rest Day
 															</p>
-															<div className='h-10 flex items-center justify-center'>
+															<div
+																className={cn(
+																	'h-10 flex items-center justify-center',
+																)}
+															>
 																<Badge
 																	variant='outline'
-																	className='border-border/40 text-muted-foreground/70 text-xs py-1'
+																	className={cn(
+																		'border-border/40 text-muted-foreground/70 text-xs py-1',
+																	)}
 																>
 																	Recovery
 																</Badge>
@@ -646,8 +700,12 @@ export const Dashboard = () => {
 						</>
 						<>
 							{/* Interactive scroll indicator dots */}
-							<div className='flex justify-center mt-4 pb-1'>
-								<div className='flex items-center gap-2 bg-muted/90 dark:bg-neutral-800/80 rounded-full px-3 py-2'>
+							<div className={cn('flex justify-center mt-3 pb-1')}>
+								<div
+									className={cn(
+										'flex items-center gap-2 bg-muted/90 dark:bg-neutral-800/80 rounded-full px-3 py-2',
+									)}
+								>
 									{weeklyRoutine.map((day, index) => (
 										<button
 											key={index}
@@ -656,19 +714,21 @@ export const Dashboard = () => {
 												setActiveScrollIndex(index);
 											}}
 											aria-label={`Scroll to ${day.fullDay}`}
-											className={`rounded-full transition-all duration-300 ${
-												activeScrollIndex === index
-													? day.isToday
-														? 'h-2.5 w-6 bg-linear-to-r from-cyan-500 to-green-400 shadow-sm shadow-cyan-500/30 '
-														: day.completed
-															? 'h-2.5 w-6 bg-green-500'
-															: 'h-2.5 w-6 bg-foreground/70'
-													: day.isToday
-														? 'h-2 w-2 bg-cyan-500/50'
-														: day.completed
-															? 'h-2 w-2 bg-green-500/40'
-															: 'h-2 w-2 bg-muted-foreground/30'
-											}`}
+											className={cn(
+												`rounded-full transition-all duration-300 ${
+													activeScrollIndex === index
+														? day.isToday
+															? 'h-2.5 w-6 bg-linear-to-r from-cyan-500 to-green-400 shadow-sm shadow-cyan-500/30 '
+															: day.completed
+																? 'h-2.5 w-6 bg-green-500'
+																: 'h-2.5 w-6 bg-foreground/70'
+														: day.isToday
+															? 'h-2 w-2 bg-cyan-500/50'
+															: day.completed
+																? 'h-2 w-2 bg-green-500/40'
+																: 'h-2 w-2 bg-muted-foreground/30'
+												}`,
+											)}
 										/>
 									))}
 								</div>
