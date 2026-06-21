@@ -12,7 +12,6 @@ import {
 	Clock,
 	Dumbbell,
 	Flame,
-	Indent,
 	Play,
 	Target,
 	Zap,
