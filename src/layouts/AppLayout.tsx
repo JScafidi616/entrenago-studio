@@ -27,7 +27,7 @@ const DesktopNavLink = ({
 			cn(
 				'px-4 py-2 text-sm font-medium rounded-2xl transition-all duration-200',
 				isActive
-					? 'bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md'
+					? 'bg-linear-to-r from-cyan-500 to-green-400 text-white shadow-md'
 					: 'text-muted-foreground hover:text-foreground hover:bg-background/50 dark:hover:bg-neutral-600/50',
 			)
 		}
@@ -95,7 +95,7 @@ export default function AppLayout() {
 			{/* Navigation */}
 			<nav
 				className={cn(
-					'border-b border-border/50 bg-background/95 dark:bg-neutral-800/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-neutral-800/60 sticky top-1 z-50 mx-4 mt-4 rounded-2xl shadow-sm',
+					'border-b border-border/50 bg-background/95 dark:bg-neutral-800/95 backdrop-blur supports-backdrop-filter:bg-background/60 dark:supports-backdrop-filter:bg-neutral-800/60 sticky top-1 z-50 mx-4 mt-4 rounded-2xl shadow-sm',
 				)}
 			>
 				<div className={cn('container mx-auto px-6')}>
@@ -103,7 +103,7 @@ export default function AppLayout() {
 						<div className={cn('flex items-center space-x-3')}>
 							<div
 								className={cn(
-									'p-2 bg-gradient-to-r from-cyan-500 to-green-400 rounded-full shadow-md',
+									'p-2 bg-linear-to-r from-cyan-500 to-green-400 rounded-full shadow-md',
 								)}
 							>
 								<Dumbbell className={cn('h-5 w-5 md:h-6 md:w-6 text-white')} />
@@ -149,7 +149,7 @@ export default function AppLayout() {
 			</nav>
 			<main
 				className={cn(
-					'container mx-auto flex-grow w-full px-6 py-6 md:py-8 max-w-7xl',
+					'container mx-auto grow w-full px-6 py-6 md:py-8 max-w-7xl',
 				)}
 			>
 				<AnimatePresence mode='wait'>
