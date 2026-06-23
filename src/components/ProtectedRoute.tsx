@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Loader from '@components/loader/Loader';
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 	const { user, isLoading } = useAuth();
@@ -8,7 +9,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 	if (isLoading) {
 		return (
 			<div className='flex h-screen items-center justify-center'>
-				Loading...
+				<Loader message='Loading...' />
 			</div>
 		);
 	}
