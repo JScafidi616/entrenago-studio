@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AdBox } from '@/features/adbox/components/adbox';
+import { AdBox } from '@/features/adbox/components/AdBox';
 
 import { Activity, Clock, Dumbbell, Target, Zap } from 'lucide-react';
 

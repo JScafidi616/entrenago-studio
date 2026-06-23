@@ -17,7 +17,7 @@ import {
 	Zap,
 } from 'lucide-react';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { AdBox } from '@/features/adbox/components/adbox';
+import { AdBox } from '@/features/adbox/components/AdBox';
 // import { useNavigate } from 'react-router-dom';
 // import { useAuth } from '@/context/AuthContext';
 
