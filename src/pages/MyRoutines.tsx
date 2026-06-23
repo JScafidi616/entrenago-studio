@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { AdBox } from '@/features/adbox/components/adbox';
 
 import { Activity, Clock, Dumbbell, Target, Zap } from 'lucide-react';
 
@@ -101,6 +102,9 @@ export const MyRoutines = () => {
 					</Card>
 				))}
 			</div>
+
+			{/* Ad Box - My Routines, subtle placement below routine cards */}
+			<AdBox variant='horizontal' label='Sponsored' />
 		</div>
 	);
 
