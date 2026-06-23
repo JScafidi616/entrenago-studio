@@ -17,6 +17,7 @@ import {
 	Zap,
 } from 'lucide-react';
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { AdBox } from '@/features/adbox/components/AdBox';
 // import { useNavigate } from 'react-router-dom';
 // import { useAuth } from '@/context/AuthContext';
 
@@ -421,6 +422,11 @@ export const Dashboard = () => {
 					</Card>
 				</div>
 
+				{/* Ad Box 1 - Below Header Stats */}
+				<div className='px-2'>
+					<AdBox variant='horizontal' label='Sponsored' />
+				</div>
+
 				{/* Desktop Layout */}
 				<div className={cn('hidden md:grid md:grid-cols-3 gap-6')}>
 					{/* Today's Workout - Desktop */}
@@ -482,7 +488,7 @@ export const Dashboard = () => {
 						</Card>
 					</div>
 					{/* Weekly Progress - Desktop */}
-					<div>
+					<div className='flex flex-col gap-6'>
 						<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
 							<CardHeader>
 								<CardTitle className='text-foreground'>
@@ -502,6 +508,8 @@ export const Dashboard = () => {
 								</p>
 							</CardContent>
 						</Card>
+						{/* Ad Box 2 - Square, below Weekly Progress */}
+						<AdBox variant='square' />
 					</div>
 				</div>
 
@@ -526,6 +534,11 @@ export const Dashboard = () => {
 							</p>
 						</CardContent>
 					</Card>
+				</div>
+
+				{/* Ad Box 2 - Mobile, below Weekly Progress */}
+				<div className='block md:hidden px-2'>
+					<AdBox variant='horizontal' />
 				</div>
 
 				{/* Weekly Schedule - Mobile Optimized with Horizontal Scroll */}
@@ -734,6 +747,11 @@ export const Dashboard = () => {
 						</div>
 					</CardContent>
 				</Card>
+
+				{/* Ad Box 3 - Below Weekly Schedule */}
+				<div className='px-2'>
+					<AdBox variant='horizontal' label='Sponsored' />
+				</div>
 			</div>
 		</>
 	);

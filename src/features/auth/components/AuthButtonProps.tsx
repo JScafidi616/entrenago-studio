@@ -1,4 +1,4 @@
-import cn from 'clsx';
+import { cn } from '@/utils/utils';
 import type React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
