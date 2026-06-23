@@ -21,6 +21,8 @@ import Settings from '@/pages/Settings';
 
 // Special Auth Flow
 import { ResetPassword } from '@/pages/ResetPassword';
+//TODO: create a 404 page
+//TODO: create a profile/settings page
 
 export const router = createBrowserRouter([
 	// 1. Root redirect
