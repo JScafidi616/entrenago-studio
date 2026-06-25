@@ -72,7 +72,7 @@ export const MobileNav = ({
 					'w-80 dark:bg-neutral-800 rounded-l-3xl border-l border-border/50 pl-2 pt-2',
 				)}
 			>
-				<div className={cn('flex flex-col space-y-6 mt-4')}>
+				<div className={cn('flex flex-col space-y-6 mt-4 overflow-y-scroll')}>
 					<div className={cn('px-4')}>
 						<SheetClose asChild>
 							<div
