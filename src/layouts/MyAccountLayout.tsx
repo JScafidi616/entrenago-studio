@@ -3,6 +3,7 @@ import { AnimatePresence, easeInOut, m } from 'motion/react';
 import { ArrowLeft, Dumbbell, UserCircle, Settings } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState, useEffect } from 'react';
+import { cn } from '@/utils/utils';
 
 export const MyAccountLayout = ({
 	initialTab = 'profile',
@@ -106,14 +107,22 @@ export const MyAccountLayout = ({
 							initial='initial'
 							animate='animate'
 							exit='exit'
+							className='mt-6'
 							transition={{ duration: 0.2, ease: easeInOut }}
-							className='mt-6  private-content-viewport'
 						>
 							{currentOutlet}
 						</m.div>
 					</AnimatePresence>
 				</Tabs>
 			</main>
+			{/* Footer */}
+			<footer
+				className={cn(
+					'bg-white shadow-inner py-4 px-6 text-center text-sm text-gray-500 dark:bg-neutral-800 dark:text-gray-400',
+				)}
+			>
+				© {new Date().getFullYear()} EntrenaGo. Todos los derechos reservados.
+			</footer>
 		</div>
 	);
 };

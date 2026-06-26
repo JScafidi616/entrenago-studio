@@ -104,6 +104,7 @@ export default function AppLayout() {
 				</div>
 			</nav>
 
+			{/* Main Content */}
 			<main className='container mx-auto grow w-full px-6 py-6 md:py-8 max-w-7xl'>
 				<AnimatePresence mode='wait'>
 					<m.div
