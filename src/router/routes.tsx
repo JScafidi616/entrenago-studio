@@ -16,7 +16,7 @@ import { Dashboard } from '@/pages/Dashboard';
 import { MyRoutines } from '@/pages/MyRoutines';
 import { ProgressTracking } from '@/pages/ProgressTracking';
 
-// Protected Settings Pages
+// Protected Account(profile/Settings) Pages
 import { Settings } from '@/pages/Settings';
 import { Profile } from '@/pages/Profile';
 
@@ -54,7 +54,7 @@ export const router = createBrowserRouter([
 			{ path: 'progress-tracking', element: <ProgressTracking /> },
 		],
 	},
-	// 4. Protected Settings Routes (Requires Auth)
+	// 4. Protected Account(profile/Settings) Routes (Requires Auth)
 	{
 		element: (
 			<ProtectedRoute>
