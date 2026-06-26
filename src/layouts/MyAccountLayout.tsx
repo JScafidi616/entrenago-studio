@@ -21,7 +21,7 @@ export const MyAccountLayout = ({
 		},
 		exit: { opacity: 0 },
 	};
-	// 1. Sync tab state with URL changes (e.g., browser back/forward buttons)
+	// Sync tab state with URL changes (e.g., browser back/forward buttons)
 	useEffect(() => {
 		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 
@@ -32,11 +32,9 @@ export const MyAccountLayout = ({
 		}
 	}, [location.pathname]);
 
-	// 2. Update URL when tab changes to trigger useOutlet()
+	// Update URL when tab changes to trigger useOutlet()
 	const handleTabChange = (value: string) => {
 		setTab(value);
-		// Navigate to the new route.
-		// NOTE: Adjust these paths to match your actual route structure!
 		navigate(value);
 	};
 
