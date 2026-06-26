@@ -71,6 +71,7 @@ export default function AppLayout() {
 			<header
 			// className={cn({cn('bg-white shadow-md py-4 px-6 dark:bg-neutral-800')}
 			></header>
+
 			{/* Navigation */}
 			<nav
 				className={cn(
@@ -122,6 +123,7 @@ export default function AppLayout() {
 					</div>
 				</div>
 			</nav>
+
 			<main
 				className={cn(
 					'container mx-auto grow w-full px-6 py-6 md:py-8 max-w-7xl',
