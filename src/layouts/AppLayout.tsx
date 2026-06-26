@@ -6,7 +6,7 @@ import { ThemeToggle } from '@/features/darkMode/components/ThemeToggle';
 import { UserDropdown } from '@/components/custom/UserDropdown.tsx';
 import { cn } from '@/utils/utils';
 import { Dumbbell } from 'lucide-react';
-import { AnimatePresence, easeInOut, motion } from 'motion/react';
+import { AnimatePresence, easeInOut, m } from 'motion/react';
 import { useLocation, useNavigate, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
@@ -130,7 +130,7 @@ export default function AppLayout() {
 				)}
 			>
 				<AnimatePresence mode='wait'>
-					<motion.div
+					<m.div
 						key={location.pathname} // re-animate on route change inside private
 						variants={contentVariants}
 						initial='initial'
@@ -149,7 +149,7 @@ export default function AppLayout() {
 								/>
 							)}
 						</AnimatePresence>
-					</motion.div>
+					</m.div>
 				</AnimatePresence>
 			</main>
 			{/* Bottom Navigation - Mobile Only */}

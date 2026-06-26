@@ -1,5 +1,5 @@
 import { useLocation, NavLink, Link, useOutlet } from 'react-router-dom';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, m } from 'motion/react';
 import { useAuth } from '../context/AuthContext';
 
 export const SettingsLayout = () => {
@@ -39,7 +39,7 @@ export const SettingsLayout = () => {
 
 				{/* Settings Content */}
 				<AnimatePresence mode='wait'>
-					<motion.div
+					<m.div
 						key={location.pathname}
 						initial={{ opacity: 0, y: 10 }}
 						animate={{ opacity: 1, y: 0 }}
@@ -48,7 +48,7 @@ export const SettingsLayout = () => {
 						className='bg-white p-6 rounded-xl shadow-sm border border-gray-100'
 					>
 						{currentOutlet} {/* Renders Profile page */}
-					</motion.div>
+					</m.div>
 				</AnimatePresence>
 			</div>
 		</div>

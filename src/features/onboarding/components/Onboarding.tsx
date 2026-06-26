@@ -1,7 +1,7 @@
 import { useOnboarding } from '@/features/onboarding/hooks/useOnboarding';
 import type { UseOnboardingProps } from '@/types/onboarding';
 import { cn } from '@/utils/utils';
-import { motion } from 'motion/react';
+import { m } from 'motion/react';
 // import { useEffect } from 'react';
 
 const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
@@ -19,7 +19,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 	if (loading) return null;
 
 	return (
-		<motion.div
+		<m.div
 			className={cn(
 				'fixed inset-0 z-[9999] flex items-center justify-center bg-white/30 dark:bg-gray-800/30',
 			)}
@@ -28,7 +28,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 			exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
 			transition={{ duration: 0.25, ease: 'easeInOut' }}
 		>
-			<motion.div
+			<m.div
 				className={cn(
 					'bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-md border  dark:bg-neutral-800',
 				)}
@@ -142,8 +142,8 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 						</button>
 					</>
 				)}
-			</motion.div>
-		</motion.div>
+			</m.div>
+		</m.div>
 	);
 };
 

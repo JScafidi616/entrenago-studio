@@ -1,7 +1,7 @@
 // src/layouts/PublicLayout.tsx
 // import { ThemeToggle } from '@/features/darkMode/components/ThemeToggle';
 import { useLocation, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
-import { AnimatePresence, easeInOut, motion } from 'motion/react';
+import { AnimatePresence, easeInOut, m } from 'motion/react';
 import { cn } from '@/utils/utils';
 
 export const AuthLayout = () => {
@@ -28,7 +28,7 @@ export const AuthLayout = () => {
 			<div className={cn('bg-gray-100 dark:bg-neutral-900')}>
 				{/* AnimatePresence handles the exit animation of the old page */}
 				<AnimatePresence mode='wait'>
-					<motion.div
+					<m.div
 						key={location.pathname} // re-animate on route change inside private
 						variants={contentVariants}
 						initial='initial'
@@ -37,7 +37,7 @@ export const AuthLayout = () => {
 						transition={{ duration: 0.2, ease: easeInOut }}
 					>
 						{currentOutlet}
-					</motion.div>
+					</m.div>
 				</AnimatePresence>
 			</div>
 		</>
