@@ -92,7 +92,6 @@
 
 :root.scroll-smooth {
 	scrollbar-gutter: stable both-edges;
-  overflow: auto;
   scrollbar-width: none !important;
 
   /* Safari and Chrome / Chromium engines */
