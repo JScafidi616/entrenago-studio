@@ -48,7 +48,7 @@ export const UserDropdown = () => {
 				>
 					<Avatar className='h-6 w-6'>
 						<AvatarImage src='/diverse-user-avatars.png' alt='User' />
-						<AvatarFallback className='bg-gradient-to-r from-cyan-500 to-green-400 text-white text-xs font-semibold'>
+						<AvatarFallback className='bg-linear-to-r from-cyan-500 to-green-400 text-white text-xs font-semibold'>
 							{getInitials()}
 						</AvatarFallback>
 					</Avatar>
@@ -56,12 +56,12 @@ export const UserDropdown = () => {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
 				align='end'
-				className='w-56 bg-background/95 dark:bg-neutral-800/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:supports-[backdrop-filter]:bg-neutral-800/60 border border-border/50 rounded-2xl shadow-lg'
+				className='w-56 bg-background/95 dark:bg-neutral-800/95 backdrop-blur supports-backdrop-filter:bg-background/60 dark:supports-backdrop-filter:bg-neutral-800/60 border border-border/50 rounded-2xl shadow-lg'
 			>
 				<div className='flex items-center space-x-3 p-3'>
 					<Avatar className='h-10 w-10'>
 						<AvatarImage src='/diverse-user-avatars.png' alt='User' />
-						<AvatarFallback className='bg-gradient-to-r from-cyan-500 to-green-400 text-white font-semibold'>
+						<AvatarFallback className='bg-linear-to-r from-cyan-500 to-green-400 text-white font-semibold'>
 							{getInitials()}
 						</AvatarFallback>
 					</Avatar>
