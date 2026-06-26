@@ -11,16 +11,9 @@ import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/utils/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { DropdownMenuSeparator } from '@components/ui/dropdown-menu';
-import {
-	Dumbbell,
-	Home,
-	LogOut,
-	Menu,
-	Settings,
-	TrendingUp,
-	UserCircle,
-} from 'lucide-react';
+import { LogOut, Menu, Settings, UserCircle } from 'lucide-react';
 import { useState } from 'react';
+import { navItems } from '@/features/navigation/constants/constantNav';
 
 interface MobileNavProps {
 	currentSection: string;
@@ -34,11 +27,6 @@ export const MobileNav = ({
 }: MobileNavProps) => {
 	const { user, signOut } = useAuth();
 	const [open, setOpen] = useState(false);
-	const navItems = [
-		{ id: '/dashboard', label: 'Dashboard', icon: Home },
-		{ id: '/progress-tracking', label: 'Progress', icon: TrendingUp },
-		{ id: '/my-routines', label: 'Routines', icon: Dumbbell },
-	];
 
 	const getInitials = (): string => {
 		const fullName = user?.user_metadata?.full_name;

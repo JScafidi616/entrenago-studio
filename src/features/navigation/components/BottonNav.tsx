@@ -1,6 +1,6 @@
 'use client';
 
-import { Dumbbell, Home, TrendingUp } from 'lucide-react';
+import { navItems } from '@/features/navigation/constants/constantNav';
 
 interface BottomNavProps {
 	currentSection: string;
@@ -11,11 +11,6 @@ export const BottomNav = ({
 	currentSection,
 	handleNavigation,
 }: BottomNavProps) => {
-	const navItems = [
-		{ id: '/dashboard', label: 'Dashboard', icon: Home },
-		{ id: '/progress-tracking', label: 'Progress', icon: TrendingUp },
-		{ id: '/my-routines', label: 'Routines', icon: Dumbbell },
-	];
 	return (
 		<div className='fixed bottom-4 left-4 right-4 z-50 md:hidden'>
 			<div className='bg-background/95 dark:bg-neutral-800/95 backdrop-blur supports-backdrop-filter:bg-background/60 dark:supports-backdrop-filter:bg-neutral-800/60 border border-border/50 rounded-2xl shadow-lg'>
