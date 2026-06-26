@@ -1,7 +1,7 @@
 // src/layouts/PrivateLayout.tsx
 
-import { BottomNav } from '@/features/navigation/components/BottonNav';
-import { MobileNav } from '@/features/navigation/components/MobileNav';
+import { NavBottomMobile } from '@/features/navigation/components/NavBottonMobile';
+import { NavSideMobile } from '@/features/navigation/components/NavSideMobile';
 import { ThemeToggle } from '@/features/darkMode/components/ThemeToggle';
 import { UserDropdown } from '@/components/custom/UserDropdown.tsx';
 import { cn } from '@/utils/utils';
@@ -12,7 +12,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase/supabase';
 import OnboardingModal from '@/features/onboarding/components/Onboarding';
-import { DesktopNavLink } from '@/features/navigation/components/DesktopNav';
+import { NavDesktop } from '@/features/navigation/components/NavDesktop';
 
 export default function AppLayout() {
 	const location = useLocation();
@@ -104,7 +104,8 @@ export default function AppLayout() {
 									'hidden md:flex items-center space-x-2 bg-muted/30 dark:bg-neutral-700/30 rounded-2xl p-1',
 								)}
 							>
-								<DesktopNavLink></DesktopNavLink>
+								{/* Desktop Menu */}
+								<NavDesktop />
 							</div>
 
 							<div className={cn('flex items-center space-x-2')}>
@@ -113,7 +114,7 @@ export default function AppLayout() {
 									<UserDropdown />
 								</div>
 								{/* Mobile Menu */}
-								<MobileNav
+								<NavSideMobile
 									currentSection={currentSection}
 									handleNavigation={handleNavigation} // Pass handleNavigation as a prop
 									setCurrentSection={() => {}}
@@ -153,7 +154,7 @@ export default function AppLayout() {
 				</AnimatePresence>
 			</main>
 			{/* Bottom Navigation - Mobile Only */}
-			<BottomNav
+			<NavBottomMobile
 				currentSection={currentSection}
 				handleNavigation={handleNavigation} // Pass handleNavigation as a prop
 			/>
