@@ -128,7 +128,7 @@ export const Profile = () => {
 				{profileStats.map((stat) => (
 					<Card
 						key={stat.label}
-						className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'
+						className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'
 					>
 						<CardContent className='p-4 flex flex-col items-center gap-2 text-center'>
 							<div className={`p-2 rounded-full ${stat.bg}`}>
@@ -144,7 +144,7 @@ export const Profile = () => {
 			</div>
 
 			{/* Personal Details */}
-			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl shadow-sm'>
+			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm'>
 				<CardHeader>
 					<CardTitle className='text-foreground text-lg'>
 						Personal Details
