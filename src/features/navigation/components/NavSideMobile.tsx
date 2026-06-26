@@ -11,9 +11,12 @@ import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/utils/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { DropdownMenuSeparator } from '@components/ui/dropdown-menu';
-import { LogOut, Menu, Settings, UserCircle } from 'lucide-react';
+import { LogOut, Menu } from 'lucide-react';
 import { useState } from 'react';
-import { navItems } from '@/features/navigation/constants/constantNav';
+import {
+	appNavItems,
+	accountNavItems,
+} from '@/features/navigation/constants/constantNav';
 
 interface MobileNavProps {
 	currentSection: string;
@@ -103,7 +106,7 @@ export const NavSideMobile = ({
 					</div>
 
 					<nav className={cn('flex flex-col space-y-3 px-4')}>
-						{navItems.map((item) => (
+						{appNavItems.map((item) => (
 							<button
 								key={item.id}
 								onClick={() => {
@@ -125,28 +128,28 @@ export const NavSideMobile = ({
 					</nav>
 
 					<DropdownMenuSeparator className={cn('bg-border/50 mx-4')} />
+
 					{/* User Profile/Settings Navigation */}
 					<div className={cn('flex flex-col space-y-3 mt-4 px-4')}>
-						<SheetClose asChild>
-							<button
-								className={cn(
-									'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl transition-all duration-200 text-muted-foreground hover:text-foreground hover:bg-accent/50 bg-muted/20',
-								)}
-							>
-								<UserCircle className={cn('h-5 w-5')} />
-								<span className={cn('font-medium')}>Profile</span>
-							</button>
-						</SheetClose>
-						<SheetClose asChild>
-							<button
-								className={cn(
-									'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl transition-all duration-200 text-muted-foreground hover:text-foreground hover:bg-accent/50 bg-muted/20',
-								)}
-							>
-								<Settings className={cn('h-5 w-5')} />
-								<span className={cn('font-medium')}>Settings</span>
-							</button>
-						</SheetClose>
+						{accountNavItems.map((item) => (
+							<SheetClose asChild>
+								<button
+									key={item.id}
+									onClick={() => {
+										handleNavigation(item.id);
+										setOpen(false);
+									}}
+									className={cn(
+										'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl transition-all duration-200 text-muted-foreground hover:text-foreground hover:bg-accent/50 bg-muted/20',
+									)}
+								>
+									<item.icon className={cn('h-5 w-5')} />
+									<span className={cn('font-medium')}>{item.label}</span>
+								</button>
+							</SheetClose>
+						))}
+
+						{/* Log out button */}
 						<SheetClose asChild>
 							<button
 								onClick={() => signOut()}
