@@ -1,6 +1,6 @@
 'use client';
 
-import { navItems } from '@/features/navigation/constants/constantNav';
+import { appNavItems } from '@/features/navigation/constants/constantNav';
 import { cn } from '@/utils/utils';
 
 interface BottomNavProps {
@@ -20,7 +20,7 @@ export const NavBottomMobile = ({
 				)}
 			>
 				<div className='flex items-center justify-around py-3 px-2'>
-					{navItems.map((item) => (
+					{appNavItems.map((item) => (
 						<button
 							key={item.id}
 							onClick={() => handleNavigation(item.id)}

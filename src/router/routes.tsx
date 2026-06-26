@@ -4,7 +4,7 @@ import { ProtectedRoute } from '@/components/ProtectedRoute';
 //Layouts
 import { AuthLayout } from '@/layouts/AuthLayout';
 import AppLayout from '@/layouts/AppLayout';
-import { SettingsLayout } from '@/layouts/SettingsLayout';
+import { MyAccountLayout } from '@/layouts/MyAccountLayout';
 
 // Public Pages
 import Login from '@/pages/Login';
@@ -17,12 +17,12 @@ import { MyRoutines } from '@/pages/MyRoutines';
 import { ProgressTracking } from '@/pages/ProgressTracking';
 
 // Protected Settings Pages
-import Settings from '@/pages/Settings';
+import { Settings } from '@/pages/Settings';
+import { Profile } from '@/pages/Profile';
 
 // Special Auth Flow
 import { ResetPassword } from '@/pages/ResetPassword';
 //TODO: create a 404 page
-//TODO: create a profile/settings page
 
 export const router = createBrowserRouter([
 	// 1. Root redirect
@@ -58,11 +58,12 @@ export const router = createBrowserRouter([
 	{
 		element: (
 			<ProtectedRoute>
-				<SettingsLayout />
+				<MyAccountLayout />
 			</ProtectedRoute>
 		),
 		children: [
-			{ path: 'settings', element: <Settings /> },
+			{ path: '/settings', element: <Settings /> },
+			{ path: '/profile', element: <Profile /> },
 			// Future: { path: 'profile/security', element: <SecuritySettings /> }
 		],
 	},
