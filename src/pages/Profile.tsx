@@ -48,6 +48,19 @@ export const Profile = () => {
 		weight: '78',
 		height: '180',
 	});
+	const getInitials = (): string => {
+		const fullName = user?.user_metadata?.full_name;
+
+		if (fullName) {
+			const names = fullName.trim().split(' ');
+			return names.length > 1
+				? (names[0][0] + names[names.length - 1][0]).toUpperCase()
+				: names[0].substring(0, 2).toUpperCase();
+		}
+
+		// Fallback to email
+		return user?.email?.substring(0, 2).toUpperCase() || '??';
+	};
 
 	const handleChange = (key: keyof typeof form, value: string) => {
 		setForm((prev) => ({ ...prev, [key]: value }));
@@ -63,7 +76,7 @@ export const Profile = () => {
 							<Avatar className='h-24 w-24 ring-4 ring-cyan-500/30'>
 								<AvatarImage src='/diverse-user-avatars.png' alt='Profile' />
 								<AvatarFallback className='bg-linear-to-r from-cyan-500 to-green-400 text-white text-2xl font-semibold'>
-									JD
+									{getInitials()}
 								</AvatarFallback>
 							</Avatar>
 							<button
