@@ -5,7 +5,7 @@ import { navItems } from '@/features/navigation/constants/constantNav';
 
 import { m } from 'motion/react';
 
-export const DesktopNavLink = () => {
+export const NavDesktop = () => {
 	return (
 		<div className='hidden md:flex items-center gap-2'>
 			{navItems.map((item) => (

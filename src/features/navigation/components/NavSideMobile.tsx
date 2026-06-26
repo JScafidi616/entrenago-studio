@@ -21,7 +21,7 @@ interface MobileNavProps {
 	setCurrentSection: (section: string) => void;
 }
 
-export const MobileNav = ({
+export const NavSideMobile = ({
 	currentSection,
 	handleNavigation,
 }: MobileNavProps) => {

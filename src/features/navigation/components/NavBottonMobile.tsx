@@ -7,7 +7,7 @@ interface BottomNavProps {
 	handleNavigation: (page: string) => void;
 }
 
-export const BottomNav = ({
+export const NavBottomMobile = ({
 	currentSection,
 	handleNavigation,
 }: BottomNavProps) => {
