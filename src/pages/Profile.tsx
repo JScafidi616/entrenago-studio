@@ -10,6 +10,8 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Camera, Flame, Dumbbell, Trophy, Calendar } from 'lucide-react';
 
+import { useAuth } from '@/context/AuthContext';
+
 const profileStats = [
 	{
 		label: 'Day Streak',
@@ -36,9 +38,11 @@ const profileStats = [
 
 export const Profile = () => {
 	const [isEditing, setIsEditing] = useState(false);
+	const { user } = useAuth();
+	const fullName = user?.user_metadata?.full_name;
 	const [form, setForm] = useState({
-		name: 'John Doe',
-		email: 'john.doe@example.com',
+		name: fullName,
+		email: user?.email,
 		bio: 'Fitness enthusiast focused on strength training and building consistent habits. One rep at a time.',
 		goal: 'Build Muscle',
 		weight: '78',
@@ -52,18 +56,18 @@ export const Profile = () => {
 	return (
 		<div className='space-y-6'>
 			{/* Identity Card */}
-			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl shadow-sm'>
+			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm'>
 				<CardContent className='p-6'>
 					<div className='flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:gap-6'>
 						<div className='relative'>
 							<Avatar className='h-24 w-24 ring-4 ring-cyan-500/30'>
 								<AvatarImage src='/diverse-user-avatars.png' alt='Profile' />
-								<AvatarFallback className='bg-gradient-to-r from-cyan-500 to-green-400 text-white text-2xl font-semibold'>
+								<AvatarFallback className='bg-linear-to-r from-cyan-500 to-green-400 text-white text-2xl font-semibold'>
 									JD
 								</AvatarFallback>
 							</Avatar>
 							<button
-								className='absolute -bottom-1 -right-1 p-2 rounded-full bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md hover:shadow-lg transition-shadow'
+								className='absolute -bottom-1 -right-1 p-2 rounded-full bg-linear-to-r from-cyan-500 to-green-400 text-white shadow-md hover:shadow-lg transition-shadow'
 								aria-label='Change profile photo'
 							>
 								<Camera className='h-4 w-4' />
@@ -76,7 +80,7 @@ export const Profile = () => {
 							</h2>
 							<p className='text-sm text-muted-foreground'>{form.email}</p>
 							<div className='flex flex-wrap items-center justify-center gap-2 sm:justify-start'>
-								<Badge className='bg-gradient-to-r from-cyan-500 to-green-400 text-white border-0'>
+								<Badge className='bg-linear-to-r from-cyan-500 to-green-400 text-white border-0'>
 									{form.goal}
 								</Badge>
 								<Badge
@@ -95,7 +99,7 @@ export const Profile = () => {
 								variant={isEditing ? 'default' : 'outline'}
 								className={
 									isEditing
-										? 'bg-gradient-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white border-0 rounded-2xl'
+										? 'bg-linear-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white border-0 rounded-2xl'
 										: 'rounded-2xl border-border/50'
 								}
 							>
