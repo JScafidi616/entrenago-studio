@@ -2,7 +2,6 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import { robotsTxtPlugin } from './vite-plugin-robots.ts';
 
 // https://vite.dev/config/
@@ -16,10 +15,12 @@ const dirname =
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
+	resolve:{
+		tsconfigPaths: true,
+	},
 	plugins: [
 		tailwindcss(),
 		react(),
-		tsconfigPaths(),
 		robotsTxtPlugin({
 			siteURL: 'https://entrenago-studio.vercel.app',
 			// Production URL
@@ -27,12 +28,13 @@ export default defineConfig({
 		}),
 	],
 	test: {
+		// Vite 8 architecture isolation: Disable cross-project dependency reloads
+		isolate: false, 
 		projects: [
 			{
 				extends: true,
 				plugins: [
 					// The plugin will run tests for the stories defined in your Storybook config
-					// See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
 					storybookTest({
 						configDir: path.join(dirname, '.storybook'),
 					}),
@@ -57,40 +59,15 @@ export default defineConfig({
 	build: {
 		rollupOptions: {
 			output: {
-				manualChunks: {
-					vendor: ['react', 'react-dom'],
+				manualChunks(id: string) {
+					if (id.includes('node_modules')) {
+						return 'vendor';
+					}
 				},
-				// manualChunks: {
-				// 	// React core
-				// 	'react-vendor': ['react', 'react-dom'],
-
-				// 	// Routing
-				// 	router: ['wouter'],
-
-				// 	// UI components - Radix UI - biggest chunk
-				// 	'radix-ui': [
-				// 		'@radix-ui/react-avatar',
-				// 		'@radix-ui/react-dialog',
-				// 		'@radix-ui/react-dropdown-menu',
-				// 		'@radix-ui/react-slot',
-				// 	],
-
-				// 	// Animation library - motion can be large
-				// 	motion: ['motion'],
-
-				// 	// Icons - Can be heavy
-				// 	icons: ['lucide-react', 'react-icons'],
-
-				// 	// Data fetching
-				// 	query: ['@tanstack/react-query', '@tanstack/react-query-devtools'],
-
-				// 	// Supabase
-				// 	supabase: ['@supabase/supabase-js'],
-				// },
 			},
 		},
 
 		// Optionally increase the limit if needed after chunking
 		chunkSizeWarningLimit: 1000,
 	},
-});
+} as any);
