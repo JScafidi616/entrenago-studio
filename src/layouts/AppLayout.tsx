@@ -62,58 +62,37 @@ export default function AppLayout() {
 	}, [user]);
 
 	return (
-		<div
-			className={cn(
-				'min-h-screen flex flex-col bg-gray-100 dark:bg-neutral-900 transition-colors duration-300',
-			)}
-		>
+		<div className='min-h-screen flex flex-col bg-gray-100 dark:bg-neutral-900 transition-colors duration-300'>
 			{/* Header */}
 			<header
 			// className={cn({cn('bg-white shadow-md py-4 px-6 dark:bg-neutral-800')}
 			></header>
 
 			{/* Navigation */}
-			<nav
-				className={cn(
-					'border-b border-border/50 bg-background/95 dark:bg-neutral-800/95 backdrop-blur supports-backdrop-filter:bg-background/60 dark:supports-backdrop-filter:bg-neutral-800/60 sticky top-1 z-50 mx-4 mt-4 rounded-2xl shadow-sm',
-				)}
-			>
-				<div className={cn('container mx-auto px-6')}>
-					<div className={cn('flex items-center justify-between h-16 md:h-18')}>
-						<div className={cn('flex items-center space-x-3')}>
-							<div
-								className={cn(
-									'p-2 bg-linear-to-r from-cyan-500 to-green-400 rounded-full shadow-md',
-								)}
-							>
+			<nav className='border-b border-border/50 bg-background/95 dark:bg-neutral-800/95 backdrop-blur supports-backdrop-filter:bg-background/60 dark:supports-backdrop-filter:bg-neutral-800/60 sticky top-1 z-50 mx-4 mt-4 rounded-2xl shadow-sm'>
+				<div className='container mx-auto px-6'>
+					<div className='flex items-center justify-between h-16 md:h-18'>
+						<div className='flex items-center space-x-3'>
+							<div className='p-2 bg-linear-to-r from-cyan-500 to-green-400 rounded-full shadow-md'>
 								<Dumbbell className={cn('h-5 w-5 md:h-6 md:w-6 text-white')} />
 							</div>
-							<span
-								className={cn(
-									'text-xl md:text-xl font-bold text-foreground dark:text-gray-300',
-								)}
-							>
+							<span className='text-xl md:text-xl font-bold text-foreground dark:text-gray-300'>
 								Entrena GO
 							</span>
 						</div>
 
-						<div className={cn('flex items-center space-x-2 md:space-x-4')}>
-							{/* Desktop Navigation - Moved to Right */}
-							<div
-								className={cn(
-									'hidden md:flex items-center space-x-2 bg-muted/30 dark:bg-neutral-700/30 rounded-2xl p-1',
-								)}
-							>
-								{/* Desktop Menu */}
+						<div className='flex items-center space-x-2 md:space-x-4'>
+							{/* Desktop Menu Navigation - Moved to Right */}
+							<div className='hidden md:flex items-center space-x-2 bg-muted/30 dark:bg-neutral-700/30 rounded-2xl p-1'>
 								<NavDesktop />
 							</div>
 
+							{/* ThemeToggle & Mobile Menu */}
 							<div className={cn('flex items-center space-x-2')}>
 								<ThemeToggle />
 								<div className='hidden md:block'>
 									<UserDropdown />
 								</div>
-								{/* Mobile Menu */}
 								<NavSideMobile
 									currentSection={currentSection}
 									handleNavigation={handleNavigation} // Pass handleNavigation as a prop
@@ -125,11 +104,7 @@ export default function AppLayout() {
 				</div>
 			</nav>
 
-			<main
-				className={cn(
-					'container mx-auto grow w-full px-6 py-6 md:py-8 max-w-7xl',
-				)}
-			>
+			<main className='container mx-auto grow w-full px-6 py-6 md:py-8 max-w-7xl'>
 				<AnimatePresence mode='wait'>
 					<m.div
 						key={location.pathname} // re-animate on route change inside private

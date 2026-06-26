@@ -64,7 +64,7 @@ export const Dashboard = () => {
 	return (
 		<>
 			{/* Contenido principal centrado */}
-			<div className={cn('space-y-6 md:space-y-8 pb-12 md:pb-8 px-2')}>
+			<div className='space-y-6 md:space-y-8 pb-12 md:pb-8 px-2'>
 				{/* Mobile Today's Workout - Priority on mobile */}
 				<div className={cn('block md:hidden')}>
 					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
