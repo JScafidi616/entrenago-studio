@@ -18,13 +18,13 @@ export const AuthLayout = () => {
 	return (
 		<>
 			{/* Simple Logo/Brand */}
-			<span
+			{/* <span
 				className={cn(
 					'fixed top-4 right-4 px-3 py-2 rounded border dark:border-gray-700 border-gray-300 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white shadow transition-colors z-50',
 				)}
 			>
 				<ThemeToggle />
-			</span>
+			</span> */}
 			<div className={cn('bg-gray-100 dark:bg-neutral-900')}>
 				{/* AnimatePresence handles the exit animation of the old page */}
 				<AnimatePresence mode='wait'>
