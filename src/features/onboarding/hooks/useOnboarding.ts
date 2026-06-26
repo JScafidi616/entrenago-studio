@@ -1,4 +1,4 @@
-import type { FormData, UseOnboardingProps } from '@/types/onboarding';
+import type { FormData, UseOnboardingProps } from '@/features/onboarding/types/onboarding';
 import { supabase } from '@/lib/supabase/supabase';
 import { useEffect, useState } from 'react';
 
