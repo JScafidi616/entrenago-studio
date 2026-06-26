@@ -1,7 +1,7 @@
 import { useLocation, Link, useOutlet, useNavigate } from 'react-router-dom';
 import { AnimatePresence, easeInOut, m } from 'motion/react';
 import { ArrowLeft, Dumbbell, UserCircle, Settings } from 'lucide-react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState, useEffect } from 'react';
 
 export const MyAccountLayout = ({
