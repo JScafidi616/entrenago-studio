@@ -12,7 +12,7 @@ export const MyRoutines = () => {
 				<h2 className='text-xl md:text-2xl font-bold text-foreground'>
 					My Routines
 				</h2>
-				<Button className='bg-gradient-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white shadow-lg hover:shadow-xl transition-all duration-200 w-full md:w-auto'>
+				<Button className='bg-linear-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white shadow-lg hover:shadow-xl transition-all duration-200 w-full md:w-auto'>
 					Create New Routine
 				</Button>
 			</div>
@@ -62,7 +62,7 @@ export const MyRoutines = () => {
 									</CardTitle>
 								</div>
 								{routine.active && (
-									<Badge className='bg-gradient-to-r from-cyan-500 to-green-400 text-white shadow-md text-xs'>
+									<Badge className='bg-linear-to-r from-cyan-500 to-green-400 text-white shadow-md text-xs'>
 										Active
 									</Badge>
 								)}
@@ -93,7 +93,7 @@ export const MyRoutines = () => {
 								</Button>
 								<Button
 									size='sm'
-									className='flex-1 bg-gradient-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white shadow-md hover:shadow-lg transition-all duration-200 text-xs md:text-sm'
+									className='flex-1 bg-linear-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white shadow-md hover:shadow-lg transition-all duration-200 text-xs md:text-sm'
 								>
 									{routine.active ? 'View' : 'Activate'}
 								</Button>

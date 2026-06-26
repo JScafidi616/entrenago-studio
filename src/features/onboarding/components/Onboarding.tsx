@@ -80,7 +80,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 										className={cn(
 											'px-4 py-2 rounded border transition-colors',
 											formData.goal === goal
-												? 'rounded-md hover:bg-primary/90  bg-gradient-to-r from-cyan-500 to-green-400'
+												? 'rounded-md hover:bg-primary/90  bg-linear-to-r from-cyan-500 to-green-400'
 												: 'bg-neutral-500 text-white border-gray-100 hover:bg-gray-950 ',
 										)}
 										onClick={() => setFormData((prev) => ({ ...prev, goal }))}
@@ -117,7 +117,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 										className={cn(
 											'px-4 py-2 rounded border transition-colors',
 											formData.userType === userType
-												? 'rounded-md hover:bg-primary/90  bg-gradient-to-r from-cyan-500 to-green-400'
+												? 'rounded-md hover:bg-primary/90  bg-linear-to-r from-cyan-500 to-green-400'
 												: 'bg-neutral-500 text-white border-gray-100 hover:bg-gray-950 ',
 										)}
 										onClick={() =>

@@ -93,7 +93,7 @@ export default function Register() {
 				<div className={cn('flex items-start gap-4')}>
 					<div
 						className={cn(
-							'h-6 w-6 rounded-full bg-gradient-to-r from-cyan-500 to-green-400 text-white font-bold flex items-center justify-center',
+							'h-6 w-6 rounded-full bg-linear-to-r from-cyan-500 to-green-400 text-white font-bold flex items-center justify-center',
 						)}
 					>
 						✓
@@ -111,7 +111,7 @@ export default function Register() {
 				<div className={cn('flex items-start gap-4')}>
 					<div
 						className={cn(
-							'h-6 w-6 rounded-full bg-gradient-to-r from-cyan-500 to-green-400 text-white font-bold flex items-center justify-center',
+							'h-6 w-6 rounded-full bg-linear-to-r from-cyan-500 to-green-400 text-white font-bold flex items-center justify-center',
 						)}
 					>
 						✓
@@ -129,7 +129,7 @@ export default function Register() {
 				<div className={cn('flex items-start gap-4 dark:text-gray-300')}>
 					<div
 						className={cn(
-							'h-6 w-6 rounded-full bg-gradient-to-r from-cyan-500 to-green-400 text-white font-bold flex items-center justify-center',
+							'h-6 w-6 rounded-full bg-linear-to-r from-cyan-500 to-green-400 text-white font-bold flex items-center justify-center',
 						)}
 					>
 						✓

@@ -12,7 +12,7 @@ export const ProgressTracking = () => {
 				<h2 className='text-xl md:text-2xl font-bold text-foreground'>
 					Progress Tracking
 				</h2>
-				<Button className='bg-gradient-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white shadow-lg hover:shadow-xl transition-all duration-200 w-full md:w-auto'>
+				<Button className='bg-linear-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white shadow-lg hover:shadow-xl transition-all duration-200 w-full md:w-auto'>
 					View Detailed Stats
 				</Button>
 			</div>

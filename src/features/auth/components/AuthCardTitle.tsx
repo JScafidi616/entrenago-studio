@@ -10,7 +10,7 @@ const AuthCardTitle = ({ title, description }: AuthCardTitleProps) => {
 		<div className={cn('text-center ')}>
 			<h2
 				className={cn(
-					'text-2xl font-bold text-foreground text-black dark:text-gray-300 ',
+					'text-2xl font-bold text-foreground  dark:text-gray-300 ',
 				)}
 			>
 				{title}
