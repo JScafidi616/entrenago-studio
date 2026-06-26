@@ -7,34 +7,12 @@ import { UserDropdown } from '@/components/custom/UserDropdown.tsx';
 import { cn } from '@/utils/utils';
 import { Dumbbell } from 'lucide-react';
 import { AnimatePresence, easeInOut, motion } from 'motion/react';
-import { NavLink, useLocation, useNavigate, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
+import { useLocation, useNavigate, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase/supabase';
-import OnboardingModal from '../features/onboarding/components/Onboarding';
-
-// Reusable Desktop Navigation Link Component
-const DesktopNavLink = ({
-	to,
-	children,
-}: {
-	to: string;
-	children: React.ReactNode;
-}) => (
-	<NavLink
-		to={to}
-		className={({ isActive }) =>
-			cn(
-				'px-4 py-2 text-sm font-medium rounded-2xl transition-all duration-200',
-				isActive
-					? 'bg-linear-to-r from-cyan-500 to-green-400 text-white shadow-md'
-					: 'text-muted-foreground hover:text-foreground hover:bg-background/50 dark:hover:bg-neutral-600/50',
-			)
-		}
-	>
-		{children}
-	</NavLink>
-);
+import OnboardingModal from '@/features/onboarding/components/Onboarding';
+import { DesktopNavLink } from '@/features/navigation/components/DesktopNav';
 
 export default function AppLayout() {
 	const location = useLocation();
@@ -125,11 +103,7 @@ export default function AppLayout() {
 									'hidden md:flex items-center space-x-2 bg-muted/30 dark:bg-neutral-700/30 rounded-2xl p-1',
 								)}
 							>
-								<DesktopNavLink to='/dashboard'>Dashboard</DesktopNavLink>
-								<DesktopNavLink to='/progress-tracking'>
-									Progress
-								</DesktopNavLink>
-								<DesktopNavLink to='/my-routines'>My Routines</DesktopNavLink>
+								<DesktopNavLink></DesktopNavLink>
 							</div>
 
 							<div className={cn('flex items-center space-x-2')}>
