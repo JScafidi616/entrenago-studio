@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import OnboardingModal from '@/features/onboarding/components/Onboarding';
 import { NavDesktop } from '@/features/navigation/components/NavDesktop';
+import { supabase } from '@/lib/supabase/supabase';
 
 export default function AppLayout() {
 	const location = useLocation();
@@ -41,7 +42,18 @@ export default function AppLayout() {
 
 	useEffect(() => {
 		const checkSessionAndProfile = async () => {
-			//remove manual access to just get the profile directly
+			if (!user) return;
+
+			const { data: profile, error } = await supabase
+				.from('profiles')
+				.select('onboarded')
+				.eq('id', user.id)
+				.single();
+
+			if (error) {
+				console.error(error);
+				return;
+			}
 			setShowOnboarding(!profile?.onboarded);
 		};
 
