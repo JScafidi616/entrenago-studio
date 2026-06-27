@@ -118,11 +118,10 @@ export const NavSideMobile = ({
 					<DropdownMenuSeparator className={cn('bg-border/50 mx-4')} />
 
 					{/* User Profile/Settings Navigation */}
-					<nav className={cn('flex flex-col space-y-3 mt-4 px-4')}>
+					<div className={cn('flex flex-col space-y-3 mt-4 px-4')}>
 						{accountNavItems.map((item) => (
-							<SheetClose asChild>
+							<SheetClose asChild key={item.id}>
 								<button
-									key={item.id}
 									onClick={() => {
 										handleNavigation(item.id);
 										setOpen(false);
@@ -149,7 +148,7 @@ export const NavSideMobile = ({
 								<span className={cn('font-medium')}>Log Out</span>
 							</button>
 						</SheetClose>
-					</nav>
+					</div>
 				</div>
 			</SheetContent>
 		</Sheet>
