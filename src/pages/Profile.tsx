@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Camera, Flame, Dumbbell, Trophy, Calendar } from 'lucide-react';
+import { useUpdateProfile } from '@/features/auth/hooks/useUpdateProfile';
 
 import { useAuth } from '@/context/AuthContext';
 
@@ -38,32 +39,55 @@ const profileStats = [
 
 export const Profile = () => {
 	const [isEditing, setIsEditing] = useState(false);
-	const { user } = useAuth();
-	const fullName = user?.user_metadata?.full_name;
-	const [form, setForm] = useState({
-		name: fullName,
-		email: user?.email,
-		bio: 'Fitness enthusiast focused on strength training and building consistent habits. One rep at a time.',
-		goal: 'Build Muscle',
-		weight: '78',
-		height: '180',
-	});
-	const getInitials = (): string => {
-		const fullName = user?.user_metadata?.full_name;
+	const { user, profile } = useAuth();
+	const { updateProfile, isLoading, error } = useUpdateProfile();
 
-		if (fullName) {
-			const names = fullName.trim().split(' ');
+	// Initialize with empty strings
+	const [form, setForm] = useState({
+		name: '',
+		goal: '',
+		email: '',
+	});
+
+	// Sync profile data to form state when it loads/updates
+	useEffect(() => {
+		if (profile) {
+			setForm({
+				name: profile.full_name || '',
+				goal: profile.goal || '',
+				email: profile.email || user?.email || '',
+			});
+		}
+	}, [profile, user]);
+
+	const getInitials = (): string => {
+		const name = form.name || user?.user_metadata?.full_name;
+		if (name) {
+			const names = name.trim().split(' ');
 			return names.length > 1
 				? (names[0][0] + names[names.length - 1][0]).toUpperCase()
 				: names[0].substring(0, 2).toUpperCase();
 		}
-
-		// Fallback to email
 		return user?.email?.substring(0, 2).toUpperCase() || '??';
 	};
 
 	const handleChange = (key: keyof typeof form, value: string) => {
 		setForm((prev) => ({ ...prev, [key]: value }));
+	};
+
+	// Use the `form` state directly instead of FormData
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		// Call the hook with the mapped data
+		await updateProfile({
+			full_name: form.name,
+			goal: form.goal,
+			email: form.email,
+		});
+
+		// Exit edit mode after successful save
+		setIsEditing(false);
 	};
 
 	return (
@@ -108,7 +132,19 @@ export const Profile = () => {
 
 						<div className='sm:ml-auto'>
 							<Button
-								onClick={() => setIsEditing((v) => !v)}
+								type='button' // ALWAYS type="button" to prevent accidental form submission
+								onClick={() => {
+									if (isEditing) {
+										// If already editing, manually trigger the form submission
+										(
+											document.getElementById('profile-form') as HTMLFormElement
+										)?.requestSubmit();
+									} else {
+										// Otherwise, just enter edit mode
+										setIsEditing(true);
+									}
+								}}
+								disabled={isLoading}
 								variant={isEditing ? 'default' : 'outline'}
 								className={
 									isEditing
@@ -116,8 +152,13 @@ export const Profile = () => {
 										: 'rounded-2xl border-border/50'
 								}
 							>
-								{isEditing ? 'Save Changes' : 'Edit Profile'}
+								{isLoading
+									? 'Saving...'
+									: isEditing
+										? 'Save Changes'
+										: 'Edit Profile'}
 							</Button>
+							{error && <p className='text-red-500 text-sm'>{error}</p>}
 						</div>
 					</div>
 				</CardContent>
@@ -151,72 +192,80 @@ export const Profile = () => {
 					</CardTitle>
 				</CardHeader>
 				<CardContent className='space-y-5'>
-					<div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+					<form id='profile-form' onSubmit={handleSubmit} className='space-y-5'>
+						<div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+							{/* Input - Name */}
+							<div className='space-y-2'>
+								<Label htmlFor='name' className='text-foreground'>
+									Full Name
+								</Label>
+								<Input
+									id='name'
+									value={form.name}
+									placeholder='Full Name'
+									disabled={!isEditing}
+									onChange={(e) => handleChange('name', e.target.value)}
+									className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70'
+								/>
+							</div>
+							{/* Input - Email */}
+							<div className='space-y-2'>
+								<Label htmlFor='email' className='text-foreground'>
+									Email
+								</Label>
+								<Input
+									id='email'
+									type='email'
+									value={form.email}
+									disabled={!isEditing}
+									onChange={(e) => handleChange('email', e.target.value)}
+									className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70'
+								/>
+							</div>
+							{/* Input - weight */}
+							<div className='space-y-2'>
+								<Label htmlFor='weight' className='text-foreground'>
+									Weight (kg)
+								</Label>
+								<Input
+									id='weight'
+									type='number'
+									// value={form.weight}
+									disabled={!isEditing}
+									// onChange={(e) => handleChange('weight', e.target.value)}
+									className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70'
+								/>
+							</div>
+							{/* Input - height */}
+							<div className='space-y-2'>
+								<Label htmlFor='height' className='text-foreground'>
+									Height (cm)
+								</Label>
+								<Input
+									id='height'
+									type='number'
+									// value={form.height}
+									disabled={!isEditing}
+									// onChange={(e) => handleChange('height', e.target.value)}
+									className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70'
+								/>
+							</div>
+						</div>
+						{/* Text Area - bio */}
 						<div className='space-y-2'>
-							<Label htmlFor='name' className='text-foreground'>
-								Full Name
+							<Label htmlFor='bio' className='text-foreground'>
+								Bio
 							</Label>
-							<Input
-								id='name'
-								value={form.name}
+							<Textarea
+								id='bio'
+								// value={form.bio}
 								disabled={!isEditing}
-								onChange={(e) => handleChange('name', e.target.value)}
-								className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70'
+								// onChange={(e) => handleChange('bio', e.target.value)}
+								rows={3}
+								className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70 resize-none'
 							/>
 						</div>
-						<div className='space-y-2'>
-							<Label htmlFor='email' className='text-foreground'>
-								Email
-							</Label>
-							<Input
-								id='email'
-								type='email'
-								value={form.email}
-								disabled={!isEditing}
-								onChange={(e) => handleChange('email', e.target.value)}
-								className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70'
-							/>
-						</div>
-						<div className='space-y-2'>
-							<Label htmlFor='weight' className='text-foreground'>
-								Weight (kg)
-							</Label>
-							<Input
-								id='weight'
-								type='number'
-								value={form.weight}
-								disabled={!isEditing}
-								onChange={(e) => handleChange('weight', e.target.value)}
-								className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70'
-							/>
-						</div>
-						<div className='space-y-2'>
-							<Label htmlFor='height' className='text-foreground'>
-								Height (cm)
-							</Label>
-							<Input
-								id='height'
-								type='number'
-								value={form.height}
-								disabled={!isEditing}
-								onChange={(e) => handleChange('height', e.target.value)}
-								className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70'
-							/>
-						</div>
-					</div>
-					<div className='space-y-2'>
-						<Label htmlFor='bio' className='text-foreground'>
-							Bio
-						</Label>
-						<Textarea
-							id='bio'
-							value={form.bio}
-							disabled={!isEditing}
-							onChange={(e) => handleChange('bio', e.target.value)}
-							rows={3}
-							className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70 resize-none'
-						/>
-					</div>
+					</form>
 				</CardContent>
 			</Card>
 		</div>

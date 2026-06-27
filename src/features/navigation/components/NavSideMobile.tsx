@@ -28,7 +28,7 @@ export const NavSideMobile = ({
 	currentSection,
 	handleNavigation,
 }: MobileNavProps) => {
-	const { user, signOut } = useAuth();
+	const { user, signOut, profile } = useAuth();
 	const [open, setOpen] = useState(false);
 
 	const getInitials = (): string => {
@@ -42,7 +42,7 @@ export const NavSideMobile = ({
 		}
 
 		// Fallback to email
-		return user?.email?.substring(0, 2).toUpperCase() || '??';
+		return profile?.email?.substring(0, 2).toUpperCase() || '??';
 	};
 	return (
 		<Sheet open={open} onOpenChange={setOpen}>
@@ -89,8 +89,8 @@ export const NavSideMobile = ({
 													'text-base font-semibold text-foreground truncate',
 												)}
 											>
-												{user.user_metadata?.full_name ||
-													user.email?.split('@')[0] ||
+												{profile?.full_name ||
+													profile?.email?.split('@')[0] ||
 													'Usuario'}
 											</p>
 											<p

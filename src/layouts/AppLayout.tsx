@@ -21,7 +21,7 @@ export default function AppLayout() {
 	// Derive current section directly from the URL path to avoid manual state management
 	const currentSection = location.pathname.replace(/^\/+/, '') || 'dashboard';
 	//
-	const { user } = useAuth();
+	const { user, profile } = useAuth();
 	const [showOnboarding, setShowOnboarding] = useState(false);
 
 	const handleNavigation = (page: string) => {
@@ -42,24 +42,12 @@ export default function AppLayout() {
 
 	useEffect(() => {
 		const checkSessionAndProfile = async () => {
-			if (!user) return;
-
-			const { data: profile, error } = await supabase
-				.from('profiles')
-				.select('onboarded')
-				.eq('id', user.id)
-				.single();
-
-			if (error) {
-				console.error(error);
-				return;
-			}
-
+			//remove manual access to just get the profile directly
 			setShowOnboarding(!profile?.onboarded);
 		};
 
 		checkSessionAndProfile();
-	}, [user]);
+	}, [profile]);
 
 	return (
 		<div className='min-h-screen flex flex-col bg-gray-100 dark:bg-neutral-900 transition-colors duration-300'>

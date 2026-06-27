@@ -15,10 +15,10 @@ import { NavLink } from 'react-router-dom';
 import { accountNavItems } from '@/features/navigation/constants/constantNav';
 
 export const UserDropdown = () => {
-	const { user, signOut } = useAuth();
+	const { user, signOut, profile } = useAuth();
 
 	const getInitials = (): string => {
-		const fullName = user?.user_metadata?.full_name;
+		const fullName = profile?.full_name || 'User';
 
 		if (fullName) {
 			const names = fullName.trim().split(' ');
@@ -28,7 +28,7 @@ export const UserDropdown = () => {
 		}
 
 		// Fallback to email
-		return user?.email?.substring(0, 2).toUpperCase() || '??';
+		return profile?.email?.substring(0, 2).toUpperCase() || '??';
 	};
 
 	return (
@@ -62,8 +62,8 @@ export const UserDropdown = () => {
 						{user && (
 							<>
 								<p className='text-sm font-medium text-foreground truncate'>
-									{user.user_metadata?.full_name ||
-										user.email?.split('@')[0] ||
+									{profile?.full_name ||
+										profile?.email?.split('@')[0] ||
 										'Usuario'}
 								</p>
 								<p className='text-xs text-muted-foreground truncate'>
