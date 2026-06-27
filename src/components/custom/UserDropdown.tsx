@@ -13,23 +13,11 @@ import { useAuth } from '@/context/AuthContext';
 import { LogOut } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { accountNavItems } from '@/features/navigation/constants/constantNav';
+import { useUserInitials } from '@/hooks/userUserInitials';
 
 export const UserDropdown = () => {
 	const { user, signOut, profile } = useAuth();
-
-	const getInitials = (): string => {
-		const fullName = profile?.full_name || 'User';
-
-		if (fullName) {
-			const names = fullName.trim().split(' ');
-			return names.length > 1
-				? (names[0][0] + names[names.length - 1][0]).toUpperCase()
-				: names[0].substring(0, 2).toUpperCase();
-		}
-
-		// Fallback to email
-		return profile?.email?.substring(0, 2).toUpperCase() || '??';
-	};
+	const initials = useUserInitials();
 
 	return (
 		<DropdownMenu>
@@ -42,7 +30,7 @@ export const UserDropdown = () => {
 					<Avatar className='h-6 w-6'>
 						<AvatarImage src='/diverse-user-avatars.png' alt='User' />
 						<AvatarFallback className='bg-linear-to-r from-cyan-500 to-green-400 text-white text-xs font-semibold'>
-							{getInitials()}
+							{initials}
 						</AvatarFallback>
 					</Avatar>
 				</Button>
@@ -55,7 +43,7 @@ export const UserDropdown = () => {
 					<Avatar className='h-10 w-10'>
 						<AvatarImage src='/diverse-user-avatars.png' alt='User' />
 						<AvatarFallback className='bg-linear-to-r from-cyan-500 to-green-400 text-white font-semibold'>
-							{getInitials()}
+							{initials}
 						</AvatarFallback>
 					</Avatar>
 					<div className='flex flex-col min-w-0'>

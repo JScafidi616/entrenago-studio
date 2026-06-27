@@ -8,10 +8,19 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Camera, Flame, Dumbbell, Trophy, Calendar } from 'lucide-react';
+import {
+	Camera,
+	Flame,
+	Dumbbell,
+	Trophy,
+	Calendar,
+	Activity,
+	Target,
+} from 'lucide-react';
 import { useUpdateProfile } from '@/features/auth/hooks/useUpdateProfile';
 
 import { useAuth } from '@/context/AuthContext';
+import { useUserInitials } from '@/hooks/userUserInitials';
 
 const profileStats = [
 	{
@@ -41,11 +50,13 @@ export const Profile = () => {
 	const [isEditing, setIsEditing] = useState(false);
 	const { user, profile } = useAuth();
 	const { updateProfile, isLoading, error } = useUpdateProfile();
+	const initials = useUserInitials();
 
 	// Initialize with empty strings
 	const [form, setForm] = useState({
 		name: '',
 		goal: '',
+		user_type: '',
 		email: '',
 	});
 
@@ -55,21 +66,11 @@ export const Profile = () => {
 			setForm({
 				name: profile.full_name || '',
 				goal: profile.goal || '',
+				user_type: profile.user_type || '',
 				email: profile.email || user?.email || '',
 			});
 		}
 	}, [profile, user]);
-
-	const getInitials = (): string => {
-		const name = form.name || user?.user_metadata?.full_name;
-		if (name) {
-			const names = name.trim().split(' ');
-			return names.length > 1
-				? (names[0][0] + names[names.length - 1][0]).toUpperCase()
-				: names[0].substring(0, 2).toUpperCase();
-		}
-		return user?.email?.substring(0, 2).toUpperCase() || '??';
-	};
 
 	const handleChange = (key: keyof typeof form, value: string) => {
 		setForm((prev) => ({ ...prev, [key]: value }));
@@ -100,7 +101,7 @@ export const Profile = () => {
 							<Avatar className='h-24 w-24 ring-4 ring-cyan-500/30'>
 								<AvatarImage src='/diverse-user-avatars.png' alt='Profile' />
 								<AvatarFallback className='bg-linear-to-r from-cyan-500 to-green-400 text-white text-2xl font-semibold'>
-									{getInitials()}
+									{initials}
 								</AvatarFallback>
 							</Avatar>
 							<button
@@ -117,7 +118,15 @@ export const Profile = () => {
 							</h2>
 							<p className='text-sm text-muted-foreground'>{form.email}</p>
 							<div className='flex flex-wrap items-center justify-center gap-2 sm:justify-start'>
-								<Badge className='bg-linear-to-r from-cyan-500 to-green-400 text-white border-0'>
+								<Badge className='bg-linear-to-r from-cyan-500 to-green-400 text-black border-0'>
+									<Activity className='h-3 w-3 mr-1' />
+									{form.user_type}
+								</Badge>
+								<Badge
+									variant='secondary'
+									className='bg-secondary/80 text-secondary-foreground'
+								>
+									<Target className='h-3 w-3 mr-1' />
 									{form.goal}
 								</Badge>
 								<Badge

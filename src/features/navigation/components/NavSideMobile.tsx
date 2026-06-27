@@ -17,6 +17,7 @@ import {
 	appNavItems,
 	accountNavItems,
 } from '@/features/navigation/constants/constantNav';
+import { useUserInitials } from '@/hooks/userUserInitials';
 
 interface MobileNavProps {
 	currentSection: string;
@@ -30,20 +31,7 @@ export const NavSideMobile = ({
 }: MobileNavProps) => {
 	const { user, signOut, profile } = useAuth();
 	const [open, setOpen] = useState(false);
-
-	const getInitials = (): string => {
-		const fullName = user?.user_metadata?.full_name;
-
-		if (fullName) {
-			const names = fullName.trim().split(' ');
-			return names.length > 1
-				? (names[0][0] + names[names.length - 1][0]).toUpperCase()
-				: names[0].substring(0, 2).toUpperCase();
-		}
-
-		// Fallback to email
-		return profile?.email?.substring(0, 2).toUpperCase() || '??';
-	};
+	const initials = useUserInitials();
 	return (
 		<Sheet open={open} onOpenChange={setOpen}>
 			<SheetTrigger asChild>
@@ -78,7 +66,7 @@ export const NavSideMobile = ({
 											'bg-linear-to-r from-cyan-500 to-green-400 text-white font-semibold text-base',
 										)}
 									>
-										{getInitials()}
+										{initials}
 									</AvatarFallback>
 								</Avatar>
 								<div className={cn('flex flex-col min-w-0')}>
@@ -104,7 +92,7 @@ export const NavSideMobile = ({
 							</div>
 						</SheetClose>
 					</div>
-
+					{/* Main Navigation */}
 					<nav className={cn('flex flex-col space-y-3 px-4')}>
 						{appNavItems.map((item) => (
 							<button
@@ -130,7 +118,7 @@ export const NavSideMobile = ({
 					<DropdownMenuSeparator className={cn('bg-border/50 mx-4')} />
 
 					{/* User Profile/Settings Navigation */}
-					<div className={cn('flex flex-col space-y-3 mt-4 px-4')}>
+					<nav className={cn('flex flex-col space-y-3 mt-4 px-4')}>
 						{accountNavItems.map((item) => (
 							<SheetClose asChild>
 								<button
@@ -161,7 +149,7 @@ export const NavSideMobile = ({
 								<span className={cn('font-medium')}>Log Out</span>
 							</button>
 						</SheetClose>
-					</div>
+					</nav>
 				</div>
 			</SheetContent>
 		</Sheet>
