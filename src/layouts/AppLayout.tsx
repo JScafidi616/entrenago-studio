@@ -10,7 +10,6 @@ import { AnimatePresence, easeInOut, m } from 'motion/react';
 import { useLocation, useNavigate, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { supabase } from '@/lib/supabase/supabase';
 import OnboardingModal from '@/features/onboarding/components/Onboarding';
 import { NavDesktop } from '@/features/navigation/components/NavDesktop';
 
