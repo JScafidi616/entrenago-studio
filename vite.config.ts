@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { robotsTxtPlugin } from './vite-plugin-robots.ts';
+import sitemap from 'vite-plugin-sitemap';
 
 // https://vite.dev/config/
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
@@ -26,6 +27,10 @@ export default defineConfig({
 			// Production URL
 			devURL: 'http://localhost:5173', // Custom dev URL
 		}),
+		sitemap({
+      hostname: 'https://entrenago-studio.vercel.app',
+      // dynamicRoutes: ['/profile', '/settings'], // Add your routes here if needed
+    }),,
 	],
 	test: {
 		// Vite 8 architecture isolation: Disable cross-project dependency reloads
