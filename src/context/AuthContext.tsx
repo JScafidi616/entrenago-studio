@@ -8,69 +8,77 @@ import {
 	useEffect,
 	useState,
 } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-	const [profile, setProfile] = useState<Profile>(null);
 	const [user, setUser] = useState<User | null>(null);
 	const [session, setSession] = useState<Session | null>(null);
-	const [isLoading, setIsLoading] = useState(true);
+	const [isSessionLoading, setIsSessionLoading] = useState(true);
 
-	const fetchProfile = async (userId: string) => {
-		const { data, error } = await supabase
-			.from('profiles')
-			.select('*') // Selects all columns, including full_name
-			.eq('id', userId)
-			.single();
-		console.log(error);
+	// TanStack Query handle the profile fetching
+	const {
+		data: profile,
+		isLoading: isProfileLoading,
+		refetch,
+	} = useQuery({
+		queryKey: ['profile', user?.id],
+		queryFn: async () => {
+			const { data, error } = await supabase
+				.from('profiles')
+				.select('*')
+				.eq('id', user!.id)
+				.single();
 
-		if (data) {
-			setProfile(data as Profile);
-		} else {
-			setProfile(null);
-		}
-	};
+			if (error) throw error;
+			return data as Profile;
+		},
+		// Only run the query when a user is logged in
+		enabled: !!user?.id,
+	});
 
 	useEffect(() => {
-		// 1. Check active session immediately
-		supabase.auth.getSession().then(async ({ data: { session } }) => {
+		// Check active session immediately
+		supabase.auth.getSession().then(({ data: { session } }) => {
 			setSession(session);
 			setUser(session?.user ?? null);
-
-			if (session?.user) await fetchProfile(session.user.id);
-			setIsLoading(false);
+			setIsSessionLoading(false);
 		});
 
-		// 2. Listen for auth changes (login, logout, password reset token)
+		// 2. Listen for auth changes
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange(async (_event, session) => {
 			setSession(session);
 			setUser(session?.user ?? null);
-
-			if (session?.user) {
-				await fetchProfile(session.user.id);
-			} else {
-				setProfile(null);
-			}
-			setIsLoading(false);
+			setIsSessionLoading(false);
 		});
 
 		return () => subscription.unsubscribe();
-	}, []); // runs once on mount
+	}, []);
 
 	const signOut = async () => {
 		await supabase.auth.signOut();
 	};
 
+	// Combine loading states: Loading if session is checking OR if profile is fetching
+	const isLoading = isSessionLoading || (!!user?.id && isProfileLoading);
+
 	const refreshProfile = async () => {
-		if (user) await fetchProfile(user.id);
+		await refetch();
 	};
 
 	return (
 		<AuthContext.Provider
-			value={{ user, session, profile, isLoading, signOut, refreshProfile }}
+			value={{
+				user,
+				session,
+				profile: user ? (profile ?? null) : null,
+				isLoading,
+				signOut,
+				refreshProfile,
+			}}
 		>
 			{children}
 		</AuthContext.Provider>
