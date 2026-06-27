@@ -46,21 +46,24 @@ export const todayWorkout = {
 };
 
 // 3. Helper Function
-export const generateWeekSchedule = (): DaySchedule[] => {
+export const generateWeekSchedule = (startOfWeek: number = 0): DaySchedule[] => {
 	const now = new Date();
-	const currentDay = now.getDay();
-	const currentDate = now.getDate();
+	const currentDay = now.getDay(); // 0 (Sun) to 6 (Sat)
 
-	const mondayOffset = currentDay === 0 ? -6 : 1 - currentDay;
-	const monday = new Date(now);
-	monday.setDate(currentDate + mondayOffset);
+	// Calculate the offset to find the start of the user's specific week
+	const offset = (currentDay - startOfWeek + 7) % 7;
+	const weekStart = new Date(now);
+	weekStart.setDate(now.getDate() - offset);
 
-	const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-	const fullDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+	const allDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+	const allFullDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-	return days.map((day, index) => {
-		const date = new Date(monday);
-		date.setDate(monday.getDate() + index);
+	return Array.from({ length: 7 }, (_, i) => {
+		const date = new Date(weekStart);
+		date.setDate(weekStart.getDate() + i);
+
+		// Rotate the day names based on the start of the week
+		const dayIndex = (startOfWeek + i) % 7;
 
 		const isToday =
 			date.getDate() === now.getDate() &&
@@ -70,13 +73,13 @@ export const generateWeekSchedule = (): DaySchedule[] => {
 		const isPast = date < now && !isToday;
 
 		return {
-			day,
-			fullDay: fullDays[index],
+			day: allDays[dayIndex],
+			fullDay: allFullDays[dayIndex],
 			date: date.getDate().toString(),
 			dateObj: date,
 			isToday,
 			completed: isPast,
-			...weeklyRoutineTemplate[index],
+			...weeklyRoutineTemplate[i],
 		};
 	});
 };
