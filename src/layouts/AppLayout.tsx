@@ -8,11 +8,10 @@ import { cn } from '@/utils/utils';
 import { Dumbbell } from 'lucide-react';
 import { AnimatePresence, easeInOut, m } from 'motion/react';
 import { useLocation, useNavigate, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import OnboardingModal from '@/features/onboarding/components/Onboarding';
 import { NavDesktop } from '@/features/navigation/components/NavDesktop';
-import { supabase } from '@/lib/supabase/supabase';
 
 export default function AppLayout() {
 	const location = useLocation();
@@ -22,7 +21,7 @@ export default function AppLayout() {
 	const currentSection = location.pathname.replace(/^\/+/, '') || 'dashboard';
 	//
 	const { user, profile } = useAuth();
-	const [showOnboarding, setShowOnboarding] = useState(false);
+	const showOnboarding = !!user && !profile?.onboarded;
 
 	const handleNavigation = (page: string) => {
 		navigate(page);
@@ -39,26 +38,6 @@ export default function AppLayout() {
 	useEffect(() => {
 		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 	}, [location.pathname]);
-
-	useEffect(() => {
-		const checkSessionAndProfile = async () => {
-			if (!user) return;
-
-			const { data: profile, error } = await supabase
-				.from('profiles')
-				.select('onboarded')
-				.eq('id', user.id)
-				.single();
-
-			if (error) {
-				console.error(error);
-				return;
-			}
-			setShowOnboarding(!profile?.onboarded);
-		};
-
-		checkSessionAndProfile();
-	}, [profile]);
 
 	return (
 		<div className='min-h-screen flex flex-col bg-gray-100 dark:bg-neutral-900 transition-colors duration-300'>
@@ -121,7 +100,11 @@ export default function AppLayout() {
 							{showOnboarding && user && (
 								<OnboardingModal
 									userId={user.id}
-									onComplete={() => setShowOnboarding(false)}
+									// 2. Optional: If your modal doesn't automatically
+									// invalidate the query, you can pass a callback to do it.
+									onComplete={() => {
+										console.log('Onboarding finished successfully!');
+									}}
 								/>
 							)}
 						</AnimatePresence>
