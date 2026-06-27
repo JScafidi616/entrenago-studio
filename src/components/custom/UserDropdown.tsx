@@ -66,15 +66,18 @@ export const UserDropdown = () => {
 
 				{/* User Profile/Settings Navigation */}
 				{accountNavItems.map((item) => (
-					<NavLink key={item.id} to={item.id}>
-						<DropdownMenuItem className='flex items-center space-x-3 px-3 py-2 cursor-pointer hover:bg-accent/50 rounded-xl mx-1 transition-colors duration-200'>
+					<DropdownMenuItem
+						key={item.id}
+						asChild
+						className='flex items-center space-x-3 px-3 py-2 cursor-pointer hover:bg-accent/50 rounded-xl mx-1 transition-colors duration-200'
+					>
+						<NavLink to={item.id}>
 							<item.icon className='h-4 w-4 text-muted-foreground' />
 							<span className='text-sm font-medium text-foreground'>
-								<NavLink to='/profile'></NavLink>
 								{item.label}
 							</span>
-						</DropdownMenuItem>
-					</NavLink>
+						</NavLink>
+					</DropdownMenuItem>
 				))}
 
 				<DropdownMenuSeparator className='bg-border/50' />
