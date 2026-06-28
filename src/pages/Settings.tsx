@@ -17,6 +17,7 @@ import {
 	Trash2,
 	Palette,
 } from 'lucide-react';
+import { PasswordForm } from '@/features/auth/components/AuthResetPassword';
 
 interface ToggleSetting {
 	id: string;
@@ -51,6 +52,7 @@ const notificationSettings: ToggleSetting[] = [
 ];
 
 export const Settings = () => {
+	const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 	const [toggles, setToggles] = useState<Record<string, boolean>>(
 		Object.fromEntries(notificationSettings.map((s) => [s.id, s.defaultOn])),
 	);
@@ -62,7 +64,7 @@ export const Settings = () => {
 	return (
 		<div className='space-y-6'>
 			{/* Appearance */}
-			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl shadow-sm'>
+			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm'>
 				<CardHeader>
 					<CardTitle className='flex items-center gap-2 text-foreground text-lg'>
 						<Palette className='h-5 w-5 text-cyan-500' />
@@ -85,7 +87,7 @@ export const Settings = () => {
 			</Card>
 
 			{/* Notifications */}
-			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl shadow-sm'>
+			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm'>
 				<CardHeader>
 					<CardTitle className='flex items-center gap-2 text-foreground text-lg'>
 						<Bell className='h-5 w-5 text-cyan-500' />
@@ -126,7 +128,7 @@ export const Settings = () => {
 			</Card>
 
 			{/* Preferences */}
-			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl shadow-sm'>
+			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm'>
 				<CardHeader>
 					<CardTitle className='flex items-center gap-2 text-foreground text-lg'>
 						<Globe className='h-5 w-5 text-cyan-500' />
@@ -174,7 +176,7 @@ export const Settings = () => {
 			</Card>
 
 			{/* Account & Security */}
-			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl shadow-sm'>
+			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm'>
 				<CardHeader>
 					<CardTitle className='flex items-center gap-2 text-foreground text-lg'>
 						<Lock className='h-5 w-5 text-cyan-500' />
@@ -185,13 +187,14 @@ export const Settings = () => {
 					<Button
 						variant='outline'
 						className='w-full justify-start rounded-2xl border-border/50 bg-muted/30 dark:bg-neutral-800/30 hover:bg-muted/50'
+						onClick={() => setIsPasswordModalOpen(true)} // Open modal
 					>
 						<Lock className='h-4 w-4 mr-2 text-muted-foreground' />
 						Change Password
 					</Button>
 
 					<Separator className='bg-border/50' />
-
+					{/* Delete Account */}
 					<div className='rounded-2xl border border-red-500/30 bg-red-50/50 dark:bg-red-950/20 p-4'>
 						<div className='flex items-center justify-between gap-4'>
 							<div className='space-y-0.5'>
@@ -214,6 +217,36 @@ export const Settings = () => {
 					</div>
 				</CardContent>
 			</Card>
+
+			{/* Change Password Modal */}
+			{isPasswordModalOpen && (
+				<div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4'>
+					<div className='bg-white dark:bg-neutral-800 p-6 rounded-lg shadow-lg max-w-md w-full'>
+						<div className='flex justify-between items-center mb-4'>
+							<h2 className='text-xl font-bold text-gray-900 dark:text-gray-100'>
+								Change Password
+							</h2>
+							<button
+								onClick={() => setIsPasswordModalOpen(false)}
+								className='text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl leading-none'
+							>
+								&times;
+							</button>
+						</div>
+
+						{/* Case 2: Settings Flow (Does NOT sign out) */}
+						<PasswordForm
+							shouldSignOut={false}
+							onSuccess={() => {
+								// Optional: show a toast notification here
+								alert('Password updated successfully!');
+								setIsPasswordModalOpen(false);
+							}}
+							submitButtonText='Update Password'
+						/>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
