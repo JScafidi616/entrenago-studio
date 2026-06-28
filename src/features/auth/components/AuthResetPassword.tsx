@@ -10,7 +10,6 @@ interface PasswordFormProps {
 }
 
 export const PasswordForm = ({
-	shouldSignOut = false,
 	onSuccess,
 	submitButtonText = 'Establecer nueva contraseña',
 }: PasswordFormProps) => {
@@ -30,7 +29,7 @@ export const PasswordForm = ({
 		}
 
 		mutate(
-			{ newPassword: password, shouldSignOut },
+			{ newPassword: password },
 			{
 				onSuccess: () => {
 					if (onSuccess) onSuccess();
