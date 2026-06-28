@@ -34,14 +34,10 @@ export const useForgotPassword = () => {
 // features/auth/hooks/useAuthentications.ts
 export const useResetPassword = () => {
   return useMutation({
-    mutationFn: async ({ newPassword, shouldSignOut = false }: { newPassword: string, shouldSignOut?: boolean }) => {
+    mutationFn: async ({ newPassword }: { newPassword: string }) => {
       const { error } = await supabase.auth.updateUser({ password: newPassword });
       if (error) throw new Error(error.message);
-      
-      // Only sign out if requested (Case 1)
-      if (shouldSignOut) {
-        await supabase.auth.signOut();
-      }
+      // ✅ Removed signOut from here
     },
   });
 };
