@@ -2,19 +2,29 @@ import { cn } from '@/utils/utils';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { PasswordForm } from '@/features/auth/components/AuthResetPassword'; // Adjust path as needed
+import { supabase } from '@/lib/supabase/supabase';
 
 export const ResetPassword = () => {
 	const [isSuccess, setIsSuccess] = useState(false);
+	const [countdown, setCountdown] = useState(10);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (isSuccess) {
-			const timer = setTimeout(() => {
+		if (!isSuccess) return;
+
+		if (countdown <= 0) {
+			supabase.auth.signOut().then(() => {
 				navigate('/login', { replace: true });
-			}, 10000);
-			return () => clearTimeout(timer);
+			});
+			return;
 		}
-	}, [isSuccess, navigate]);
+
+		const timer = setTimeout(() => {
+			setCountdown((prev) => prev - 1);
+		}, 1000);
+
+		return () => clearTimeout(timer);
+	}, [isSuccess, countdown, navigate]);
 
 	if (isSuccess) {
 		return (
@@ -40,6 +50,7 @@ export const ResetPassword = () => {
 				<p className='text-gray-600'>
 					Tu contraseña ha sido restablecida correctamente. Serás redirigido al
 					inicio de sesión en unos segundos...
+					<span className='font-bold text-blue-600'>{countdown}</span>
 				</p>
 				<Link
 					to='/login'
@@ -67,10 +78,7 @@ export const ResetPassword = () => {
 				</h1>
 
 				{/* Case 1: Forgot Password Flow (Signs out) */}
-				<PasswordForm
-					shouldSignOut={true}
-					onSuccess={() => setIsSuccess(true)}
-				/>
+				<PasswordForm onSuccess={() => setIsSuccess(true)} />
 
 				<div className={cn('mt-4 text-center')}>
 					<Link to='/login' className={cn('text-blue-600 hover:underline')}>
