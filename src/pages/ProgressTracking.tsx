@@ -18,7 +18,7 @@ export const ProgressTracking = () => {
 			</div>
 
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6'>
-				<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl'>
+				<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
 					<CardHeader className='pb-3'>
 						<CardTitle className='text-foreground text-lg'>
 							Monthly Overview
@@ -43,7 +43,7 @@ export const ProgressTracking = () => {
 					</CardContent>
 				</Card>
 
-				<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl'>
+				<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
 					<CardHeader className='pb-3'>
 						<CardTitle className='text-foreground text-lg'>
 							Strength Progress
@@ -73,7 +73,7 @@ export const ProgressTracking = () => {
 					</CardContent>
 				</Card>
 
-				<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-[backdrop-filter]:bg-card/50 dark:supports-[backdrop-filter]:bg-neutral-800/50 rounded-2xl md:col-span-2 lg:col-span-1'>
+				<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl md:col-span-2 lg:col-span-1'>
 					<CardHeader className='pb-3'>
 						<CardTitle className='text-foreground text-lg'>
 							Weekly Streak
