@@ -14,7 +14,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "doctor": "npx react-doctor@latest"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.10",
@@ -30,6 +31,7 @@
     "@tailwindcss/vite": "^4.3.0",
     "@tanstack/react-query": "^5.101.0",
     "@tanstack/react-query-devtools": "^5.71.10",
+    "@vercel/speed-insights": "^2.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.539.0",

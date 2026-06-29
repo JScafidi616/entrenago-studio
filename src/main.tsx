@@ -8,6 +8,7 @@ import '@/styles/global.css';
 import { LazyMotion, domMax } from 'motion/react';
 import { queryClient } from '@/lib/queryClient'; // Adjust path
 
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 			<AuthProvider>
 				<LazyMotion features={domMax}>
 					<App />
+					<SpeedInsights />
 				</LazyMotion>
 			</AuthProvider>
 			<ReactQueryDevtools initialIsOpen={false} />
