@@ -30,7 +30,12 @@ export const ProgressTracking = () => {
 								<span className='text-sm md:text-base'>Workouts Completed</span>
 								<span className='font-bold text-sm md:text-base'>18/24</span>
 							</div>
-							<Progress value={75} className='h-2 md:h-2' />
+							<Progress
+								value={75}
+								className='h-2 md:h-2'
+								aria-label='Workout completion'
+								aria-labelledby='workout-progress'
+							/>
 							<p className='text-xs md:text-sm text-muted-foreground'>
 								75% completion rate this month
 							</p>

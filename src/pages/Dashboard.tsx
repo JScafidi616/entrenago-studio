@@ -284,7 +284,12 @@ export const Dashboard = () => {
 										<span>Completed</span>
 										<span>2/5 workouts</span>
 									</div>
-									<Progress value={40} className='h-2' />
+									<Progress
+										value={40}
+										className='h-2'
+										aria-label='Workout completion'
+										aria-labelledby='workout-progress'
+									/>
 								</div>
 								<p className='text-sm text-muted-foreground'>
 									Keep it up! You're 40% through this week's routine.
