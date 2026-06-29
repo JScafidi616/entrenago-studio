@@ -3,6 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import sitemap from 'vite-plugin-sitemap';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vite.dev/config/
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
@@ -15,17 +16,20 @@ const dirname =
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
-	resolve:{
-		tsconfigPaths: true,
-	},
 	plugins: [
+		tsconfigPaths(),
 		tailwindcss(),
 		react(),
 		sitemap({
       hostname: 'https://entrenago-studio.vercel.app',
-      dynamicRoutes: ['/','/login', '/register', 'forgot-password'],
+      dynamicRoutes: [
+				'/',
+				'/login',
+				'/register',
+				'/forgot-password',
+			],
 			generateRobotsTxt: true,
-    }),,
+    }),
 	],
 	test: {
 		// Vite 8 architecture isolation: Disable cross-project dependency reloads
@@ -69,5 +73,10 @@ export default defineConfig({
 
 		// Optionally increase the limit if needed after chunking
 		chunkSizeWarningLimit: 1000,
+	},
+	resolve: {
+		alias: {
+			'@': path.resolve(dirname, './src'),
+		},
 	},
 } as any);
