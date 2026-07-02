@@ -13,7 +13,7 @@ export function ThemeToggle() {
 				variant='ghost'
 				size='icon'
 				className={cn(
-					'hover:bg-accent h-10 w-10 rounded-2xl bg-muted/30 dark:bg-neutral-700/30',
+					'hover:bg-accent h-10 w-10 rounded-2xl bg-muted/30 dark:bg-neutral-700/30 cursor-pointer',
 				)}
 				onClick={toggleDark}
 				aria-label='Cambiar tema'
