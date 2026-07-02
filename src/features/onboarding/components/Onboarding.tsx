@@ -110,21 +110,21 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 						</h2>
 						<div className='mt-4 flex flex-col gap-2'>
 							{['Entrenador', 'Atleta', 'Usuario sin experiencia'].map(
-								(userType) => (
+								(user_type) => (
 									<button
-										key={userType}
+										key={user_type}
 										type='button'
 										className={cn(
 											'px-4 py-2 rounded border transition-colors cursor-pointer',
-											formData.userType === userType
+											formData.user_type === user_type
 												? 'rounded-md hover:bg-primary/90  bg-linear-to-r from-cyan-500 to-green-400'
 												: 'bg-neutral-500 text-white border-gray-100 hover:bg-gray-950 ',
 										)}
 										onClick={() =>
-											setFormData((prev) => ({ ...prev, userType }))
+											setFormData((prev) => ({ ...prev, user_type }))
 										}
 									>
-										{userType}
+										{user_type}
 									</button>
 								),
 							)}
@@ -133,10 +133,10 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 							onClick={handleSubmit}
 							className={cn(
 								'mt-8 px-4 py-2 font-semibold rounded-md hover:bg-primary/90 bg-green-400 w-full cursor-pointer',
-								!formData.userType &&
+								!formData.user_type &&
 									'opacity-50 pointer-events-none bg-gray-600',
 							)}
-							disabled={!formData.userType}
+							disabled={!formData.user_type}
 						>
 							Finalizar
 						</button>
