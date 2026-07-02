@@ -23,6 +23,13 @@ export default tseslint.config(
 				ecmaVersion: 2020,
 				globals: globals.browser,
 			},
+			rules: {
+				// Add this line:
+				'react-refresh/only-export-components': [
+					'error',
+					{ allowConstantExport: true },
+				],
+			},
 		},
 	],
 	storybook.configs['flat/recommended'],
