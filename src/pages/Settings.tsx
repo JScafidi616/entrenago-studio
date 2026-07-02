@@ -17,10 +17,7 @@ import {
 	Trash2,
 	Palette,
 } from 'lucide-react';
-import { PasswordForm } from '@/features/auth/components/AuthResetPassword';
-import { cn } from '@/utils/utils';
-
-import { AnimatePresence, m } from 'motion/react';
+import { ChangePasswordModal } from '../components/custom/ChangePasswordModal';
 
 interface ToggleSetting {
 	id: string;
@@ -226,63 +223,11 @@ export const Settings = () => {
 			</Card>
 
 			{/* Change Password Modal */}
-			<AnimatePresence>
-				{isPasswordModalOpen && (
-					<m.div
-						className={cn(
-							'fixed inset-0 z-9999 flex items-center justify-center bg-white/30 dark:bg-gray-800/30',
-						)}
-						initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-						animate={{ opacity: 1, backdropFilter: 'blur(8px)' }}
-						exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-						transition={{ duration: 0.25, ease: 'easeInOut' }}
-						onClick={() => setIsPasswordModalOpen(false)} // Optional: closes modal when clicking the backdrop
-					>
-						<m.div
-							className={cn(
-								'bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-md border dark:bg-neutral-800',
-							)}
-							initial={{ opacity: 0, scale: 0.95 }}
-							animate={{ opacity: 1, scale: 1 }}
-							exit={{ opacity: 0, scale: 0.95 }}
-							transition={{ duration: 0.2 }}
-							onClick={(e) => e.stopPropagation()} // Prevents the modal from closing when clicking inside it
-						>
-							<div className='mb-6'>
-								<div className='flex items-start justify-between gap-4'>
-									<h2 className='text-2xl font-bold text-foreground text-balance'>
-										Restablecer contraseña
-									</h2>
-
-									<button
-										onClick={() => setIsPasswordModalOpen(false)}
-										className='cursor-pointer text-2xl leading-none text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
-										aria-label='Cerrar'
-									>
-										&times;
-									</button>
-								</div>
-
-								<p className='mt-2 text-sm leading-relaxed text-muted-foreground'>
-									Crea una nueva contraseña segura para tu cuenta.
-								</p>
-							</div>
-
-							{/* Case 2: Settings Flow (Does NOT sign out) */}
-							<PasswordForm
-								shouldSignOut={false}
-								onSuccess={() => {
-									// TODO show a toast notification here
-
-									alert('Password updated successfully!');
-									setIsPasswordModalOpen(false);
-								}}
-								submitButtonText='Update Password'
-							/>
-						</m.div>
-					</m.div>
-				)}
-			</AnimatePresence>
+			{/* Case 2: Settings Flow (Does NOT sign out) */}
+			<ChangePasswordModal
+				open={isPasswordModalOpen}
+				onClose={() => setIsPasswordModalOpen(false)}
+			/>
 		</div>
 	);
 };
