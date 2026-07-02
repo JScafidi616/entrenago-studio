@@ -8,7 +8,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	const queryClient = useQueryClient();
 	const { profile } = useAuth();
 	const [step, setStep] = useState(1);
-	const [loading, setLoading] = useState(true);
+	const [loading] = useState(true);
 	const [skipStep1, setSkipStep1] = useState(false);
 	const [formData, setFormData] = useState<FormData>({
 		full_name: '',
@@ -23,17 +23,14 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	}, []);
 		
 	// Replaced the Supabase fetch with the cached profile data
-	useEffect(() => {
-		if (profile) {
-			if (profile.full_name && profile.full_name.trim() !== '') {
-				// profile.full_name may be null in the type; coerce to string to satisfy FormData
-				setFormData((prev) => ({ ...prev, full_name: profile.full_name ?? '' }));
-				setStep(2);
-				setSkipStep1(true);
-			}
-			setLoading(false);
+	if (profile?.full_name && profile.full_name.trim() !== '') {
+		if (formData.full_name !== profile.full_name) {
+			setFormData((prev) => ({ ...prev, full_name: profile.full_name ?? '' }));
 		}
-	}, [profile]);
+		if (step !== 2) setStep(2);
+		if (!skipStep1) setSkipStep1(true);
+	}
+
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData((prev) => ({
