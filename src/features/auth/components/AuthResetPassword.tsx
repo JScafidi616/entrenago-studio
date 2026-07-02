@@ -1,7 +1,6 @@
 // components/PasswordForm.tsx
 import { useState } from 'react';
 import { useResetPassword } from '@/features/auth/hooks/useAuthentications';
-import { cn } from '@/utils/utils';
 import { Eye, EyeOff, Lock } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -138,7 +137,7 @@ export const PasswordForm = ({
 			<Button
 				type='submit'
 				disabled={isPending}
-				className='w-full h-11 rounded-xl bg-linear-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white font-semibold shadow-md hover:shadow-lg active:scale-[0.98] transition-all duration-200 mt-1 border-0'
+				className='cursor-pointer w-full h-11 rounded-xl bg-linear-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white font-semibold shadow-md hover:shadow-lg active:scale-[0.98] transition-all duration-200 mt-1 border-0'
 			>
 				{isPending ? 'Actualizando...' : submitButtonText}
 			</Button>
