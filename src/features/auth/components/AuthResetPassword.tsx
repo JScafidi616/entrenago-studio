@@ -80,9 +80,9 @@ export const PasswordForm = ({
 						className='absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors'
 					>
 						{showPassword ? (
-							<EyeOff className='h-4 w-4' />
+							<EyeOff className='h-4 w-4  cursor-pointer' />
 						) : (
-							<Eye className='h-4 w-4' />
+							<Eye className='h-4 w-4  cursor-pointer' />
 						)}
 					</button>
 				</div>
@@ -121,9 +121,9 @@ export const PasswordForm = ({
 						className='absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors'
 					>
 						{showConfirm ? (
-							<EyeOff className='h-4 w-4' />
+							<EyeOff className='h-4 w-4  cursor-pointer' />
 						) : (
-							<Eye className='h-4 w-4' />
+							<Eye className='h-4 w-4  cursor-pointer' />
 						)}
 					</button>
 				</div>
