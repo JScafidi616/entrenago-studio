@@ -44,8 +44,9 @@ export const useUpdateProfile = () => {
 			// 3. Refresh the UI (React Context)
 			await refreshProfile();
 
-		} catch (err: any) {
-			setError(err.message || 'Failed to update profile');
+		} catch (err: unknown) {
+			const error = err as Error;
+			setError(error.message || 'Failed to update profile');
 			console.error('Error updating profile:', err);
 		} finally {
 			setIsLoading(false);
