@@ -43,7 +43,7 @@ export default function Register() {
 	const handleOAuth = async ({ provider }: { provider: Provider }) => {
 		try {
 			await signInWithProvider(provider);
-		} catch (err) {
+		} catch {
 			alert('Failed to sign in with Google. Please try again.');
 		}
 	};

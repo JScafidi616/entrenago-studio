@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -48,7 +48,7 @@ const profileStats = [
 
 export const Profile = () => {
 	const [isEditing, setIsEditing] = useState(false);
-	const { user, profile } = useAuth();
+	const { profile } = useAuth();
 	const { updateProfile, isLoading, error } = useUpdateProfile();
 	const initials = useUserInitials();
 
@@ -61,16 +61,23 @@ export const Profile = () => {
 	});
 
 	// Sync profile data to form state when it loads/updates
-	useEffect(() => {
-		if (profile) {
-			setForm({
-				name: profile.full_name || '',
-				goal: profile.goal || '',
-				user_type: profile.user_type || '',
-				email: profile.email || user?.email || '',
-			});
+	if (profile) {
+		const nextForm = {
+			name: profile.full_name || '',
+			goal: profile.goal || '',
+			user_type: profile.user_type || '',
+			email: profile.email || '',
+		};
+		// Only update if the values actually changed to prevent infinite loops
+		if (
+			form.name !== nextForm.name ||
+			form.goal !== nextForm.goal ||
+			form.user_type !== nextForm.user_type ||
+			form.email !== nextForm.email
+		) {
+			setForm(nextForm);
 		}
-	}, [profile, user]);
+	}
 
 	const handleChange = (key: keyof typeof form, value: string) => {
 		setForm((prev) => ({ ...prev, [key]: value }));
