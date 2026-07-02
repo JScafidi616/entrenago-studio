@@ -1,4 +1,3 @@
-import { cn } from '@/utils/utils';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Dumbbell, ArrowLeft, CheckCircle2 } from 'lucide-react';
