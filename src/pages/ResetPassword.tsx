@@ -1,6 +1,7 @@
 import { cn } from '@/utils/utils';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Dumbbell, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { PasswordForm } from '@/features/auth/components/AuthResetPassword'; // Adjust path as needed
 import { supabase } from '@/lib/supabase/supabase';
 
@@ -26,64 +27,72 @@ export const ResetPassword = () => {
 		return () => clearTimeout(timer);
 	}, [isSuccess, countdown, navigate]);
 
-	if (isSuccess) {
-		return (
-			<div className='max-w-md mx-auto mt-20 p-8 bg-white rounded-xl shadow-lg text-center space-y-4'>
-				<div className='mx-auto w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center'>
-					<svg
-						className='w-6 h-6'
-						fill='none'
-						stroke='currentColor'
-						viewBox='0 0 24 24'
-					>
-						<path
-							strokeLinecap='round'
-							strokeLinejoin='round'
-							strokeWidth={2}
-							d='M5 13l4 4L19 7'
-						/>
-					</svg>
-				</div>
-				<h2 className='text-xl font-bold text-gray-900'>
-					¡Contraseña actualizada!
-				</h2>
-				<p className='text-gray-600'>
-					Tu contraseña ha sido restablecida correctamente. Serás redirigido al
-					inicio de sesión en unos segundos...
-					<span className='font-bold text-blue-600'>{countdown}</span>
-				</p>
-				<Link
-					to='/login'
-					className='inline-block text-sm text-blue-600 hover:underline font-medium'
-				>
-					Ir al inicio de sesión ahora
-				</Link>
-			</div>
-		);
-	}
-
 	return (
-		<div
-			className={cn(
-				'min-h-screen flex items-center justify-center bg-background px-4 py-10 sm:px-6 lg:px-8 dark:bg-neutral-900',
-			)}
-		>
-			<div
-				className={cn(
-					'max-w-md mx-auto mt-20 p-6 bg-white rounded-lg shadow-md dark:bg-neutral-800',
-				)}
-			>
-				<h1 className={cn('text-2xl font-bold mb-4 dark:text-gray-300')}>
-					Restablecer contraseña
-				</h1>
+		<div className='min-h-screen flex items-center justify-center bg-background dark:bg-neutral-900 px-4 transition-colors duration-300'>
+			<div className='w-full max-w-md'>
+				{/* Logo */}
+				<div className='flex items-center justify-center gap-2.5 mb-8'>
+					<div className='p-2.5 bg-linear-to-r from-cyan-500 to-green-400 rounded-full shadow-md'>
+						<Dumbbell className='h-6 w-6 text-white' />
+					</div>
+					<span className='font-bold text-xl text-foreground'>EntrenaGo</span>
+				</div>
 
-				{/* Case 1: Forgot Password Flow (Signs out) */}
-				<PasswordForm onSuccess={() => setIsSuccess(true)} />
+				<div className='rounded-2xl border border-border/50 bg-card dark:bg-neutral-800/80 shadow-xl backdrop-blur supports-backdrop-filter:bg-card/90 dark:supports-backdrop-filter:bg-neutral-800/80 p-8'>
+					{!isSuccess ? (
+						/* ── Form state ── */
+						<>
+							<div className='mb-6'>
+								<h1 className='text-2xl font-bold text-foreground text-balance'>
+									Restablecer contraseña
+								</h1>
+								<p className='mt-2 text-sm leading-relaxed text-muted-foreground'>
+									Crea una nueva contraseña segura para tu cuenta.
+								</p>
+							</div>
 
-				<div className={cn('mt-4 text-center')}>
-					<Link to='/login' className={cn('text-blue-600 hover:underline')}>
-						Volver al inicio de sesión
-					</Link>
+							<PasswordForm onSuccess={() => setIsSuccess(true)} />
+
+							<p className='mt-6 text-center text-sm text-muted-foreground'>
+								<Link
+									to='/login'
+									className='inline-flex items-center gap-1.5 text-cyan-500 hover:text-cyan-400 font-medium transition-colors'
+								>
+									<ArrowLeft className='h-3.5 w-3.5' />
+									Volver al inicio de sesión
+								</Link>
+							</p>
+						</>
+					) : (
+						/* ── Success state ── */
+						<div className='flex flex-col items-center text-center py-2'>
+							<div className='flex items-center justify-center w-16 h-16 rounded-full bg-green-500/10 dark:bg-green-500/15 mb-5'>
+								<CheckCircle2
+									className='h-8 w-8 text-green-500'
+									strokeWidth={1.75}
+								/>
+							</div>
+
+							<h2 className='text-xl font-bold text-foreground mb-2'>
+								¡Contraseña actualizada!
+							</h2>
+							<p className='text-sm leading-relaxed text-muted-foreground mb-1'>
+								Tu contraseña ha sido restablecida correctamente.
+							</p>
+							<p className='text-sm text-muted-foreground mb-8'>
+								Serás redirigido al inicio de sesión en{' '}
+								<span className='font-semibold text-cyan-500'>{countdown}</span>{' '}
+								{countdown === 1 ? 'segundo' : 'segundos'}...
+							</p>
+
+							<Link
+								to='/login'
+								className='inline-flex items-center gap-1.5 text-sm text-cyan-500 hover:text-cyan-400 font-medium transition-colors'
+							>
+								Ir al inicio de sesión ahora
+							</Link>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>
