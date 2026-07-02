@@ -73,7 +73,7 @@ export const MyAccountLayout = ({
 			</nav>
 
 			{/* Main Content */}
-			<main className='container mx-auto flex-1 w-full px-6 py-6 md:py-8 max-w-4xl'>
+			<main className='container mx-auto grow w-full px-6 py-6 md:py-8 max-w-4xl'>
 				<div className='mb-6 px-1'>
 					<h1 className='text-2xl md:text-3xl font-bold text-foreground text-balance'>
 						Account
@@ -83,23 +83,27 @@ export const MyAccountLayout = ({
 					</p>
 				</div>
 
-				<Tabs value={tab} onValueChange={handleTabChange} className='w-full'>
+				<Tabs value={tab} onValueChange={handleTabChange} className='w-full '>
+					{/* Tabs section here */}
 					<TabsList className='grid w-full grid-cols-2 max-w-sm bg-muted/30 dark:bg-neutral-700/30 rounded-2xl p-1 h-auto'>
+						{/* Settings Profile */}
 						<TabsTrigger
 							value='profile'
-							className='rounded-2xl py-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-green-400 data-[state=active]:text-white data-[state=active]:shadow-md'
+							className='cursor-pointer rounded-2xl py-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-green-400 data-[state=active]:text-white data-[state=active]:shadow-md'
 						>
 							<UserCircle className='h-4 w-4 mr-2' />
 							Profile
 						</TabsTrigger>
+						{/* Settings tab */}
 						<TabsTrigger
 							value='settings'
-							className='rounded-2xl py-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-green-400 data-[state=active]:text-white data-[state=active]:shadow-md'
+							className='cursor-pointer rounded-2xl py-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-green-400 data-[state=active]:text-white data-[state=active]:shadow-md'
 						>
 							<Settings className='h-4 w-4 mr-2' />
 							Settings
 						</TabsTrigger>
 					</TabsList>
+					{/* Loading Content here */}
 					<AnimatePresence mode='wait'>
 						<m.div
 							key={tab}
