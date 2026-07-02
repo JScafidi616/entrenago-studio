@@ -20,7 +20,7 @@ import {
 import { PasswordForm } from '@/features/auth/components/AuthResetPassword';
 import { cn } from '@/utils/utils';
 
-import { AnimatePresence, easeInOut, m } from 'motion/react';
+import { AnimatePresence, m } from 'motion/react';
 
 interface ToggleSetting {
 	id: string;
@@ -230,7 +230,7 @@ export const Settings = () => {
 				{isPasswordModalOpen && (
 					<m.div
 						className={cn(
-							'fixed inset-0 z-[9999] flex items-center justify-center bg-white/30 dark:bg-gray-800/30',
+							'fixed inset-0 z-9999 flex items-center justify-center bg-white/30 dark:bg-gray-800/30',
 						)}
 						initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
 						animate={{ opacity: 1, backdropFilter: 'blur(8px)' }}
