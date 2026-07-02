@@ -18,6 +18,9 @@ import {
 	Palette,
 } from 'lucide-react';
 import { PasswordForm } from '@/features/auth/components/AuthResetPassword';
+import { cn } from '@/utils/utils';
+
+import { AnimatePresence, easeInOut, m } from 'motion/react';
 
 interface ToggleSetting {
 	id: string;
@@ -137,19 +140,21 @@ export const Settings = () => {
 				</CardHeader>
 				<CardContent className='space-y-3'>
 					<div className='flex items-center justify-between p-3 bg-muted/30 dark:bg-neutral-800/30 rounded-2xl border border-border/30'>
-						<div className='flex items-center gap-3'>
+						<div className='flex items-center gap-3 '>
 							<div className='p-2 rounded-full bg-background/50 dark:bg-neutral-700/30'>
 								<Ruler className='h-4 w-4 text-muted-foreground' />
 							</div>
 							<div className='space-y-0.5'>
-								<p className='font-medium text-foreground text-sm'>Units</p>
+								<p className='font-medium text-foreground text-sm cursor-pointer'>
+									Units
+								</p>
 								<p className='text-xs text-muted-foreground'>Metric (kg, cm)</p>
 							</div>
 						</div>
 						<Button
 							variant='outline'
 							size='sm'
-							className='rounded-2xl border-border/50'
+							className='rounded-2xl border-border/50  cursor-pointer'
 						>
 							Change
 						</Button>
@@ -159,15 +164,17 @@ export const Settings = () => {
 							<div className='p-2 rounded-full bg-background/50 dark:bg-neutral-700/30'>
 								<Globe className='h-4 w-4 text-muted-foreground' />
 							</div>
-							<div className='space-y-0.5'>
-								<p className='font-medium text-foreground text-sm'>Language</p>
+							<div className='space-y-0.5 '>
+								<p className='font-medium text-foreground text-sm cursor-pointer'>
+									Language
+								</p>
 								<p className='text-xs text-muted-foreground'>English (US)</p>
 							</div>
 						</div>
 						<Button
 							variant='outline'
 							size='sm'
-							className='rounded-2xl border-border/50'
+							className='rounded-2xl border-border/50  cursor-pointer'
 						>
 							Change
 						</Button>
@@ -186,7 +193,7 @@ export const Settings = () => {
 				<CardContent className='space-y-3'>
 					<Button
 						variant='outline'
-						className='w-full justify-start rounded-2xl border-border/50 bg-muted/30 dark:bg-neutral-800/30 hover:bg-muted/50'
+						className='w-full justify-start rounded-2xl border-border/50 bg-muted/30 dark:bg-neutral-800/30 hover:bg-muted/50 cursor-pointer'
 						onClick={() => setIsPasswordModalOpen(true)} // Open modal
 					>
 						<Lock className='h-4 w-4 mr-2 text-muted-foreground' />
@@ -208,7 +215,7 @@ export const Settings = () => {
 							<Button
 								variant='destructive'
 								size='sm'
-								className='rounded-2xl shrink-0 bg-red-600 hover:bg-red-700 text-white'
+								className='rounded-2xl shrink-0 bg-red-600 hover:bg-red-700 text-white cursor-pointer'
 							>
 								<Trash2 className='h-4 w-4 mr-2' />
 								Delete
@@ -219,34 +226,63 @@ export const Settings = () => {
 			</Card>
 
 			{/* Change Password Modal */}
-			{isPasswordModalOpen && (
-				<div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4'>
-					<div className='bg-white dark:bg-neutral-800 p-6 rounded-lg shadow-lg max-w-md w-full'>
-						<div className='flex justify-between items-center mb-4'>
-							<h2 className='text-xl font-bold text-gray-900 dark:text-gray-100'>
-								Change Password
-							</h2>
-							<button
-								onClick={() => setIsPasswordModalOpen(false)}
-								className='text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-2xl leading-none'
-							>
-								&times;
-							</button>
-						</div>
+			<AnimatePresence>
+				{isPasswordModalOpen && (
+					<m.div
+						className={cn(
+							'fixed inset-0 z-[9999] flex items-center justify-center bg-white/30 dark:bg-gray-800/30',
+						)}
+						initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+						animate={{ opacity: 1, backdropFilter: 'blur(8px)' }}
+						exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+						transition={{ duration: 0.25, ease: 'easeInOut' }}
+						onClick={() => setIsPasswordModalOpen(false)} // Optional: closes modal when clicking the backdrop
+					>
+						<m.div
+							className={cn(
+								'bg-white p-6 rounded-2xl shadow-xl w-[90%] max-w-md border dark:bg-neutral-800',
+							)}
+							initial={{ opacity: 0, scale: 0.95 }}
+							animate={{ opacity: 1, scale: 1 }}
+							exit={{ opacity: 0, scale: 0.95 }}
+							transition={{ duration: 0.2 }}
+							onClick={(e) => e.stopPropagation()} // Prevents the modal from closing when clicking inside it
+						>
+							<div className='mb-6'>
+								<div className='flex items-start justify-between gap-4'>
+									<h2 className='text-2xl font-bold text-foreground text-balance'>
+										Restablecer contraseña
+									</h2>
 
-						{/* Case 2: Settings Flow (Does NOT sign out) */}
-						<PasswordForm
-							shouldSignOut={false}
-							onSuccess={() => {
-								// Optional: show a toast notification here
-								alert('Password updated successfully!');
-								setIsPasswordModalOpen(false);
-							}}
-							submitButtonText='Update Password'
-						/>
-					</div>
-				</div>
-			)}
+									<button
+										onClick={() => setIsPasswordModalOpen(false)}
+										className='cursor-pointer text-2xl leading-none text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
+										aria-label='Cerrar'
+									>
+										&times;
+									</button>
+								</div>
+
+								<p className='mt-2 text-sm leading-relaxed text-muted-foreground'>
+									Crea una nueva contraseña segura para tu cuenta.
+								</p>
+							</div>
+
+							{/* Case 2: Settings Flow (Does NOT sign out) */}
+							<PasswordForm
+								shouldSignOut={false}
+								onSuccess={() => {
+									// TODO show a toast notification here
+
+									alert('Password updated successfully!');
+									setIsPasswordModalOpen(false);
+								}}
+								submitButtonText='Update Password'
+							/>
+						</m.div>
+					</m.div>
+				)}
+			</AnimatePresence>
 		</div>
 	);
 };
