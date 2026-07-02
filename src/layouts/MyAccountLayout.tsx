@@ -2,7 +2,7 @@ import { useLocation, Link, useOutlet, useNavigate } from 'react-router-dom';
 import { AnimatePresence, easeInOut, m } from 'motion/react';
 import { ArrowLeft, Dumbbell, UserCircle, Settings } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { cn } from '@/utils/utils';
 
 export const MyAccountLayout = ({
@@ -23,15 +23,12 @@ export const MyAccountLayout = ({
 		exit: { opacity: 0 },
 	};
 	// Sync tab state with URL changes (e.g., browser back/forward buttons)
-	useEffect(() => {
-		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-
-		if (location.pathname.endsWith('/settings')) {
-			setTab('settings');
-		} else {
-			setTab('profile');
-		}
-	}, [location.pathname]);
+	const nextTab = location.pathname.endsWith('/settings')
+		? 'settings'
+		: 'profile';
+	if (tab !== nextTab) {
+		setTab(nextTab);
+	}
 
 	// Update URL when tab changes to trigger useOutlet()
 	const handleTabChange = (value: string) => {
