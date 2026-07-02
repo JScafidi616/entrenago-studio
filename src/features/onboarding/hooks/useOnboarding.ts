@@ -13,7 +13,8 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	const [formData, setFormData] = useState<FormData>({
 		full_name: '',
 		goal: '',
-		userType: '',
+		user_type: '',
+		onboarded: false,
 	});
 
 
@@ -47,7 +48,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 				.update({
 					full_name: formData.full_name,
 					goal: formData.goal,
-					user_type: formData.userType,
+					user_type: formData.user_type,
 					onboarded: true,
 				})
 				.eq('id', userId);
@@ -56,14 +57,14 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 		},
 		onSuccess: () => {
 			// 1. Instantly update the cache so the modal closes immediately
-			queryClient.setQueryData(['profile', userId], (oldData: any) => {
+			queryClient.setQueryData(['profile', userId], (oldData: FormData | undefined) => {
 				if (!oldData) return oldData;
 				return {
 					...oldData,
 					onboarded: true,
 					full_name: formData.full_name,
 					goal: formData.goal,
-					user_type: formData.userType,
+					user_type: formData.user_type,
 				};
 			});
 

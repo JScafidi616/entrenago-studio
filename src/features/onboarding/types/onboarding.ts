@@ -6,5 +6,6 @@ export interface UseOnboardingProps {
 export interface FormData {
 	full_name: string;
 	goal: string;
-	userType: string;
+	user_type: string;
+	onboarded: boolean;
 }
