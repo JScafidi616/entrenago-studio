@@ -25,7 +25,7 @@ export const UserDropdown = () => {
 				<Button
 					variant='ghost'
 					size='icon'
-					className='hover:bg-accent rounded-2xl h-10 w-10 bg-muted/30 dark:bg-neutral-700/30 transition-all duration-200 hover:shadow-md'
+					className='hover:bg-accent rounded-2xl h-10 w-10 bg-muted/30 dark:bg-neutral-700/30 transition-all duration-200 hover:shadow-md cursor-pointer'
 				>
 					<Avatar className='h-6 w-6'>
 						<AvatarImage src='/diverse-user-avatars.png' alt='User' />
