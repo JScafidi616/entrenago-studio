@@ -55,7 +55,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 						<button
 							onClick={() => setStep(2)} // Avanza al siguiente step, supongo es el 2
 							className={cn(
-								'mt-8 px-4 py-2 font-semibold rounded-md hover:bg-primary/90 bg-cyan-400 w-full',
+								'mt-8 px-4 py-2 font-semibold rounded-md hover:bg-primary/90 bg-cyan-400 w-full cursor-pointer',
 								!formData.full_name.trim() &&
 									'opacity-50 pointer-events-none bg-gray-600',
 							)}
@@ -78,7 +78,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 										key={goal}
 										type='button'
 										className={cn(
-											'px-4 py-2 rounded border transition-colors',
+											'px-4 py-2 rounded border transition-colors cursor-pointer',
 											formData.goal === goal
 												? 'rounded-md hover:bg-primary/90  bg-linear-to-r from-cyan-500 to-green-400'
 												: 'bg-neutral-500 text-white border-gray-100 hover:bg-gray-950 ',
@@ -93,7 +93,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 						<button
 							onClick={() => setStep(3)}
 							className={cn(
-								'mt-8 px-4 py-2 font-semibold rounded-md hover:bg-primary/90 bg-cyan-400 w-full',
+								'mt-8 px-4 py-2 font-semibold rounded-md hover:bg-primary/90 bg-cyan-400 w-full cursor-pointer',
 								!formData.goal && 'opacity-50 pointer-events-none bg-gray-600',
 							)}
 							disabled={!formData.goal}
@@ -115,7 +115,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 										key={userType}
 										type='button'
 										className={cn(
-											'px-4 py-2 rounded border transition-colors',
+											'px-4 py-2 rounded border transition-colors cursor-pointer',
 											formData.userType === userType
 												? 'rounded-md hover:bg-primary/90  bg-linear-to-r from-cyan-500 to-green-400'
 												: 'bg-neutral-500 text-white border-gray-100 hover:bg-gray-950 ',
@@ -132,7 +132,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 						<button
 							onClick={handleSubmit}
 							className={cn(
-								'mt-8 px-4 py-2 font-semibold rounded-md hover:bg-primary/90 bg-green-400 w-full',
+								'mt-8 px-4 py-2 font-semibold rounded-md hover:bg-primary/90 bg-green-400 w-full cursor-pointer',
 								!formData.userType &&
 									'opacity-50 pointer-events-none bg-gray-600',
 							)}
