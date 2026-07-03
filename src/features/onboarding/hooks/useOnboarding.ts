@@ -69,9 +69,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 			});
 
 			// Refetch in the background to guarantee the cache matches the DB
-			setTimeout(() => {
-				queryClient.invalidateQueries({ queryKey: ['profile', userId] });
-			}, 1000); // Wait 1 second before refetching
+			queryClient.invalidateQueries({ queryKey: ['profile', userId] });
 
 			// Call the parent callback
 			if (onComplete) onComplete();
