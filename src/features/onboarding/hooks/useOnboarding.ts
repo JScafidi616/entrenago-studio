@@ -58,6 +58,15 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 		onSuccess: () => {
 			// 1. Update ALL profile-related caches instantly
 			// This guarantees AuthContext sees onboarded: true immediately
+			console.log(
+				'🔍 Cache keys before update:',
+				queryClient
+					.getQueryCache()
+					.getAll()
+					.map((q) => q.queryKey),
+			);
+			console.log('🔍 Current profile in AuthContext:', profile);
+			console.log('🔍 userId:', userId);
 			queryClient.setQueriesData({ queryKey: ['profile'] }, (oldData: any) => {
 				if (!oldData) {
 					return {
