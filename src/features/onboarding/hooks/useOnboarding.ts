@@ -56,9 +56,17 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 			if (error) throw error;
 		},
 		onSuccess: () => {
-			// Instantly update the cache so the modal closes immediately
-			queryClient.setQueryData(['profile', userId], (oldData: FormData | undefined) => {
-				if (!oldData) return oldData;
+			// 1. Update ALL profile-related caches instantly
+			// This guarantees AuthContext sees onboarded: true immediately
+			queryClient.setQueriesData({ queryKey: ['profile'] }, (oldData: any) => {
+				if (!oldData) {
+					return {
+						onboarded: true,
+						full_name: formData.full_name,
+						goal: formData.goal,
+						user_type: formData.user_type,
+					};
+				}
 				return {
 					...oldData,
 					onboarded: true,
@@ -68,10 +76,11 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 				};
 			});
 
-			// Refetch in the background to guarantee the cache matches the DB
-			queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+			// 2. Refetch in the background to guarantee the cache matches the DB
+			// We also broaden this to ['profile'] to ensure it catches the right key
+			queryClient.invalidateQueries({ queryKey: ['profile'] });
 
-			// Call the parent callback
+			// 3. Call the parent callback
 			if (onComplete) onComplete();
 		},
 		onError: (error) => {
