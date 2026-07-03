@@ -24,7 +24,7 @@ export default function AppLayout() {
 
 	const currentSection = location.pathname.replace(/^\/+/, '') || 'dashboard';
 
-	const showOnboarding = !!user && !profile?.onboarded && !onboardingCompleted;
+	const showOnboarding = !!user && !!profile && !profile.onboarded;
 
 	console.log(
 		'AppLayout: showOnboarding =',
