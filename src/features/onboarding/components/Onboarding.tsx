@@ -45,7 +45,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 						<button
 							onClick={() => setStep(2)} // Avanza al siguiente step, supongo es el 2
 							className={cn(
-								'hover:bg-primary/90 mt-8 w-full cursor-pointer rounded-md bg-cyan-400 px-4 py-2 font-semibold',
+								'hover:bg-primary/90 mt-8 w-full rounded-md bg-cyan-400 px-4 py-2 font-semibold',
 								!formData.full_name.trim() && 'pointer-events-none bg-gray-600 opacity-50',
 							)}
 							disabled={!formData.full_name.trim()}
@@ -66,7 +66,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 									key={goal}
 									type="button"
 									className={cn(
-										'cursor-pointer rounded border px-4 py-2 transition-colors',
+										'rounded border px-4 py-2 transition-colors',
 										formData.goal === goal
 											? 'hover:bg-primary/90 rounded-md bg-linear-to-r from-cyan-500 to-green-400'
 											: 'border-gray-100 bg-neutral-500 text-white hover:bg-gray-950',
@@ -80,7 +80,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 						<button
 							onClick={() => setStep(3)}
 							className={cn(
-								'hover:bg-primary/90 mt-8 w-full cursor-pointer rounded-md bg-cyan-400 px-4 py-2 font-semibold',
+								'hover:bg-primary/90 mt-8 w-full rounded-md bg-cyan-400 px-4 py-2 font-semibold',
 								!formData.goal && 'pointer-events-none bg-gray-600 opacity-50',
 							)}
 							disabled={!formData.goal}
@@ -101,7 +101,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 									key={user_type}
 									type="button"
 									className={cn(
-										'cursor-pointer rounded border px-4 py-2 transition-colors',
+										'rounded border px-4 py-2 transition-colors',
 										formData.user_type === user_type
 											? 'hover:bg-primary/90 rounded-md bg-linear-to-r from-cyan-500 to-green-400'
 											: 'border-gray-100 bg-neutral-500 text-white hover:bg-gray-950',
@@ -115,7 +115,7 @@ const OnboardingModal = ({ userId, onComplete }: UseOnboardingProps) => {
 						<button
 							onClick={handleSubmit}
 							className={cn(
-								'hover:bg-primary/90 mt-8 w-full cursor-pointer rounded-md bg-green-400 px-4 py-2 font-semibold',
+								'hover:bg-primary/90 mt-8 w-full rounded-md bg-green-400 px-4 py-2 font-semibold',
 								!formData.user_type && 'pointer-events-none bg-gray-600 opacity-50',
 							)}
 							disabled={!formData.user_type}
