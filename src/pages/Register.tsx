@@ -148,7 +148,7 @@ export default function Register() {
 			{/* Right Panel - Sign Up form */}
 			<div
 				className={cn(
-					'w-full max-w-md space-y-6 bg-card p-8 rounded-2xl shadow-lg bg-slate-300 mt-6 md:mt-0 dark:bg-neutral-800',
+					'w-full max-w-md space-y-6 bg-card p-8 rounded-2xl shadow-lg  mt-6 md:mt-0 dark:bg-neutral-800',
 				)}
 			>
 				{/* Card Title Section */}
@@ -215,9 +215,7 @@ export default function Register() {
 					/>
 
 					{error && (
-						<p className={cn('text-sm text-destructive text-red-500')}>
-							{error.message}
-						</p>
+						<p className={cn('text-sm text-destructive')}>{error.message}</p>
 					)}
 
 					{/* Submit Button */}
