@@ -8,7 +8,7 @@ import { cn } from '@/utils/utils';
 import { Dumbbell } from 'lucide-react';
 import { AnimatePresence, easeInOut, m } from 'motion/react';
 import { useLocation, useNavigate, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import OnboardingModal from '@/features/onboarding/components/Onboarding';
 import { NavDesktop } from '@/features/navigation/components/NavDesktop';
@@ -17,11 +17,12 @@ export default function AppLayout() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const currentOutlet = useOutlet();
-	// Derive current section directly from the URL path to avoid manual state management
-	const currentSection = location.pathname.replace(/^\/+/, '') || 'dashboard';
-	//
 	const { user, profile } = useAuth();
-	const showOnboarding = !!user && !profile?.onboarded;
+
+	const [onboardingCompleted, setOnboardingCompleted] = useState(false);
+
+	const currentSection = location.pathname.replace(/^\/+/, '') || 'dashboard';
+	const showOnboarding = !!user && !profile?.onboarded && !onboardingCompleted;
 
 	const handleNavigation = (page: string) => {
 		navigate(page);
@@ -100,9 +101,8 @@ export default function AppLayout() {
 							{showOnboarding && user && (
 								<OnboardingModal
 									userId={user.id}
-									// 2. Optional: If your modal doesn't automatically
-									// invalidate the query, you can pass a callback to do it.
 									onComplete={() => {
+										setOnboardingCompleted(true);
 										console.log('Onboarding finished successfully!');
 									}}
 								/>
