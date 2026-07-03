@@ -7,8 +7,8 @@ import { useEffect, useState } from 'react';
 export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	const queryClient = useQueryClient();
 	const { profile } = useAuth();
+	const isProfileLoading = !profile;
 	const [step, setStep] = useState(1);
-	const [loading, setLoading] = useState(true);
 	const [skipStep1, setSkipStep1] = useState(false);
 	const [formData, setFormData] = useState<FormData>({
 		full_name: '',
@@ -23,18 +23,15 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	}, []);
 
 	// Replaced the Supabase fetch with the cached profile data
-	// Replaced the Supabase fetch with the cached profile data
-	useEffect(() => {
-		if (profile) {
-			if (profile.full_name && profile.full_name.trim() !== '') {
-				// profile.full_name may be null in the type; coerce to string to satisfy FormData
-				setFormData((prev) => ({ ...prev, full_name: profile.full_name ?? '' }));
-				setStep(2);
-				setSkipStep1(true);
-			}
-			setLoading(false);
+	const [initialized, setInitialized] = useState(false);
+	if (profile && !initialized) {
+		setInitialized(true); // Mark as initialized to prevent infinite loops
+		if (profile.full_name && profile.full_name.trim() !== '') {
+			setFormData((prev) => ({ ...prev, full_name: profile.full_name ?? '' }));
+			setStep(2);
+			setSkipStep1(true);
 		}
-	}, [profile]);
+	}
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData((prev) => ({
@@ -62,7 +59,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 			console.log('🎯 useOnboarding: Mutation succeeded');
 
 			// Fix the type to match the actual Profile structure
-			queryClient.setQueryData(['profile', userId], (oldData: any) => {
+			queryClient.setQueryData(['profile', userId], (oldData: FormData | undefined) => {
 				console.log('🔧 useOnboarding: Updating cache, old onboarded =', oldData?.onboarded);
 
 				// Handle case where cache might be empty
@@ -107,7 +104,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	return {
 		handleChange,
 		handleSubmit,
-		loading: loading || mutation.isPending,
+		loading: isProfileLoading || mutation.isPending,
 		step,
 		setStep,
 		formData,
