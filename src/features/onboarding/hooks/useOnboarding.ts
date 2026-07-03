@@ -2,16 +2,13 @@ import type { FormData, UseOnboardingProps } from '@/features/onboarding/types/o
 import { supabase } from '@/lib/supabase/supabase';
 import { useAuth } from '@/context/AuthContext'; // Import useAuth
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	const queryClient = useQueryClient();
 	const { profile } = useAuth();
-
-	// Derive loading directly from the profile
-	const isProfileLoading = !profile;
-
 	const [step, setStep] = useState(1);
+	const [loading] = useState(true);
 	const [skipStep1, setSkipStep1] = useState(false);
 	const [formData, setFormData] = useState<FormData>({
 		full_name: '',
@@ -20,17 +17,18 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 		onboarded: false,
 	});
 
-	// "Adjust state during render" pattern (The React-recommended alternative to useEffect)
-	const [initialized, setInitialized] = useState(false);
-	if (profile && !initialized) {
-		setInitialized(true);
+	useEffect(() => {
+		document.body.classList.add('overflow-hidden');
+		return () => document.body.classList.remove('overflow-hidden');
+	}, []);
 
-		// ADD THIS CHECK: Only initialize the form if they are NOT already onboarded!
-		if (!profile.onboarded && profile.full_name && profile.full_name.trim() !== '') {
+	// Replaced the Supabase fetch with the cached profile data
+	if (profile?.full_name && profile.full_name.trim() !== '') {
+		if (formData.full_name !== profile.full_name) {
 			setFormData((prev) => ({ ...prev, full_name: profile.full_name ?? '' }));
-			setStep(2);
-			setSkipStep1(true);
 		}
+		if (step !== 2) setStep(2);
+		if (!skipStep1) setSkipStep1(true);
 	}
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,12 +54,8 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 			if (error) throw error;
 		},
 		onSuccess: () => {
-			// 1. Update the EXACT cache key used by AuthContext
-			// We use setQueryData with the exact array ['profile', userId]
-			queryClient.setQueryData(['profile', userId], (oldData: any) => {
-				// Optional: Log to prove it's working!
-				console.log('🔥 Successfully updating cache for:', ['profile', userId]);
-
+			// 1. Instantly update the cache so the modal closes immediately
+			queryClient.setQueryData(['profile', userId], (oldData: FormData | undefined) => {
 				if (!oldData) return oldData;
 				return {
 					...oldData,
@@ -72,10 +66,8 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 				};
 			});
 
-			// 2. COMPLETELY REMOVE invalidateQueries!
-			// Because the cache is now updated instantly and correctly,
-			// we don't need to refetch. Removing this prevents Supabase's
-			// read replicas from overwriting our perfect optimistic update.
+			// 2. Refetch in the background to guarantee the cache matches the DB
+			queryClient.invalidateQueries({ queryKey: ['profile', userId] });
 
 			// 3. Call the parent callback
 			if (onComplete) onComplete();
@@ -93,7 +85,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	return {
 		handleChange,
 		handleSubmit,
-		loading: isProfileLoading || mutation.isPending,
+		loading: loading || mutation.isPending,
 		step,
 		setStep,
 		formData,
