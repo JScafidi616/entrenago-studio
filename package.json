@@ -9,12 +9,14 @@
   },
   "scripts": {
     "dev": "vite",
-    "dev-public": "vite --host",
-    "build": "tsc -b && vite build && eslint .",
-    "lint": "eslint .",
+    "dev:network": "vite --host",
     "preview": "vite preview",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --fix",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "storybook:build": "storybook build",
     "doctor": "npx react-doctor@latest"
   },
   "dependencies": {
