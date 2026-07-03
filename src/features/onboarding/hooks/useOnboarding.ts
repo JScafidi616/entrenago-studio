@@ -56,7 +56,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 			if (error) throw error;
 		},
 		onSuccess: () => {
-			// 1. Update ALL profile-related caches instantly
+			// Update ALL profile-related caches instantly
 			// This guarantees AuthContext sees onboarded: true immediately
 			console.log(
 				'🔍 Cache keys before update:',
@@ -67,15 +67,9 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 			);
 			console.log('🔍 Current profile in AuthContext:', profile);
 			console.log('🔍 userId:', userId);
-			queryClient.setQueriesData({ queryKey: ['profile'] }, (oldData: any) => {
-				if (!oldData) {
-					return {
-						onboarded: true,
-						full_name: formData.full_name,
-						goal: formData.goal,
-						user_type: formData.user_type,
-					};
-				}
+			// Because we added staleTime in AuthContext, this update is now trusted!
+			queryClient.setQueryData(['profile', userId], (oldData: any) => {
+				if (!oldData) return oldData;
 				return {
 					...oldData,
 					onboarded: true,
@@ -85,11 +79,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 				};
 			});
 
-			// 2. Refetch in the background to guarantee the cache matches the DB
-			// We also broaden this to ['profile'] to ensure it catches the right key
-			queryClient.invalidateQueries({ queryKey: ['profile'] });
-
-			// 3. Call the parent callback
+			//Call the parent callback
 			if (onComplete) onComplete();
 		},
 		onError: (error) => {
