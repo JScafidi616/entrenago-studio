@@ -59,22 +59,39 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 			if (error) throw error;
 		},
 		onSuccess: () => {
-			// 1. Instantly update the cache so the modal closes immediately
-			queryClient.setQueryData(['profile', userId], (oldData: FormData | undefined) => {
-				if (!oldData) return oldData;
-				return {
+			console.log('🎯 useOnboarding: Mutation succeeded');
+
+			// Fix the type to match the actual Profile structure
+			queryClient.setQueryData(['profile', userId], (oldData: any) => {
+				console.log('🔧 useOnboarding: Updating cache, old onboarded =', oldData?.onboarded);
+
+				// Handle case where cache might be empty
+				if (!oldData) {
+					return {
+						id: userId,
+						onboarded: true,
+						full_name: formData.full_name,
+						goal: formData.goal,
+						user_type: formData.user_type,
+					};
+				}
+
+				const updated = {
 					...oldData,
 					onboarded: true,
 					full_name: formData.full_name,
 					goal: formData.goal,
 					user_type: formData.user_type,
 				};
+				console.log('✅ useOnboarding: Cache updated, new onboarded =', updated.onboarded);
+				return updated;
 			});
 
-			// 2. Refetch in the background to guarantee the cache matches the DB
-			queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+			// REMOVE THIS LINE - it's causing the race condition
+			// queryClient.invalidateQueries({ queryKey: ['profile', userId] });
 
-			// 3. Call the parent callback
+			console.log('🔄 useOnboarding: Cache updated, no refetch triggered');
+
 			if (onComplete) onComplete();
 		},
 		onError: (error) => {

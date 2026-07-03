@@ -37,7 +37,13 @@ export default function AppLayout() {
 
 	useEffect(() => {
 		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-	}, [location.pathname]);
+		console.log(
+			'🚪 AppLayout: showOnboarding =',
+			showOnboarding,
+			'profile.onboarded =',
+			profile?.onboarded,
+		);
+	}, [location.pathname, showOnboarding, profile?.onboarded]);
 
 	return (
 		<div className="flex min-h-screen flex-col bg-gray-100 transition-colors duration-300 dark:bg-neutral-900">
