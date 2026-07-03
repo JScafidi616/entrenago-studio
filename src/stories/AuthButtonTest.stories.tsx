@@ -35,7 +35,7 @@ const meta = {
 			options: ['button', 'submit', 'reset'],
 			description: 'Button type attribute',
 		},
-	} as any,
+	},
 } satisfies Meta<typeof AuthButtonTest>;
 
 export default meta;
