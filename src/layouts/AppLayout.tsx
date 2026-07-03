@@ -26,6 +26,15 @@ export default function AppLayout() {
 
 	const showOnboarding = !!user && !profile?.onboarded && !onboardingCompleted;
 
+	console.log(
+		'AppLayout: showOnboarding =',
+		showOnboarding,
+		'profile?.onboarded =',
+		profile?.onboarded,
+		'onboardingCompleted =',
+		onboardingCompleted,
+	);
+
 	const handleNavigation = (page: string) => {
 		navigate(page);
 	};
@@ -40,13 +49,7 @@ export default function AppLayout() {
 
 	useEffect(() => {
 		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-		console.log(
-			'🚪 AppLayout: showOnboarding =',
-			showOnboarding,
-			'profile.onboarded =',
-			profile?.onboarded,
-		);
-	}, [location.pathname, showOnboarding, profile?.onboarded]);
+	}, [location.pathname]);
 
 	return (
 		<div className="flex min-h-screen flex-col bg-gray-100 transition-colors duration-300 dark:bg-neutral-900">
@@ -112,8 +115,8 @@ export default function AppLayout() {
 									// 2. Optional: If your modal doesn't automatically
 									// invalidate the query, you can pass a callback to do it.
 									onComplete={() => {
-										console.log('Onboarding finished successfully!');
 										setOnboardingCompleted(true);
+										console.log('Onboarding finished successfully!');
 									}}
 								/>
 							)}
