@@ -133,11 +133,7 @@ export const Settings = () => {
 								<p className="text-muted-foreground text-xs">Metric (kg, cm)</p>
 							</div>
 						</div>
-						<Button
-							variant="outline"
-							size="sm"
-							className="border-border/50 cursor-pointer rounded-2xl"
-						>
+						<Button variant="outline" size="sm" className="border-border/50 rounded-2xl">
 							Change
 						</Button>
 					</div>
@@ -151,11 +147,7 @@ export const Settings = () => {
 								<p className="text-muted-foreground text-xs">English (US)</p>
 							</div>
 						</div>
-						<Button
-							variant="outline"
-							size="sm"
-							className="border-border/50 cursor-pointer rounded-2xl"
-						>
+						<Button variant="outline" size="sm" className="border-border/50 rounded-2xl">
 							Change
 						</Button>
 					</div>
@@ -173,7 +165,7 @@ export const Settings = () => {
 				<CardContent className="space-y-3">
 					<Button
 						variant="outline"
-						className="border-border/50 bg-muted/30 hover:bg-muted/50 w-full cursor-pointer justify-start rounded-2xl dark:bg-neutral-800/30"
+						className="border-border/50 bg-muted/30 hover:bg-muted/50 w-full justify-start rounded-2xl dark:bg-neutral-800/30"
 						onClick={() => setIsPasswordModalOpen(true)} // Open modal
 					>
 						<Lock className="text-muted-foreground mr-2 h-4 w-4" />
@@ -193,7 +185,7 @@ export const Settings = () => {
 							<Button
 								variant="destructive"
 								size="sm"
-								className="shrink-0 cursor-pointer rounded-2xl bg-red-600 text-white hover:bg-red-700"
+								className="shrink-0 rounded-2xl bg-red-600 text-white hover:bg-red-700"
 							>
 								<Trash2 className="mr-2 h-4 w-4" />
 								Delete

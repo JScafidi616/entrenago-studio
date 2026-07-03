@@ -36,7 +36,7 @@ export function ChangePasswordModal({ open, onClose }: Props) {
 
 								<button
 									onClick={() => onClose()}
-									className="cursor-pointer text-2xl leading-none text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+									className="text-2xl leading-none text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
 									aria-label="Cerrar"
 								>
 									&times;
