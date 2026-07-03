@@ -56,27 +56,13 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 			if (error) throw error;
 		},
 		onSuccess: () => {
-			// Update ALL profile-related caches instantly
-			// This guarantees AuthContext sees onboarded: true immediately
-			console.log(
-				'🔍 Cache keys before update:',
-				queryClient
-					.getQueryCache()
-					.getAll()
-					.map((q) => q.queryKey),
-			);
-			console.log('🔍 Current profile in AuthContext:', profile);
-			console.log('🔍 userId:', userId);
-			// Because we added staleTime in AuthContext, this update is now trusted!
-			queryClient.setQueriesData({ queryKey: ['profile'] }, (oldData: any) => {
-				if (!oldData) {
-					return {
-						onboarded: true,
-						full_name: formData.full_name,
-						goal: formData.goal,
-						user_type: formData.user_type,
-					};
-				}
+			// 1. Update the EXACT cache key used by AuthContext
+			// We use setQueryData with the exact array ['profile', userId]
+			queryClient.setQueryData(['profile', userId], (oldData: any) => {
+				// Optional: Log to prove it's working!
+				console.log('🔥 Successfully updating cache for:', ['profile', userId]);
+
+				if (!oldData) return oldData;
 				return {
 					...oldData,
 					onboarded: true,
@@ -86,12 +72,10 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 				};
 			});
 
-			// 2. Delay the invalidation to give Supabase time to replicate!
-			// In production, replication can take 2-5 seconds.
-			// If we refetch immediately, we get stale data and the modal reopens.
-			setTimeout(() => {
-				queryClient.invalidateQueries({ queryKey: ['profile'] });
-			}, 5000); // Wait 5 seconds before refetching
+			// 2. COMPLETELY REMOVE invalidateQueries!
+			// Because the cache is now updated instantly and correctly,
+			// we don't need to refetch. Removing this prevents Supabase's
+			// read replicas from overwriting our perfect optimistic update.
 
 			// 3. Call the parent callback
 			if (onComplete) onComplete();
