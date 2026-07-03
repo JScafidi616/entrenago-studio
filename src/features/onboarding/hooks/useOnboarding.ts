@@ -8,7 +8,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	const queryClient = useQueryClient();
 	const { profile } = useAuth();
 	const [step, setStep] = useState(1);
-	const [loading] = useState(true);
+	const [loading, setLoading] = useState(true);
 	const [skipStep1, setSkipStep1] = useState(false);
 	const [formData, setFormData] = useState<FormData>({
 		full_name: '',
@@ -23,13 +23,18 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	}, []);
 
 	// Replaced the Supabase fetch with the cached profile data
-	if (profile?.full_name && profile.full_name.trim() !== '') {
-		if (formData.full_name !== profile.full_name) {
-			setFormData((prev) => ({ ...prev, full_name: profile.full_name ?? '' }));
+	// Replaced the Supabase fetch with the cached profile data
+	useEffect(() => {
+		if (profile) {
+			if (profile.full_name && profile.full_name.trim() !== '') {
+				// profile.full_name may be null in the type; coerce to string to satisfy FormData
+				setFormData((prev) => ({ ...prev, full_name: profile.full_name ?? '' }));
+				setStep(2);
+				setSkipStep1(true);
+			}
+			setLoading(false);
 		}
-		if (step !== 2) setStep(2);
-		if (!skipStep1) setSkipStep1(true);
-	}
+	}, [profile]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData((prev) => ({
@@ -67,7 +72,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 			});
 
 			// 2. Refetch in the background to guarantee the cache matches the DB
-			// queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+			queryClient.invalidateQueries({ queryKey: ['profile', userId] });
 
 			// 3. Call the parent callback
 			if (onComplete) onComplete();
