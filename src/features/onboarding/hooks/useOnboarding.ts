@@ -68,8 +68,15 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 			console.log('🔍 Current profile in AuthContext:', profile);
 			console.log('🔍 userId:', userId);
 			// Because we added staleTime in AuthContext, this update is now trusted!
-			queryClient.setQueryData(['profile', userId], (oldData: any) => {
-				if (!oldData) return oldData;
+			queryClient.setQueriesData({ queryKey: ['profile'] }, (oldData: any) => {
+				if (!oldData) {
+					return {
+						onboarded: true,
+						full_name: formData.full_name,
+						goal: formData.goal,
+						user_type: formData.user_type,
+					};
+				}
 				return {
 					...oldData,
 					onboarded: true,
@@ -79,7 +86,14 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 				};
 			});
 
-			//Call the parent callback
+			// 2. Delay the invalidation to give Supabase time to replicate!
+			// In production, replication can take 2-5 seconds.
+			// If we refetch immediately, we get stale data and the modal reopens.
+			setTimeout(() => {
+				queryClient.invalidateQueries({ queryKey: ['profile'] });
+			}, 5000); // Wait 5 seconds before refetching
+
+			// 3. Call the parent callback
 			if (onComplete) onComplete();
 		},
 		onError: (error) => {

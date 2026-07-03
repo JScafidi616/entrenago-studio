@@ -30,7 +30,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		},
 		// Only run the query when a user is logged in
 		enabled: !!user?.id,
-		staleTime: 1000 * 60 * 5,
+		staleTime: 1000 * 60 * 5, // Trust the cache for 5 minutes
+		refetchOnWindowFocus: false,
 	});
 
 	useEffect(() => {
