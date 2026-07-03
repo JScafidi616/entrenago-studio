@@ -23,8 +23,10 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	// "Adjust state during render" pattern (The React-recommended alternative to useEffect)
 	const [initialized, setInitialized] = useState(false);
 	if (profile && !initialized) {
-		setInitialized(true); // Mark as initialized to prevent infinite loops
-		if (profile.full_name && profile.full_name.trim() !== '') {
+		setInitialized(true);
+
+		// ADD THIS CHECK: Only initialize the form if they are NOT already onboarded!
+		if (!profile.onboarded && profile.full_name && profile.full_name.trim() !== '') {
 			setFormData((prev) => ({ ...prev, full_name: profile.full_name ?? '' }));
 			setStep(2);
 			setSkipStep1(true);
