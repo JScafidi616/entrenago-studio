@@ -53,22 +53,17 @@ export const Profile = () => {
 	});
 
 	// Sync profile data to form state when it loads/updates
-	if (profile) {
-		const nextForm = {
+	// "Adjust state during render" pattern.
+	// This populates the form exactly once when the profile data arrives.
+	const [initialized, setInitialized] = useState(false);
+	if (profile && !initialized) {
+		setInitialized(true); // Mark as initialized so we don't overwrite user input later
+		setForm({
 			name: profile.full_name || '',
 			goal: profile.goal || '',
 			user_type: profile.user_type || '',
 			email: profile.email || '',
-		};
-		// Only update if the values actually changed to prevent infinite loops
-		if (
-			form.name !== nextForm.name ||
-			form.goal !== nextForm.goal ||
-			form.user_type !== nextForm.user_type ||
-			form.email !== nextForm.email
-		) {
-			setForm(nextForm);
-		}
+		});
 	}
 
 	const handleChange = (key: keyof typeof form, value: string) => {
