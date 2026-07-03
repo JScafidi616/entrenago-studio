@@ -56,7 +56,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 			if (error) throw error;
 		},
 		onSuccess: () => {
-			// 1. Instantly update the cache so the modal closes immediately
+			// Instantly update the cache so the modal closes immediately
 			queryClient.setQueryData(['profile', userId], (oldData: FormData | undefined) => {
 				if (!oldData) return oldData;
 				return {
@@ -68,7 +68,12 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 				};
 			});
 
-			// 3. Call the parent callback
+			// Refetch in the background to guarantee the cache matches the DB
+			setTimeout(() => {
+				queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+			}, 1000); // Wait 1 second before refetching
+
+			// Call the parent callback
 			if (onComplete) onComplete();
 		},
 		onError: (error) => {
