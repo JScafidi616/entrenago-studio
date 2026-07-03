@@ -1,6 +1,7 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
+		"ignoreDeprecations": "6.0",
 		"allowSyntheticDefaultImports": true,
 		"jsx": "react-jsx"
 	},
