@@ -85,7 +85,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 			});
 
 			// REMOVE THIS LINE - it's causing the race condition
-			// queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+			queryClient.invalidateQueries({ queryKey: ['profile', userId] });
 
 			console.log('🔄 useOnboarding: Cache updated, no refetch triggered');
 
