@@ -2,13 +2,16 @@ import type { FormData, UseOnboardingProps } from '@/features/onboarding/types/o
 import { supabase } from '@/lib/supabase/supabase';
 import { useAuth } from '@/context/AuthContext'; // Import useAuth
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	const queryClient = useQueryClient();
 	const { profile } = useAuth();
+
+	// Derive loading directly from the profile
+	const isProfileLoading = !profile;
+
 	const [step, setStep] = useState(1);
-	const [loading] = useState(true);
 	const [skipStep1, setSkipStep1] = useState(false);
 	const [formData, setFormData] = useState<FormData>({
 		full_name: '',
@@ -17,18 +20,15 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 		onboarded: false,
 	});
 
-	useEffect(() => {
-		document.body.classList.add('overflow-hidden');
-		return () => document.body.classList.remove('overflow-hidden');
-	}, []);
-
-	// Replaced the Supabase fetch with the cached profile data
-	if (profile?.full_name && profile.full_name.trim() !== '') {
-		if (formData.full_name !== profile.full_name) {
+	// "Adjust state during render" pattern (The React-recommended alternative to useEffect)
+	const [initialized, setInitialized] = useState(false);
+	if (profile && !initialized) {
+		setInitialized(true); // Mark as initialized to prevent infinite loops
+		if (profile.full_name && profile.full_name.trim() !== '') {
 			setFormData((prev) => ({ ...prev, full_name: profile.full_name ?? '' }));
+			setStep(2);
+			setSkipStep1(true);
 		}
-		if (step !== 2) setStep(2);
-		if (!skipStep1) setSkipStep1(true);
 	}
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,7 +85,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	return {
 		handleChange,
 		handleSubmit,
-		loading: loading || mutation.isPending,
+		loading: isProfileLoading || mutation.isPending,
 		step,
 		setStep,
 		formData,
