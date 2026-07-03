@@ -2,17 +2,11 @@ import cn from 'clsx';
 
 const AuthSeparation = () => {
 	return (
-		<div
-			className={cn(
-				'inline-flex mb-3 items-center justify-center w-full relative',
-			)}
-		>
-			<hr
-				className={cn('w-64 h-px my-8 bg-black border-0 dark:bg-gray-300')}
-			></hr>
+		<div className={cn('relative mb-3 inline-flex w-full items-center justify-center')}>
+			<hr className={cn('my-8 h-px w-64 border-0 bg-black dark:bg-gray-300')}></hr>
 			<span
 				className={cn(
-					'text-base w-40 absolute px-4 font-normal text-gray-900 -translate-x-1/2 left-1/2 dark:text-gray-300 bg-slate-300 dark:bg-neutral-800',
+					'absolute left-1/2 w-40 -translate-x-1/2 bg-slate-300 px-4 text-base font-normal text-gray-900 dark:bg-neutral-800 dark:text-gray-300',
 				)}
 			>
 				O con tu correo:

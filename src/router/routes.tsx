@@ -28,7 +28,7 @@ export const router = createBrowserRouter([
 	// 1. Root redirect
 	{
 		path: '/',
-		element: <Navigate to='/dashboard' replace />,
+		element: <Navigate to="/dashboard" replace />,
 	},
 
 	// 2. Public Auth Routes (No auth required)
@@ -79,6 +79,6 @@ export const router = createBrowserRouter([
 	// 6. Catch-all 404
 	{
 		path: '*',
-		element: <Navigate to='/dashboard' replace />,
+		element: <Navigate to="/dashboard" replace />,
 	},
 ]);

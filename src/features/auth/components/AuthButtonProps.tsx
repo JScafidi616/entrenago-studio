@@ -8,10 +8,10 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button: React.FC<ButtonProps> = ({ children, isPending, ...rest }) => (
 	<button
-		type='submit'
+		type="submit"
 		disabled={isPending || rest.disabled}
 		className={cn(
-			'w-full py-2 bg-primary text-primary-foreground font-semibold rounded-md hover:bg-primary/90 transition bg-linear-to-r from-cyan-500 to-green-400',
+			'bg-primary text-primary-foreground hover:bg-primary/90 w-full rounded-md bg-linear-to-r from-cyan-500 to-green-400 py-2 font-semibold transition',
 		)}
 		{...rest}
 	>

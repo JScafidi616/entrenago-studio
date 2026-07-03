@@ -19,52 +19,45 @@ export const ForgotPassword = () => {
 	};
 
 	return (
-		<div className='min-h-screen flex items-center justify-center bg-background dark:bg-neutral-900 px-4 transition-colors duration-300'>
-			<div className='w-full max-w-md'>
+		<div className="bg-background flex min-h-screen items-center justify-center px-4 transition-colors duration-300 dark:bg-neutral-900">
+			<div className="w-full max-w-md">
 				{/* Logo */}
-				<div className='flex items-center justify-center gap-2.5 mb-8'>
-					<div className='p-2.5 bg-linear-to-r from-cyan-500 to-green-400 rounded-full shadow-md'>
-						<Dumbbell className='h-6 w-6 text-white' />
+				<div className="mb-8 flex items-center justify-center gap-2.5">
+					<div className="rounded-full bg-linear-to-r from-cyan-500 to-green-400 p-2.5 shadow-md">
+						<Dumbbell className="h-6 w-6 text-white" />
 					</div>
-					<span className='font-bold text-xl text-foreground'>EntrenaGo</span>
+					<span className="text-foreground text-xl font-bold">EntrenaGo</span>
 				</div>
 
-				<div className='rounded-2xl border border-border/50 bg-card dark:bg-neutral-800/80 shadow-xl backdrop-blur supports-backdrop-filter:bg-card/90 dark:supports-backdrop-filter:bg-neutral-800/80 p-8'>
+				<div className="border-border/50 bg-card supports-backdrop-filter:bg-card/90 rounded-2xl border p-8 shadow-xl backdrop-blur dark:bg-neutral-800/80 dark:supports-backdrop-filter:bg-neutral-800/80">
 					{!isSuccess ? (
 						/* ── Form state ── */
 						<>
-							<div className='mb-6'>
-								<h1 className='text-2xl font-bold text-foreground text-balance'>
+							<div className="mb-6">
+								<h1 className="text-foreground text-2xl font-bold text-balance">
 									¿Olvidaste tu contraseña?
 								</h1>
-								<p className='mt-2 text-sm leading-relaxed text-muted-foreground'>
-									Ingresa tu correo electrónico y te enviaremos un enlace para
-									restablecer tu contraseña.
+								<p className="text-muted-foreground mt-2 text-sm leading-relaxed">
+									Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu
+									contraseña.
 								</p>
 							</div>
 
-							<form
-								onSubmit={handleSubmit}
-								noValidate
-								className='flex flex-col gap-4'
-							>
-								<div className='flex flex-col gap-1.5'>
-									<Label
-										htmlFor='email'
-										className='text-sm font-medium text-foreground'
-									>
+							<form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
+								<div className="flex flex-col gap-1.5">
+									<Label htmlFor="email" className="text-foreground text-sm font-medium">
 										Correo electrónico
 									</Label>
-									<div className='relative'>
-										<Mail className='absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none' />
+									<div className="relative">
+										<Mail className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 										<Input
-											id='email'
-											type='email'
-											placeholder='tu@correo.com'
+											id="email"
+											type="email"
+											placeholder="tu@correo.com"
 											value={email}
 											onChange={(e) => setEmail(e.target.value)}
 											aria-describedby={error ? 'email-error' : undefined}
-											className={`pl-10 h-11 rounded-xl bg-muted/30 dark:bg-neutral-700/40 border-border/50 focus:border-cyan-500 focus:ring-cyan-500/20 transition-colors ${
+											className={`bg-muted/30 border-border/50 h-11 rounded-xl pl-10 transition-colors focus:border-cyan-500 focus:ring-cyan-500/20 dark:bg-neutral-700/40 ${
 												error
 													? 'border-destructive focus:border-destructive focus:ring-destructive/20'
 													: ''
@@ -72,62 +65,53 @@ export const ForgotPassword = () => {
 										/>
 									</div>
 									{error && (
-										<p
-											id='email-error'
-											role='alert'
-											className='text-xs text-destructive mt-0.5'
-										>
+										<p id="email-error" role="alert" className="text-destructive mt-0.5 text-xs">
 											{error instanceof Error ? error.message : String(error)}
 										</p>
 									)}
 								</div>
 
 								<Button
-									type='submit'
+									type="submit"
 									disabled={isPending}
-									className='w-full h-11 rounded-xl bg-linear-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white font-semibold shadow-md hover:shadow-lg active:scale-[0.98] transition-all duration-200 mt-1 border-0'
+									className="mt-1 h-11 w-full rounded-xl border-0 bg-linear-to-r from-cyan-500 to-green-400 font-semibold text-white shadow-md transition-all duration-200 hover:from-cyan-600 hover:to-green-500 hover:shadow-lg active:scale-[0.98]"
 								>
 									{isPending ? 'Enviando...' : 'Enviar enlace de recuperación'}
 								</Button>
 							</form>
 
-							<p className='mt-6 text-center text-sm text-muted-foreground'>
+							<p className="text-muted-foreground mt-6 text-center text-sm">
 								<Link
-									to='/login'
-									className='inline-flex items-center gap-1.5 text-cyan-500 hover:text-cyan-400 font-medium transition-colors'
+									to="/login"
+									className="inline-flex items-center gap-1.5 font-medium text-cyan-500 transition-colors hover:text-cyan-400"
 								>
-									<ArrowLeft className='h-3.5 w-3.5' />
+									<ArrowLeft className="h-3.5 w-3.5" />
 									Volver al inicio de sesión
 								</Link>
 							</p>
 						</>
 					) : (
 						/* ── Success state ── */
-						<div className='flex flex-col items-center text-center py-2'>
-							<div className='flex items-center justify-center w-16 h-16 rounded-full bg-green-500/10 dark:bg-green-500/15 mb-5'>
-								<CheckCircle2
-									className='h-8 w-8 text-green-500'
-									strokeWidth={1.75}
-								/>
+						<div className="flex flex-col items-center py-2 text-center">
+							<div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-green-500/10 dark:bg-green-500/15">
+								<CheckCircle2 className="h-8 w-8 text-green-500" strokeWidth={1.75} />
 							</div>
 
-							<h2 className='text-xl font-bold text-foreground mb-2'>
-								Revisa tu correo
-							</h2>
-							<p className='text-sm leading-relaxed text-muted-foreground mb-1'>
+							<h2 className="text-foreground mb-2 text-xl font-bold">Revisa tu correo</h2>
+							<p className="text-muted-foreground mb-1 text-sm leading-relaxed">
 								Si una cuenta está asociada a{' '}
-								<span className='font-semibold text-foreground'>{email}</span>,
-								recibirás un enlace para restablecer tu contraseña en breve.
+								<span className="text-foreground font-semibold">{email}</span>, recibirás un enlace
+								para restablecer tu contraseña en breve.
 							</p>
-							<p className='text-sm text-muted-foreground mb-8'>
+							<p className="text-muted-foreground mb-8 text-sm">
 								Por favor revisa tu bandeja de entrada y carpeta de spam.
 							</p>
 
 							<Link
-								to='/login'
-								className='inline-flex items-center gap-1.5 text-sm text-cyan-500 hover:text-cyan-400 font-medium transition-colors'
+								to="/login"
+								className="inline-flex items-center gap-1.5 text-sm font-medium text-cyan-500 transition-colors hover:text-cyan-400"
 							>
-								<ArrowLeft className='h-3.5 w-3.5' />
+								<ArrowLeft className="h-3.5 w-3.5" />
 								De vuelta al inicio de sesión
 							</Link>
 						</div>

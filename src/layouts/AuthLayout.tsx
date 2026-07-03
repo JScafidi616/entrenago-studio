@@ -27,13 +27,13 @@ export const AuthLayout = () => {
 			</span> */}
 			<div className={cn('bg-gray-100 dark:bg-neutral-900')}>
 				{/* AnimatePresence handles the exit animation of the old page */}
-				<AnimatePresence mode='wait'>
+				<AnimatePresence mode="wait">
 					<m.div
 						key={location.pathname} // re-animate on route change inside private
 						variants={contentVariants}
-						initial='initial'
-						animate='animate'
-						exit='exit'
+						initial="initial"
+						animate="animate"
+						exit="exit"
 						transition={{ duration: 0.2, ease: easeInOut }}
 					>
 						{currentOutlet}

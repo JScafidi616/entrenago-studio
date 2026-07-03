@@ -10,24 +10,24 @@ export function ThemeToggle() {
 	return (
 		<>
 			<Button
-				variant='ghost'
-				size='icon'
+				variant="ghost"
+				size="icon"
 				className={cn(
-					'hover:bg-accent h-10 w-10 rounded-2xl bg-muted/30 dark:bg-neutral-700/30 cursor-pointer',
+					'hover:bg-accent bg-muted/30 h-10 w-10 cursor-pointer rounded-2xl dark:bg-neutral-700/30',
 				)}
 				onClick={toggleDark}
-				aria-label='Cambiar tema'
+				aria-label="Cambiar tema"
 			>
 				{isDark ? (
 					<Sun
 						className={cn(
-							'h-[1.2rem] w-[1.2rem] scale-100 transition-all text-gray-800 dark:text-white',
+							'h-[1.2rem] w-[1.2rem] scale-100 text-gray-800 transition-all dark:text-white',
 						)}
 					/>
 				) : (
 					<Moon
 						className={cn(
-							'h-[1.2rem] w-[1.2rem] scale-100 transition-all text-gray-800 dark:text-white',
+							'h-[1.2rem] w-[1.2rem] scale-100 text-gray-800 transition-all dark:text-white',
 						)}
 					/>
 				)}

@@ -1,22 +1,14 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-	Sheet,
-	SheetClose,
-	SheetContent,
-	SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/utils/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { DropdownMenuSeparator } from '@components/ui/dropdown-menu';
 import { LogOut, Menu } from 'lucide-react';
 import { useState } from 'react';
-import {
-	appNavItems,
-	accountNavItems,
-} from '@/features/navigation/constants/constantNav';
+import { appNavItems, accountNavItems } from '@/features/navigation/constants/constantNav';
 import { useUserInitials } from '@/hooks/userUserInitials';
 
 interface MobileNavProps {
@@ -25,10 +17,7 @@ interface MobileNavProps {
 	setCurrentSection: (section: string) => void;
 }
 
-export const NavSideMobile = ({
-	currentSection,
-	handleNavigation,
-}: MobileNavProps) => {
+export const NavSideMobile = ({ currentSection, handleNavigation }: MobileNavProps) => {
 	const { user, signOut, profile } = useAuth();
 	const [open, setOpen] = useState(false);
 	const initials = useUserInitials();
@@ -36,56 +25,44 @@ export const NavSideMobile = ({
 		<Sheet open={open} onOpenChange={setOpen}>
 			<SheetTrigger asChild>
 				<Button
-					variant='ghost'
-					size='icon'
+					variant="ghost"
+					size="icon"
 					className={cn(
-						'md:hidden rounded-full h-10 w-10 bg-muted/30 dark:bg-neutral-700/30 hover:bg-muted/50 dark:hover:bg-neutral-700/50',
+						'bg-muted/30 hover:bg-muted/50 h-10 w-10 rounded-full md:hidden dark:bg-neutral-700/30 dark:hover:bg-neutral-700/50',
 					)}
 				>
 					<Menu className={cn('h-5 w-5')} />
 				</Button>
 			</SheetTrigger>
 			<SheetContent
-				side='right'
-				className={cn(
-					'w-80 dark:bg-neutral-800 rounded-l-3xl border-l border-border/50 pl-2 pt-2',
-				)}
+				side="right"
+				className={cn('border-border/50 w-80 rounded-l-3xl border-l pt-2 pl-2 dark:bg-neutral-800')}
 			>
-				<div className={cn('flex flex-col space-y-6 mt-4 overflow-y-scroll')}>
+				<div className={cn('mt-4 flex flex-col space-y-6 overflow-y-scroll')}>
 					<div className={cn('px-4')}>
 						<SheetClose asChild>
 							<div
 								className={cn(
-									'flex items-center space-x-3 p-4 bg-linear-to-r from-cyan-500/10 to-green-400/10 dark:from-cyan-500/20 dark:to-green-400/20 rounded-2xl border border-cyan-500/20',
+									'flex items-center space-x-3 rounded-2xl border border-cyan-500/20 bg-linear-to-r from-cyan-500/10 to-green-400/10 p-4 dark:from-cyan-500/20 dark:to-green-400/20',
 								)}
 							>
 								<Avatar className={cn('h-12 w-12 ring-2 ring-cyan-500/50')}>
-									<AvatarImage src='/diverse-user-avatars.png' alt='User' />
+									<AvatarImage src="/diverse-user-avatars.png" alt="User" />
 									<AvatarFallback
 										className={cn(
-											'bg-linear-to-r from-cyan-500 to-green-400 text-white font-semibold text-base',
+											'bg-linear-to-r from-cyan-500 to-green-400 text-base font-semibold text-white',
 										)}
 									>
 										{initials}
 									</AvatarFallback>
 								</Avatar>
-								<div className={cn('flex flex-col min-w-0')}>
+								<div className={cn('flex min-w-0 flex-col')}>
 									{user && (
 										<>
-											<p
-												className={cn(
-													'text-base font-semibold text-foreground truncate',
-												)}
-											>
-												{profile?.full_name ||
-													profile?.email?.split('@')[0] ||
-													'Usuario'}
+											<p className={cn('text-foreground truncate text-base font-semibold')}>
+												{profile?.full_name || profile?.email?.split('@')[0] || 'Usuario'}
 											</p>
-											<p
-												className={cn('text-xs text-muted-foreground truncate')}
-											>
-												{user.email}
-											</p>
+											<p className={cn('text-muted-foreground truncate text-xs')}>{user.email}</p>
 										</>
 									)}
 								</div>
@@ -102,14 +79,14 @@ export const NavSideMobile = ({
 									setOpen(false);
 								}}
 								className={cn(
-									`flex items-center space-x-4 px-6 py-4 rounded-2xl text-left transition-all duration-200 ${
+									`flex items-center space-x-4 rounded-2xl px-6 py-4 text-left transition-all duration-200 ${
 										currentSection === item.id.replace(/^\/+/, '')
 											? 'bg-linear-to-r from-cyan-500 to-green-400 text-white shadow-lg'
 											: 'text-muted-foreground hover:text-foreground hover:bg-accent/50 bg-muted/20'
 									}`,
 								)}
 							>
-								<item.icon className='h-5 w-5' />
+								<item.icon className="h-5 w-5" />
 								<span className={cn('font-medium')}>{item.label}</span>
 							</button>
 						))}
@@ -118,7 +95,7 @@ export const NavSideMobile = ({
 					<DropdownMenuSeparator className={cn('bg-border/50 mx-4')} />
 
 					{/* User Profile/Settings Navigation */}
-					<div className={cn('flex flex-col space-y-3 mt-4 px-4')}>
+					<div className={cn('mt-4 flex flex-col space-y-3 px-4')}>
 						{accountNavItems.map((item) => (
 							<SheetClose asChild key={item.id}>
 								<button
@@ -127,7 +104,7 @@ export const NavSideMobile = ({
 										setOpen(false);
 									}}
 									className={cn(
-										'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl transition-all duration-200 text-muted-foreground hover:text-foreground hover:bg-accent/50 bg-muted/20',
+										'text-muted-foreground hover:text-foreground hover:bg-accent/50 bg-muted/20 flex w-full items-center space-x-3 rounded-2xl px-4 py-3 text-left transition-all duration-200',
 									)}
 								>
 									<item.icon className={cn('h-5 w-5')} />
@@ -141,7 +118,7 @@ export const NavSideMobile = ({
 							<button
 								onClick={() => signOut()}
 								className={cn(
-									'flex items-center space-x-3 w-full px-4 py-3 text-left rounded-2xl hover:bg-red-400 hover:text-red-200 dark:hover:text-red-950 dark:hover:bg-red-700 transition-colors duration-200 text-red-600 dark:text-red-400',
+									'flex w-full items-center space-x-3 rounded-2xl px-4 py-3 text-left text-red-600 transition-colors duration-200 hover:bg-red-400 hover:text-red-200 dark:text-red-400 dark:hover:bg-red-700 dark:hover:text-red-950',
 								)}
 							>
 								<LogOut className={cn('h-5 w-5')} />

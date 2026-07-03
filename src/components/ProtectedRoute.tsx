@@ -8,15 +8,15 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 	if (isLoading) {
 		return (
-			<div className='flex h-screen items-center justify-center'>
-				<Loader message='Loading...' />
+			<div className="flex h-screen items-center justify-center">
+				<Loader message="Loading..." />
 			</div>
 		);
 	}
 
 	if (!user) {
 		// Redirect to login, preserving the intended destination
-		return <Navigate to='/login' state={{ from: location }} replace />;
+		return <Navigate to="/login" state={{ from: location }} replace />;
 	}
 
 	return <>{children}</>;

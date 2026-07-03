@@ -11,12 +11,8 @@ export const WeeklyScheduleCarousel = () => {
 	const weeklyRoutine = useMemo(() => generateWeekSchedule(), []);
 	const todayIndex = weeklyRoutine.findIndex((d) => d.isToday);
 
-	const {
-		scrollContainerRef,
-		activeScrollIndex,
-		setActiveScrollIndex,
-		scrollToCard,
-	} = useCarouselScroll(todayIndex);
+	const { scrollContainerRef, activeScrollIndex, setActiveScrollIndex, scrollToCard } =
+		useCarouselScroll(todayIndex);
 
 	const handleCardClick = (index: number) => {
 		setActiveScrollIndex(index);
@@ -26,21 +22,21 @@ export const WeeklyScheduleCarousel = () => {
 	return (
 		<Card
 			className={cn(
-				'border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl',
+				'border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl backdrop-blur dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50',
 			)}
 		>
-			<CardHeader className='pb-3 md:pb-6'>
-				<CardTitle className='flex items-center text-foreground text-lg md:text-xl'>
-					<Calendar className='h-5 w-5 mr-2' />
+			<CardHeader className="pb-3 md:pb-6">
+				<CardTitle className="text-foreground flex items-center text-lg md:text-xl">
+					<Calendar className="mr-2 h-5 w-5" />
 					This Week's Schedule
 				</CardTitle>
 			</CardHeader>
 
-			<CardContent className='h-auto md:h-77'>
+			<CardContent className="h-auto md:h-77">
 				{/* Scroll Container */}
 				<div
 					ref={scrollContainerRef}
-					className='flex px-2 gap-3 overflow-x-auto overflow-y-hidden touch-pan-x overscroll-x-contain py-3 scrollbar-hide snap-x snap-proximity touch-pan-y'
+					className="scrollbar-hide flex touch-pan-x touch-pan-y snap-x snap-proximity gap-3 overflow-x-auto overflow-y-hidden overscroll-x-contain px-2 py-3"
 				>
 					{weeklyRoutine.map((day, index) => (
 						<CarouselDayCard

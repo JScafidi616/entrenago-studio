@@ -8,7 +8,12 @@ export const useUpdateProfile = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
-	const updateProfile = async (updates: { full_name?: string; username?: string; goal?:string; email?:string}) => {
+	const updateProfile = async (updates: {
+		full_name?: string;
+		username?: string;
+		goal?: string;
+		email?: string;
+	}) => {
 		if (!user) {
 			setError('User not authenticated');
 			return;
@@ -19,10 +24,7 @@ export const useUpdateProfile = () => {
 
 		try {
 			// 1. Update the database (public.profiles)
-			const { error: dbError } = await supabase
-				.from('profiles')
-				.update(updates)
-				.eq('id', user.id);
+			const { error: dbError } = await supabase.from('profiles').update(updates).eq('id', user.id);
 
 			if (dbError) throw dbError;
 
@@ -43,7 +45,6 @@ export const useUpdateProfile = () => {
 
 			// 3. Refresh the UI (React Context)
 			await refreshProfile();
-
 		} catch (err: unknown) {
 			const error = err as Error;
 			setError(error.message || 'Failed to update profile');

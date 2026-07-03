@@ -17,12 +17,11 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 		onboarded: false,
 	});
 
-
 	useEffect(() => {
 		document.body.classList.add('overflow-hidden');
 		return () => document.body.classList.remove('overflow-hidden');
 	}, []);
-		
+
 	// Replaced the Supabase fetch with the cached profile data
 	if (profile?.full_name && profile.full_name.trim() !== '') {
 		if (formData.full_name !== profile.full_name) {
@@ -31,7 +30,6 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 		if (step !== 2) setStep(2);
 		if (!skipStep1) setSkipStep1(true);
 	}
-
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData((prev) => ({
@@ -84,11 +82,10 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 		mutation.mutate();
 	};
 
-
 	return {
 		handleChange,
 		handleSubmit,
-		loading: loading || mutation.isPending, 
+		loading: loading || mutation.isPending,
 		step,
 		setStep,
 		formData,

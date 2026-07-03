@@ -13,8 +13,8 @@ export const CarouselScroll = ({
 	onDotClick,
 }: CarouselScrollProps) => {
 	return (
-		<div className='flex justify-center mt-3 pb-1'>
-			<div className='flex items-center gap-2 bg-muted/90 dark:bg-neutral-800/80 rounded-full px-3 py-2'>
+		<div className="mt-3 flex justify-center pb-1">
+			<div className="bg-muted/90 flex items-center gap-2 rounded-full px-3 py-2 dark:bg-neutral-800/80">
 				{weeklyRoutine.map((day, index) => (
 					<button
 						key={index}
@@ -27,12 +27,12 @@ export const CarouselScroll = ({
 									? 'h-2.5 w-6 bg-linear-to-r from-cyan-500 to-green-400 shadow-sm shadow-cyan-500/30'
 									: day.completed
 										? 'h-2.5 w-6 bg-green-500'
-										: 'h-2.5 w-6 bg-foreground/70'
+										: 'bg-foreground/70 h-2.5 w-6'
 								: day.isToday
 									? 'h-2 w-2 bg-cyan-500/50'
 									: day.completed
 										? 'h-2 w-2 bg-green-500/40'
-										: 'h-2 w-2 bg-muted-foreground/30',
+										: 'bg-muted-foreground/30 h-2 w-2',
 						)}
 					/>
 				))}

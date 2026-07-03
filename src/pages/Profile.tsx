@@ -8,15 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import {
-	Camera,
-	Flame,
-	Dumbbell,
-	Trophy,
-	Calendar,
-	Activity,
-	Target,
-} from 'lucide-react';
+import { Camera, Flame, Dumbbell, Trophy, Calendar, Activity, Target } from 'lucide-react';
 import { useUpdateProfile } from '@/features/auth/hooks/useUpdateProfile';
 
 import { useAuth } from '@/context/AuthContext';
@@ -99,62 +91,52 @@ export const Profile = () => {
 	};
 
 	return (
-		<div className='space-y-6'>
+		<div className="space-y-6">
 			{/* Identity Card */}
-			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm'>
-				<CardContent className='p-6'>
-					<div className='flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:gap-6'>
-						<div className='relative'>
-							<Avatar className='h-24 w-24 ring-4 ring-cyan-500/30'>
-								<AvatarImage src='/diverse-user-avatars.png' alt='Profile' />
-								<AvatarFallback className='bg-linear-to-r from-cyan-500 to-green-400 text-white text-2xl font-semibold'>
+			<Card className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl shadow-sm backdrop-blur dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50">
+				<CardContent className="p-6">
+					<div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:gap-6">
+						<div className="relative">
+							<Avatar className="h-24 w-24 ring-4 ring-cyan-500/30">
+								<AvatarImage src="/diverse-user-avatars.png" alt="Profile" />
+								<AvatarFallback className="bg-linear-to-r from-cyan-500 to-green-400 text-2xl font-semibold text-white">
 									{initials}
 								</AvatarFallback>
 							</Avatar>
 							<button
-								className='absolute -bottom-1 -right-1 p-2 rounded-full bg-linear-to-r from-cyan-500 to-green-400 text-white shadow-md hover:shadow-lg transition-shadow'
-								aria-label='Change profile photo'
+								className="absolute -right-1 -bottom-1 rounded-full bg-linear-to-r from-cyan-500 to-green-400 p-2 text-white shadow-md transition-shadow hover:shadow-lg"
+								aria-label="Change profile photo"
 							>
-								<Camera className='h-4 w-4' />
+								<Camera className="h-4 w-4" />
 							</button>
 						</div>
 
-						<div className='flex flex-col items-center sm:items-start gap-2 text-center sm:text-left'>
-							<h2 className='text-2xl font-bold text-foreground'>
-								{form.name}
-							</h2>
-							<p className='text-sm text-muted-foreground'>{form.email}</p>
-							<div className='flex flex-wrap items-center justify-center gap-2 sm:justify-start'>
-								<Badge className='bg-linear-to-r from-cyan-500 to-green-400 text-black border-0'>
-									<Activity className='h-3 w-3 mr-1' />
+						<div className="flex flex-col items-center gap-2 text-center sm:items-start sm:text-left">
+							<h2 className="text-foreground text-2xl font-bold">{form.name}</h2>
+							<p className="text-muted-foreground text-sm">{form.email}</p>
+							<div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
+								<Badge className="border-0 bg-linear-to-r from-cyan-500 to-green-400 text-black">
+									<Activity className="mr-1 h-3 w-3" />
 									{form.user_type}
 								</Badge>
-								<Badge
-									variant='secondary'
-									className='bg-secondary/80 text-secondary-foreground'
-								>
-									<Target className='h-3 w-3 mr-1' />
+								<Badge variant="secondary" className="bg-secondary/80 text-secondary-foreground">
+									<Target className="mr-1 h-3 w-3" />
 									{form.goal}
 								</Badge>
-								<Badge
-									variant='secondary'
-									className='bg-secondary/80 text-secondary-foreground'
-								>
-									<Calendar className='h-3 w-3 mr-1' />
+								<Badge variant="secondary" className="bg-secondary/80 text-secondary-foreground">
+									<Calendar className="mr-1 h-3 w-3" />
 									Member since 2024
 								</Badge>
 							</div>
 						</div>
 
-						<div className='sm:ml-auto'>
+						<div className="sm:ml-auto">
 							<Button
-								type='button' // ALWAYS type="button" to prevent accidental form submission
+								type="button" // ALWAYS type="button" to prevent accidental form submission
 								onClick={() => {
 									if (isEditing) {
 										// If already editing, manually trigger the form submission
-										(
-											document.getElementById('profile-form') as HTMLFormElement
-										)?.requestSubmit();
+										(document.getElementById('profile-form') as HTMLFormElement)?.requestSubmit();
 									} else {
 										// Otherwise, just enter edit mode
 										setIsEditing(true);
@@ -164,121 +146,113 @@ export const Profile = () => {
 								variant={isEditing ? 'default' : 'outline'}
 								className={
 									isEditing
-										? 'bg-linear-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white border-0 rounded-2xl'
-										: 'rounded-2xl border-border/50'
+										? 'rounded-2xl border-0 bg-linear-to-r from-cyan-500 to-green-400 text-white hover:from-cyan-600 hover:to-green-500'
+										: 'border-border/50 rounded-2xl'
 								}
 							>
-								{isLoading
-									? 'Saving...'
-									: isEditing
-										? 'Save Changes'
-										: 'Edit Profile'}
+								{isLoading ? 'Saving...' : isEditing ? 'Save Changes' : 'Edit Profile'}
 							</Button>
-							{error && <p className='text-red-500 text-sm'>{error}</p>}
+							{error && <p className="text-sm text-red-500">{error}</p>}
 						</div>
 					</div>
 				</CardContent>
 			</Card>
 
 			{/* Stats */}
-			<div className='grid grid-cols-3 gap-4'>
+			<div className="grid grid-cols-3 gap-4">
 				{profileStats.map((stat) => (
 					<Card
 						key={stat.label}
-						className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'
+						className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl shadow-sm backdrop-blur transition-all duration-200 hover:shadow-md dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50"
 					>
-						<CardContent className='p-4 flex flex-col items-center gap-2 text-center'>
-							<div className={`p-2 rounded-full ${stat.bg}`}>
+						<CardContent className="flex flex-col items-center gap-2 p-4 text-center">
+							<div className={`rounded-full p-2 ${stat.bg}`}>
 								<stat.icon className={`h-5 w-5 ${stat.color}`} />
 							</div>
-							<p className='text-xl md:text-2xl font-bold text-foreground'>
-								{stat.value}
-							</p>
-							<p className='text-xs text-muted-foreground'>{stat.label}</p>
+							<p className="text-foreground text-xl font-bold md:text-2xl">{stat.value}</p>
+							<p className="text-muted-foreground text-xs">{stat.label}</p>
 						</CardContent>
 					</Card>
 				))}
 			</div>
 
 			{/* Personal Details */}
-			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm'>
+			<Card className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl shadow-sm backdrop-blur dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50">
 				<CardHeader>
-					<CardTitle className='text-foreground text-lg'>
-						Personal Details
-					</CardTitle>
+					<CardTitle className="text-foreground text-lg">Personal Details</CardTitle>
 				</CardHeader>
-				<CardContent className='space-y-5'>
-					<form id='profile-form' onSubmit={handleSubmit} className='space-y-5'>
-						<div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+				<CardContent className="space-y-5">
+					<form id="profile-form" onSubmit={handleSubmit} className="space-y-5">
+						<div className="grid grid-cols-1 gap-5 md:grid-cols-2">
 							{/* Input - Name */}
-							<div className='space-y-2'>
-								<Label htmlFor='name' className='text-foreground'>
+							<div className="space-y-2">
+								<Label htmlFor="name" className="text-foreground">
 									Full Name
 								</Label>
 								<Input
-									id='name'
+									id="name"
 									value={form.name}
-									placeholder='Full Name'
+									placeholder="Full Name"
 									disabled={!isEditing}
 									onChange={(e) => handleChange('name', e.target.value)}
-									className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70'
+									className="bg-muted/30 border-border/50 rounded-2xl disabled:opacity-70 dark:bg-neutral-800/30"
 								/>
 							</div>
 							{/* Input - Email */}
-							<div className='space-y-2'>
-								<Label htmlFor='email' className='text-foreground'>
+							<div className="space-y-2">
+								<Label htmlFor="email" className="text-foreground">
 									Email
 								</Label>
 								<Input
-									id='email'
-									type='email'
+									id="email"
+									type="email"
 									value={form.email}
 									disabled={!isEditing}
 									onChange={(e) => handleChange('email', e.target.value)}
-									className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70'
+									className="bg-muted/30 border-border/50 rounded-2xl disabled:opacity-70 dark:bg-neutral-800/30"
 								/>
 							</div>
 							{/* Input - weight */}
-							<div className='space-y-2'>
-								<Label htmlFor='weight' className='text-foreground'>
+							<div className="space-y-2">
+								<Label htmlFor="weight" className="text-foreground">
 									Weight (kg)
 								</Label>
 								<Input
-									id='weight'
-									type='number'
+									id="weight"
+									type="number"
 									// value={form.weight}
 									disabled={!isEditing}
 									// onChange={(e) => handleChange('weight', e.target.value)}
-									className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70'
+									className="bg-muted/30 border-border/50 rounded-2xl disabled:opacity-70 dark:bg-neutral-800/30"
 								/>
 							</div>
 							{/* Input - height */}
-							<div className='space-y-2'>
-								<Label htmlFor='height' className='text-foreground'>
+							<div className="space-y-2">
+								<Label htmlFor="height" className="text-foreground">
 									Height (cm)
 								</Label>
 								<Input
-									id='height'
-									type='number'
+									id="height"
+									type="number"
 									// value={form.height}
 									disabled={!isEditing}
 									// onChange={(e) => handleChange('height', e.target.value)}
-									className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70'
+									className="bg-muted/30 border-border/50 rounded-2xl disabled:opacity-70 dark:bg-neutral-800/30"
 								/>
 							</div>
 						</div>
 						{/* Text Area - bio */}
-						<div className='space-y-2'>
-							<Label htmlFor='bio' className='text-foreground'>
+						<div className="space-y-2">
+							<Label htmlFor="bio" className="text-foreground">
 								Bio
 							</Label>
 							<Textarea
-								id='bio'
+								id="bio"
 								// value={form.bio}
 								disabled={!isEditing}
 								// onChange={(e) => handleChange('bio', e.target.value)}
 								rows={3}
-								className='rounded-2xl bg-muted/30 dark:bg-neutral-800/30 border-border/50 disabled:opacity-70 resize-none'
+								className="bg-muted/30 border-border/50 resize-none rounded-2xl disabled:opacity-70 dark:bg-neutral-800/30"
 							/>
 						</div>
 					</form>

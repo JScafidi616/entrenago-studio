@@ -64,55 +64,49 @@ export const Dashboard = () => {
 	return (
 		<>
 			{/* Contenido principal centrado */}
-			<div className='space-y-6 md:space-y-8 pb-12 md:pb-8 px-2'>
+			<div className="space-y-6 px-2 pb-12 md:space-y-8 md:pb-8">
 				{/* Mobile Today's Workout - Priority on mobile */}
 				<div className={cn('block md:hidden')}>
-					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
-						<CardHeader className='pb-3'>
-							<CardTitle className='flex items-center justify-between text-foreground text-lg'>
-								<div className='flex items-center space-x-2'>
-									<todayWorkout.icon className='h-5 w-5 text-cyan-500' />
+					<Card className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl backdrop-blur dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50">
+						<CardHeader className="pb-3">
+							<CardTitle className="text-foreground flex items-center justify-between text-lg">
+								<div className="flex items-center space-x-2">
+									<todayWorkout.icon className="h-5 w-5 text-cyan-500" />
 									<span>Today's Workout</span>
 								</div>
 								<Badge
-									variant='secondary'
-									className='bg-secondary/80 text-secondary-foreground text-xs'
+									variant="secondary"
+									className="bg-secondary/80 text-secondary-foreground text-xs"
 								>
 									{todayWorkout.difficulty}
 								</Badge>
 							</CardTitle>
 						</CardHeader>
-						<CardContent className='space-y-3'>
-							<div className='flex items-center justify-between'>
-								<h3 className='text-lg font-semibold text-foreground'>
-									{todayWorkout.name}
-								</h3>
-								<div className='flex items-center text-sm text-muted-foreground'>
-									<Clock className='h-4 w-4 mr-1' />
+						<CardContent className="space-y-3">
+							<div className="flex items-center justify-between">
+								<h3 className="text-foreground text-lg font-semibold">{todayWorkout.name}</h3>
+								<div className="text-muted-foreground flex items-center text-sm">
+									<Clock className="mr-1 h-4 w-4" />
 									{todayWorkout.estimatedTime} min
 								</div>
 							</div>
 
-							<div className='space-y-2'>
+							<div className="space-y-2">
 								{todayWorkout.exercises.slice(0, 3).map((exercise, index) => (
 									<div
 										key={index}
-										className='flex items-center justify-between p-2.5 bg-muted/30 dark:bg-neutral-800/30 rounded-2xl border border-border/30'
+										className="bg-muted/30 border-border/30 flex items-center justify-between rounded-2xl border p-2.5 dark:bg-neutral-800/30"
 									>
-										<div className='flex items-center space-x-2'>
-											<exercise.icon className='h-4 w-4 text-muted-foreground' />
-											<span className='font-medium text-foreground text-sm'>
-												{exercise.name}
-											</span>
+										<div className="flex items-center space-x-2">
+											<exercise.icon className="text-muted-foreground h-4 w-4" />
+											<span className="text-foreground text-sm font-medium">{exercise.name}</span>
 										</div>
-										<div className='text-xs text-muted-foreground'>
-											{exercise.sets}
-										</div>
+										<div className="text-muted-foreground text-xs">{exercise.sets}</div>
 									</div>
 								))}
 								{todayWorkout.exercises.length > 3 && (
-									<div className='text-center py-1'>
-										<span className='text-xs text-muted-foreground'>
+									<div className="py-1 text-center">
+										<span className="text-muted-foreground text-xs">
 											+{todayWorkout.exercises.length - 3} more exercises
 										</span>
 									</div>
@@ -121,10 +115,10 @@ export const Dashboard = () => {
 
 							<Button
 								// onClick={() => setIsWorkoutModalOpen(true)}
-								className='w-full bg-linear-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white font-semibold py-3 shadow-lg hover:shadow-xl transition-all duration-200'
-								size='lg'
+								className="w-full bg-linear-to-r from-cyan-500 to-green-400 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:from-cyan-600 hover:to-green-500 hover:shadow-xl"
+								size="lg"
 							>
-								<Play className='h-5 w-5 mr-2' />
+								<Play className="mr-2 h-5 w-5" />
 								Start Workout
 							</Button>
 						</CardContent>
@@ -132,73 +126,55 @@ export const Dashboard = () => {
 				</div>
 
 				{/* Header Stats - Responsive Grid */}
-				<div
-					className={cn('grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 px-2')}
-				>
-					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'>
-						<CardContent className='p-4 md:p-6'>
-							<div className='flex items-center space-x-3'>
-								<div className='p-2 bg-orange-100 dark:bg-orange-900/30 rounded-full'>
-									<Flame className='h-4 w-4 md:h-5 md:w-5 text-orange-500' />
+				<div className={cn('grid grid-cols-2 gap-4 px-2 md:grid-cols-4 md:gap-6')}>
+					<Card className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl shadow-sm backdrop-blur transition-all duration-200 hover:shadow-md dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50">
+						<CardContent className="p-4 md:p-6">
+							<div className="flex items-center space-x-3">
+								<div className="rounded-full bg-orange-100 p-2 dark:bg-orange-900/30">
+									<Flame className="h-4 w-4 text-orange-500 md:h-5 md:w-5" />
 								</div>
 								<div>
-									<p className='text-xs md:text-sm text-muted-foreground'>
-										Streak
-									</p>
-									<p className='text-lg md:text-2xl font-bold text-foreground'>
-										12
-									</p>
+									<p className="text-muted-foreground text-xs md:text-sm">Streak</p>
+									<p className="text-foreground text-lg font-bold md:text-2xl">12</p>
 								</div>
 							</div>
 						</CardContent>
 					</Card>
-					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'>
-						<CardContent className='p-4 md:p-6'>
-							<div className='flex items-center space-x-3'>
-								<div className='p-2 bg-blue-100 dark:bg-blue-900/30 rounded-full'>
-									<Target className='h-4 w-4 md:h-5 md:w-5 text-blue-500' />
+					<Card className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl shadow-sm backdrop-blur transition-all duration-200 hover:shadow-md dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50">
+						<CardContent className="p-4 md:p-6">
+							<div className="flex items-center space-x-3">
+								<div className="rounded-full bg-blue-100 p-2 dark:bg-blue-900/30">
+									<Target className="h-4 w-4 text-blue-500 md:h-5 md:w-5" />
 								</div>
 								<div>
-									<p className='text-xs md:text-sm text-muted-foreground'>
-										Week
-									</p>
-									<p className='text-lg md:text-2xl font-bold text-foreground'>
-										2/5
-									</p>
+									<p className="text-muted-foreground text-xs md:text-sm">Week</p>
+									<p className="text-foreground text-lg font-bold md:text-2xl">2/5</p>
 								</div>
 							</div>
 						</CardContent>
 					</Card>
-					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'>
-						<CardContent className='p-4 md:p-6'>
-							<div className='flex items-center space-x-3'>
-								<div className='p-2 bg-green-100 dark:bg-green-900/30 rounded-full'>
-									<Clock className='h-4 w-4 md:h-5 md:w-5 text-green-500' />
+					<Card className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl shadow-sm backdrop-blur transition-all duration-200 hover:shadow-md dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50">
+						<CardContent className="p-4 md:p-6">
+							<div className="flex items-center space-x-3">
+								<div className="rounded-full bg-green-100 p-2 dark:bg-green-900/30">
+									<Clock className="h-4 w-4 text-green-500 md:h-5 md:w-5" />
 								</div>
 								<div>
-									<p className='text-xs md:text-sm text-muted-foreground'>
-										Time
-									</p>
-									<p className='text-lg md:text-2xl font-bold text-foreground'>
-										85m
-									</p>
+									<p className="text-muted-foreground text-xs md:text-sm">Time</p>
+									<p className="text-foreground text-lg font-bold md:text-2xl">85m</p>
 								</div>
 							</div>
 						</CardContent>
 					</Card>
-					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200'>
-						<CardContent className='p-4 md:p-6'>
-							<div className='flex items-center space-x-3'>
-								<div className='p-2 bg-purple-100 dark:bg-purple-900/30 rounded-full'>
-									<Dumbbell className='h-4 w-4 md:h-5 md:w-5 text-purple-500' />
+					<Card className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl shadow-sm backdrop-blur transition-all duration-200 hover:shadow-md dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50">
+						<CardContent className="p-4 md:p-6">
+							<div className="flex items-center space-x-3">
+								<div className="rounded-full bg-purple-100 p-2 dark:bg-purple-900/30">
+									<Dumbbell className="h-4 w-4 text-purple-500 md:h-5 md:w-5" />
 								</div>
 								<div>
-									<p className='text-xs md:text-sm text-muted-foreground'>
-										Exercises
-									</p>
-									<p className='text-lg md:text-2xl font-bold text-foreground'>
-										11
-									</p>
+									<p className="text-muted-foreground text-xs md:text-sm">Exercises</p>
+									<p className="text-foreground text-lg font-bold md:text-2xl">11</p>
 								</div>
 							</div>
 						</CardContent>
@@ -206,53 +182,46 @@ export const Dashboard = () => {
 				</div>
 
 				{/* Ad Box 1 - Below Header Stats */}
-				<div className='px-2'>
-					<AdBox variant='horizontal' label='Sponsored' />
+				<div className="px-2">
+					<AdBox variant="horizontal" label="Sponsored" />
 				</div>
 
 				{/* Desktop Layout */}
-				<div className={cn('hidden md:grid md:grid-cols-3 gap-6')}>
+				<div className={cn('hidden gap-6 md:grid md:grid-cols-3')}>
 					{/* Today's Workout - Desktop */}
-					<div className='md:col-span-2'>
-						<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
+					<div className="md:col-span-2">
+						<Card className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl backdrop-blur dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50">
 							<CardHeader>
-								<CardTitle className='flex items-center justify-between text-foreground'>
+								<CardTitle className="text-foreground flex items-center justify-between">
 									<span>Today's Workout</span>
-									<Badge
-										variant='secondary'
-										className='bg-secondary/80 text-secondary-foreground'
-									>
+									<Badge variant="secondary" className="bg-secondary/80 text-secondary-foreground">
 										{todayWorkout.difficulty}
 									</Badge>
 								</CardTitle>
 							</CardHeader>
-							<CardContent className='space-y-4'>
-								<div className='flex items-center justify-between'>
-									<div className='flex items-center space-x-2'>
-										<todayWorkout.icon className='h-6 w-6 text-cyan-500' />
-										<h3 className='text-xl font-semibold text-foreground'>
-											{todayWorkout.name}
-										</h3>
+							<CardContent className="space-y-4">
+								<div className="flex items-center justify-between">
+									<div className="flex items-center space-x-2">
+										<todayWorkout.icon className="h-6 w-6 text-cyan-500" />
+										<h3 className="text-foreground text-xl font-semibold">{todayWorkout.name}</h3>
 									</div>
-									<div className='flex items-center text-sm text-muted-foreground'>
-										<Clock className='h-4 w-4 mr-1' />
+									<div className="text-muted-foreground flex items-center text-sm">
+										<Clock className="mr-1 h-4 w-4" />
 										{todayWorkout.estimatedTime} min
 									</div>
 								</div>
 
-								<div className='space-y-2'>
+								<div className="space-y-2">
 									{todayWorkout.exercises.map((exercise, index) => (
 										<div
 											key={index}
-											className='flex items-center justify-between p-3 bg-muted/30 dark:bg-neutral-800/30 rounded-2xl border border-border/30'
+											className="bg-muted/30 border-border/30 flex items-center justify-between rounded-2xl border p-3 dark:bg-neutral-800/30"
 										>
-											<div className='flex items-center space-x-3'>
-												<exercise.icon className='h-4 w-4 text-muted-foreground' />
-												<span className='font-medium text-foreground'>
-													{exercise.name}
-												</span>
+											<div className="flex items-center space-x-3">
+												<exercise.icon className="text-muted-foreground h-4 w-4" />
+												<span className="text-foreground font-medium">{exercise.name}</span>
 											</div>
-											<div className='text-sm text-muted-foreground'>
+											<div className="text-muted-foreground text-sm">
 												{exercise.sets} • {exercise.rest}
 											</div>
 										</div>
@@ -261,63 +230,59 @@ export const Dashboard = () => {
 
 								<Button
 									// onClick={() => setIsWorkoutModalOpen(true)}
-									className='w-full bg-linear-to-r from-cyan-500 to-green-400 hover:from-cyan-600 hover:to-green-500 text-white font-semibold py-3 shadow-lg hover:shadow-xl transition-all duration-200'
-									size='lg'
+									className="w-full bg-linear-to-r from-cyan-500 to-green-400 py-3 font-semibold text-white shadow-lg transition-all duration-200 hover:from-cyan-600 hover:to-green-500 hover:shadow-xl"
+									size="lg"
 								>
-									<Play className='h-5 w-5 mr-2' />
+									<Play className="mr-2 h-5 w-5" />
 									Start Workout
 								</Button>
 							</CardContent>
 						</Card>
 					</div>
 					{/* Weekly Progress - Desktop */}
-					<div className='flex flex-col gap-6'>
-						<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
+					<div className="flex flex-col gap-6">
+						<Card className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl backdrop-blur dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50">
 							<CardHeader>
-								<CardTitle className='text-foreground'>
-									Weekly Progress
-								</CardTitle>
+								<CardTitle className="text-foreground">Weekly Progress</CardTitle>
 							</CardHeader>
 							<CardContent>
-								<div className='space-y-2 mb-4'>
-									<div className='flex justify-between text-sm text-foreground'>
+								<div className="mb-4 space-y-2">
+									<div className="text-foreground flex justify-between text-sm">
 										<span>Completed</span>
 										<span>2/5 workouts</span>
 									</div>
 									<Progress
 										value={40}
-										className='h-2'
-										aria-label='Workout completion'
-										aria-labelledby='workout-progress'
+										className="h-2"
+										aria-label="Workout completion"
+										aria-labelledby="workout-progress"
 									/>
 								</div>
-								<p className='text-sm text-muted-foreground'>
+								<p className="text-muted-foreground text-sm">
 									Keep it up! You're 40% through this week's routine.
 								</p>
 							</CardContent>
 						</Card>
 						{/* Ad Box 2 - Square, below Weekly Progress */}
-						<AdBox variant='square' />
+						<AdBox variant="square" />
 					</div>
 				</div>
 
 				{/* Mobile Weekly Progress */}
 				<div className={cn('block md:hidden')}>
-					<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl'>
-						<CardHeader className='pb-3'>
-							<CardTitle className='text-foreground text-lg'>
-								Weekly Progress
-							</CardTitle>
+					<Card className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl backdrop-blur dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50">
+						<CardHeader className="pb-3">
+							<CardTitle className="text-foreground text-lg">Weekly Progress</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<div className='space-y-2 mb-3'>
-								<div className='flex justify-between text-sm text-foreground'>
+							<div className="mb-3 space-y-2">
+								<div className="text-foreground flex justify-between text-sm">
 									<span>Completed</span>
-									<span className='font-semibold'>2/5 workouts</span>
+									<span className="font-semibold">2/5 workouts</span>
 								</div>
-								<Progress value={40} className='h-3' />
+								<Progress value={40} className="h-3" />
 							</div>
-							<p className='text-sm text-muted-foreground'>
+							<p className="text-muted-foreground text-sm">
 								You're 40% through this week's routine.
 							</p>
 						</CardContent>
@@ -325,16 +290,16 @@ export const Dashboard = () => {
 				</div>
 
 				{/* Ad Box 2 - Mobile, below Weekly Progress */}
-				<div className='block md:hidden px-2'>
-					<AdBox variant='horizontal' />
+				<div className="block px-2 md:hidden">
+					<AdBox variant="horizontal" />
 				</div>
 
 				{/* Weekly Schedule - Mobile/Desktop */}
 				<WeeklyScheduleCarousel />
 
 				{/* Ad Box 3 - Below Weekly Schedule */}
-				<div className='px-2'>
-					<AdBox variant='horizontal' label='Sponsored' />
+				<div className="px-2">
+					<AdBox variant="horizontal" label="Sponsored" />
 				</div>
 			</div>
 		</>

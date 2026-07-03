@@ -8,8 +8,7 @@ const meta = {
 		layout: 'centered',
 		docs: {
 			description: {
-				component:
-					'A custom button component with loading state and gradient styling.',
+				component: 'A custom button component with loading state and gradient styling.',
 			},
 		},
 	},
@@ -100,7 +99,7 @@ export const InForm: Story = {
 		children: undefined,
 	},
 	render: () => (
-		<div className='space-y-4 w-64'>
+		<div className="w-64 space-y-4">
 			<AuthButtonTest>Primary Action</AuthButtonTest>
 			<AuthButtonTest isPending>Loading Action</AuthButtonTest>
 			<AuthButtonTest disabled>Disabled Action</AuthButtonTest>

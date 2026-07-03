@@ -7,16 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Separator } from '@/components/ui/separator';
 import { ThemeToggle } from '@/features/darkMode/components/ThemeToggle';
-import {
-	Bell,
-	Mail,
-	Volume2,
-	Globe,
-	Ruler,
-	Lock,
-	Trash2,
-	Palette,
-} from 'lucide-react';
+import { Bell, Mail, Volume2, Globe, Ruler, Lock, Trash2, Palette } from 'lucide-react';
 import { ChangePasswordModal } from '../components/custom/ChangePasswordModal';
 
 interface ToggleSetting {
@@ -62,24 +53,22 @@ export const Settings = () => {
 	};
 
 	return (
-		<div className='space-y-6'>
+		<div className="space-y-6">
 			{/* Appearance */}
-			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm'>
+			<Card className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl shadow-sm backdrop-blur dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50">
 				<CardHeader>
-					<CardTitle className='flex items-center gap-2 text-foreground text-lg'>
-						<Palette className='h-5 w-5 text-cyan-500' />
+					<CardTitle className="text-foreground flex items-center gap-2 text-lg">
+						<Palette className="h-5 w-5 text-cyan-500" />
 						Appearance
 					</CardTitle>
 				</CardHeader>
 				<CardContent>
-					<div className='flex items-center justify-between p-3 bg-muted/30 dark:bg-neutral-800/30 rounded-2xl border border-border/30'>
-						<div className='space-y-0.5'>
-							<p className='font-medium text-foreground text-sm'>Theme</p>
-							<p className='text-xs text-muted-foreground'>
-								Switch between light and dark mode
-							</p>
+					<div className="bg-muted/30 border-border/30 flex items-center justify-between rounded-2xl border p-3 dark:bg-neutral-800/30">
+						<div className="space-y-0.5">
+							<p className="text-foreground text-sm font-medium">Theme</p>
+							<p className="text-muted-foreground text-xs">Switch between light and dark mode</p>
 						</div>
-						<div className='p-1 rounded-full bg-background/50 dark:bg-neutral-700/30'>
+						<div className="bg-background/50 rounded-full p-1 dark:bg-neutral-700/30">
 							<ThemeToggle />
 						</div>
 					</div>
@@ -87,40 +76,38 @@ export const Settings = () => {
 			</Card>
 
 			{/* Notifications */}
-			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm'>
+			<Card className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl shadow-sm backdrop-blur dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50">
 				<CardHeader>
-					<CardTitle className='flex items-center gap-2 text-foreground text-lg'>
-						<Bell className='h-5 w-5 text-cyan-500' />
+					<CardTitle className="text-foreground flex items-center gap-2 text-lg">
+						<Bell className="h-5 w-5 text-cyan-500" />
 						Notifications
 					</CardTitle>
 				</CardHeader>
-				<CardContent className='space-y-3'>
+				<CardContent className="space-y-3">
 					{notificationSettings.map((setting) => (
 						<div
 							key={setting.id}
-							className='flex items-center justify-between p-3 bg-muted/30 dark:bg-neutral-800/30 rounded-2xl border border-border/30'
+							className="bg-muted/30 border-border/30 flex items-center justify-between rounded-2xl border p-3 dark:bg-neutral-800/30"
 						>
-							<div className='flex items-center gap-3'>
-								<div className='p-2 rounded-full bg-background/50 dark:bg-neutral-700/30'>
-									<setting.icon className='h-4 w-4 text-muted-foreground' />
+							<div className="flex items-center gap-3">
+								<div className="bg-background/50 rounded-full p-2 dark:bg-neutral-700/30">
+									<setting.icon className="text-muted-foreground h-4 w-4" />
 								</div>
-								<div className='space-y-0.5'>
+								<div className="space-y-0.5">
 									<Label
 										htmlFor={setting.id}
-										className='font-medium text-foreground text-sm cursor-pointer'
+										className="text-foreground cursor-pointer text-sm font-medium"
 									>
 										{setting.label}
 									</Label>
-									<p className='text-xs text-muted-foreground'>
-										{setting.description}
-									</p>
+									<p className="text-muted-foreground text-xs">{setting.description}</p>
 								</div>
 							</div>
 							<Switch
 								id={setting.id}
 								checked={toggles[setting.id]}
 								onCheckedChange={(v) => setToggle(setting.id, v)}
-								className='data-[state=checked]:bg-cyan-500'
+								className="data-[state=checked]:bg-cyan-500"
 							/>
 						</div>
 					))}
@@ -128,50 +115,46 @@ export const Settings = () => {
 			</Card>
 
 			{/* Preferences */}
-			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm'>
+			<Card className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl shadow-sm backdrop-blur dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50">
 				<CardHeader>
-					<CardTitle className='flex items-center gap-2 text-foreground text-lg'>
-						<Globe className='h-5 w-5 text-cyan-500' />
+					<CardTitle className="text-foreground flex items-center gap-2 text-lg">
+						<Globe className="h-5 w-5 text-cyan-500" />
 						Preferences
 					</CardTitle>
 				</CardHeader>
-				<CardContent className='space-y-3'>
-					<div className='flex items-center justify-between p-3 bg-muted/30 dark:bg-neutral-800/30 rounded-2xl border border-border/30'>
-						<div className='flex items-center gap-3 '>
-							<div className='p-2 rounded-full bg-background/50 dark:bg-neutral-700/30'>
-								<Ruler className='h-4 w-4 text-muted-foreground' />
+				<CardContent className="space-y-3">
+					<div className="bg-muted/30 border-border/30 flex items-center justify-between rounded-2xl border p-3 dark:bg-neutral-800/30">
+						<div className="flex items-center gap-3">
+							<div className="bg-background/50 rounded-full p-2 dark:bg-neutral-700/30">
+								<Ruler className="text-muted-foreground h-4 w-4" />
 							</div>
-							<div className='space-y-0.5'>
-								<p className='font-medium text-foreground text-sm cursor-pointer'>
-									Units
-								</p>
-								<p className='text-xs text-muted-foreground'>Metric (kg, cm)</p>
+							<div className="space-y-0.5">
+								<p className="text-foreground cursor-pointer text-sm font-medium">Units</p>
+								<p className="text-muted-foreground text-xs">Metric (kg, cm)</p>
 							</div>
 						</div>
 						<Button
-							variant='outline'
-							size='sm'
-							className='rounded-2xl border-border/50  cursor-pointer'
+							variant="outline"
+							size="sm"
+							className="border-border/50 cursor-pointer rounded-2xl"
 						>
 							Change
 						</Button>
 					</div>
-					<div className='flex items-center justify-between p-3 bg-muted/30 dark:bg-neutral-800/30 rounded-2xl border border-border/30'>
-						<div className='flex items-center gap-3'>
-							<div className='p-2 rounded-full bg-background/50 dark:bg-neutral-700/30'>
-								<Globe className='h-4 w-4 text-muted-foreground' />
+					<div className="bg-muted/30 border-border/30 flex items-center justify-between rounded-2xl border p-3 dark:bg-neutral-800/30">
+						<div className="flex items-center gap-3">
+							<div className="bg-background/50 rounded-full p-2 dark:bg-neutral-700/30">
+								<Globe className="text-muted-foreground h-4 w-4" />
 							</div>
-							<div className='space-y-0.5 '>
-								<p className='font-medium text-foreground text-sm cursor-pointer'>
-									Language
-								</p>
-								<p className='text-xs text-muted-foreground'>English (US)</p>
+							<div className="space-y-0.5">
+								<p className="text-foreground cursor-pointer text-sm font-medium">Language</p>
+								<p className="text-muted-foreground text-xs">English (US)</p>
 							</div>
 						</div>
 						<Button
-							variant='outline'
-							size='sm'
-							className='rounded-2xl border-border/50  cursor-pointer'
+							variant="outline"
+							size="sm"
+							className="border-border/50 cursor-pointer rounded-2xl"
 						>
 							Change
 						</Button>
@@ -180,41 +163,39 @@ export const Settings = () => {
 			</Card>
 
 			{/* Account & Security */}
-			<Card className='border-border/50 bg-card/50 dark:bg-neutral-800/50 backdrop-blur supports-backdrop-filter:bg-card/50 dark:supports-backdrop-filter:bg-neutral-800/50 rounded-2xl shadow-sm'>
+			<Card className="border-border/50 bg-card/50 supports-backdrop-filter:bg-card/50 rounded-2xl shadow-sm backdrop-blur dark:bg-neutral-800/50 dark:supports-backdrop-filter:bg-neutral-800/50">
 				<CardHeader>
-					<CardTitle className='flex items-center gap-2 text-foreground text-lg'>
-						<Lock className='h-5 w-5 text-cyan-500' />
+					<CardTitle className="text-foreground flex items-center gap-2 text-lg">
+						<Lock className="h-5 w-5 text-cyan-500" />
 						Account &amp; Security
 					</CardTitle>
 				</CardHeader>
-				<CardContent className='space-y-3'>
+				<CardContent className="space-y-3">
 					<Button
-						variant='outline'
-						className='w-full justify-start rounded-2xl border-border/50 bg-muted/30 dark:bg-neutral-800/30 hover:bg-muted/50 cursor-pointer'
+						variant="outline"
+						className="border-border/50 bg-muted/30 hover:bg-muted/50 w-full cursor-pointer justify-start rounded-2xl dark:bg-neutral-800/30"
 						onClick={() => setIsPasswordModalOpen(true)} // Open modal
 					>
-						<Lock className='h-4 w-4 mr-2 text-muted-foreground' />
+						<Lock className="text-muted-foreground mr-2 h-4 w-4" />
 						Change Password
 					</Button>
 
-					<Separator className='bg-border/50' />
+					<Separator className="bg-border/50" />
 					{/* Delete Account */}
-					<div className='rounded-2xl border border-red-500/30 bg-red-50/50 dark:bg-red-950/20 p-4'>
-						<div className='flex items-center justify-between gap-4'>
-							<div className='space-y-0.5'>
-								<p className='font-medium text-red-600 dark:text-red-400 text-sm'>
-									Delete Account
-								</p>
-								<p className='text-xs text-muted-foreground'>
+					<div className="rounded-2xl border border-red-500/30 bg-red-50/50 p-4 dark:bg-red-950/20">
+						<div className="flex items-center justify-between gap-4">
+							<div className="space-y-0.5">
+								<p className="text-sm font-medium text-red-600 dark:text-red-400">Delete Account</p>
+								<p className="text-muted-foreground text-xs">
 									Permanently remove your account and data
 								</p>
 							</div>
 							<Button
-								variant='destructive'
-								size='sm'
-								className='rounded-2xl shrink-0 bg-red-600 hover:bg-red-700 text-white cursor-pointer'
+								variant="destructive"
+								size="sm"
+								className="shrink-0 cursor-pointer rounded-2xl bg-red-600 text-white hover:bg-red-700"
 							>
-								<Trash2 className='h-4 w-4 mr-2' />
+								<Trash2 className="mr-2 h-4 w-4" />
 								Delete
 							</Button>
 						</div>

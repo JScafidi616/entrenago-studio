@@ -7,7 +7,7 @@ export type Profile = {
 	user_type: string | null;
 	username: string | null;
 	goal: string | null;
-	date_birth: string | null; 
+	date_birth: string | null;
 	gender: string | null;
 	avatar_url: string | null;
 	created_at: string;

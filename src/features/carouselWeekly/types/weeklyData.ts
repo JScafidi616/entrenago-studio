@@ -1,5 +1,5 @@
 import { Dumbbell, Target, Zap, Activity } from 'lucide-react';
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon } from 'lucide-react';
 // 1. Types
 export interface RoutineTemplate {
 	workout: string | null;
@@ -36,7 +36,13 @@ export const todayWorkout = {
 	exercises: [
 		{ name: 'Squats', sets: '4x12', rest: '90s', category: 'strength', icon: Dumbbell },
 		{ name: 'Romanian Deadlifts', sets: '3x10', rest: '90s', category: 'strength', icon: Dumbbell },
-		{ name: 'Bulgarian Split Squats', sets: '3x8 each', rest: '60s', category: 'bodyweight', icon: Activity },
+		{
+			name: 'Bulgarian Split Squats',
+			sets: '3x8 each',
+			rest: '60s',
+			category: 'bodyweight',
+			icon: Activity,
+		},
 		{ name: 'Leg Press', sets: '3x15', rest: '90s', category: 'strength', icon: Dumbbell },
 		{ name: 'Plank', sets: '3x60s', rest: '30s', category: 'core', icon: Target },
 		{ name: 'Russian Twists', sets: '3x20', rest: '30s', category: 'core', icon: Target },
@@ -56,7 +62,15 @@ export const generateWeekSchedule = (startOfWeek: number = 0): DaySchedule[] => 
 	weekStart.setDate(now.getDate() - offset);
 
 	const allDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-	const allFullDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+	const allFullDays = [
+		'Sunday',
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday',
+	];
 
 	return Array.from({ length: 7 }, (_, i) => {
 		const date = new Date(weekStart);

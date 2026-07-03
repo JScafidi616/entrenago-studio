@@ -25,21 +25,18 @@ const Input: React.FC<InputProps> = ({
 		<div className={cn('mb-4', containerClassName)}>
 			{/* Si hay link, label y link en flex */}
 			{linkText && linkHref ? (
-				<div className={cn('flex justify-between items-center mb-1')}>
+				<div className={cn('mb-1 flex items-center justify-between')}>
 					<label
 						htmlFor={id}
-						className={cn(
-							'text-sm text-foreground dark:text-gray-300',
-							labelClassName,
-						)}
+						className={cn('text-foreground text-sm dark:text-gray-300', labelClassName)}
 					>
 						{label}
 					</label>
-					<div className='text-xs text-primary hover:underline text-green-600 dark:text-green-400'>
+					<div className="text-primary text-xs text-green-600 hover:underline dark:text-green-400">
 						<Link
 							to={linkHref}
-							role='button'
-							className='text-primary font-medium text-green-600 dark:text-green-400 hover:underline'
+							role="button"
+							className="text-primary font-medium text-green-600 hover:underline dark:text-green-400"
 						>
 							{linkText}
 						</Link>
@@ -49,10 +46,7 @@ const Input: React.FC<InputProps> = ({
 				// Solo label normal
 				<label
 					htmlFor={id}
-					className={cn(
-						'block text-sm mb-1 text-foreground dark:text-gray-300',
-						labelClassName,
-					)}
+					className={cn('text-foreground mb-1 block text-sm dark:text-gray-300', labelClassName)}
 				>
 					{label}
 				</label>
@@ -60,7 +54,7 @@ const Input: React.FC<InputProps> = ({
 			<input
 				id={id}
 				className={cn(
-					'w-full px-4 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-white dark:bg-gray-900 dark:border-gray-700 dark:text-white transition',
+					'bg-background border-border focus:ring-primary w-full rounded-md border bg-white px-4 py-2 transition focus:ring-2 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-white',
 					inputClassName,
 				)}
 				{...inputProps}

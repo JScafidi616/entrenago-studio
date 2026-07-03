@@ -40,35 +40,35 @@ export default function AppLayout() {
 	}, [location.pathname]);
 
 	return (
-		<div className='min-h-screen flex flex-col bg-gray-100 dark:bg-neutral-900 transition-colors duration-300'>
+		<div className="flex min-h-screen flex-col bg-gray-100 transition-colors duration-300 dark:bg-neutral-900">
 			{/* Header */}
 			<header
 			// className={cn({cn('bg-white shadow-md py-4 px-6 dark:bg-neutral-800')}
 			></header>
 
 			{/* Navigation */}
-			<nav className='border-b border-border/50 bg-background/95 dark:bg-neutral-800/95 backdrop-blur supports-backdrop-filter:bg-background/60 dark:supports-backdrop-filter:bg-neutral-800/60 sticky top-1 z-50 mx-4 mt-4 rounded-2xl shadow-sm'>
-				<div className='container mx-auto px-6'>
-					<div className='flex items-center justify-between h-16 md:h-18'>
-						<div className='flex items-center space-x-3'>
-							<div className='p-2 bg-linear-to-r from-cyan-500 to-green-400 rounded-full shadow-md'>
-								<Dumbbell className={cn('h-5 w-5 md:h-6 md:w-6 text-white')} />
+			<nav className="border-border/50 bg-background/95 supports-backdrop-filter:bg-background/60 sticky top-1 z-50 mx-4 mt-4 rounded-2xl border-b shadow-sm backdrop-blur dark:bg-neutral-800/95 dark:supports-backdrop-filter:bg-neutral-800/60">
+				<div className="container mx-auto px-6">
+					<div className="flex h-16 items-center justify-between md:h-18">
+						<div className="flex items-center space-x-3">
+							<div className="rounded-full bg-linear-to-r from-cyan-500 to-green-400 p-2 shadow-md">
+								<Dumbbell className={cn('h-5 w-5 text-white md:h-6 md:w-6')} />
 							</div>
-							<span className='text-xl md:text-xl font-bold text-foreground dark:text-gray-300'>
+							<span className="text-foreground text-xl font-bold md:text-xl dark:text-gray-300">
 								Entrena GO
 							</span>
 						</div>
 
-						<div className='flex items-center space-x-2 md:space-x-4'>
+						<div className="flex items-center space-x-2 md:space-x-4">
 							{/* Desktop Menu Navigation - Moved to Right */}
-							<div className='hidden md:flex items-center space-x-2 bg-muted/30 dark:bg-neutral-700/30 rounded-2xl p-1'>
+							<div className="bg-muted/30 hidden items-center space-x-2 rounded-2xl p-1 md:flex dark:bg-neutral-700/30">
 								<NavDesktop />
 							</div>
 
 							{/* ThemeToggle & Mobile Menu */}
 							<div className={cn('flex items-center space-x-2')}>
 								<ThemeToggle />
-								<div className='hidden md:block'>
+								<div className="hidden md:block">
 									<UserDropdown />
 								</div>
 								<NavSideMobile
@@ -83,14 +83,14 @@ export default function AppLayout() {
 			</nav>
 
 			{/* Main Content */}
-			<main className='container mx-auto grow w-full px-6 py-6 md:py-8 max-w-7xl'>
-				<AnimatePresence mode='wait'>
+			<main className="container mx-auto w-full max-w-7xl grow px-6 py-6 md:py-8">
+				<AnimatePresence mode="wait">
 					<m.div
 						key={location.pathname} // re-animate on route change inside private
 						variants={contentVariants}
-						initial='initial'
-						animate='animate'
-						exit='exit'
+						initial="initial"
+						animate="animate"
+						exit="exit"
 						transition={{ duration: 0.2, ease: easeInOut }}
 					>
 						{/* Content */}
@@ -119,7 +119,7 @@ export default function AppLayout() {
 			{/* Footer */}
 			<footer
 				className={cn(
-					'bg-white shadow-inner py-4 px-6 text-center text-sm text-gray-500 dark:bg-neutral-800 dark:text-gray-400',
+					'bg-white px-6 py-4 text-center text-sm text-gray-500 shadow-inner dark:bg-neutral-800 dark:text-gray-400',
 				)}
 			>
 				© {new Date().getFullYear()} EntrenaGo. Todos los derechos reservados.

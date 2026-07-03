@@ -23,72 +23,66 @@ export const UserDropdown = () => {
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button
-					variant='ghost'
-					size='icon'
-					className='hover:bg-accent rounded-2xl h-10 w-10 bg-muted/30 dark:bg-neutral-700/30 transition-all duration-200 hover:shadow-md cursor-pointer'
+					variant="ghost"
+					size="icon"
+					className="hover:bg-accent bg-muted/30 h-10 w-10 cursor-pointer rounded-2xl transition-all duration-200 hover:shadow-md dark:bg-neutral-700/30"
 				>
-					<Avatar className='h-6 w-6'>
-						<AvatarImage src='/diverse-user-avatars.png' alt='User' />
-						<AvatarFallback className='bg-linear-to-r from-cyan-500 to-green-400 text-white text-xs font-semibold'>
+					<Avatar className="h-6 w-6">
+						<AvatarImage src="/diverse-user-avatars.png" alt="User" />
+						<AvatarFallback className="bg-linear-to-r from-cyan-500 to-green-400 text-xs font-semibold text-white">
 							{initials}
 						</AvatarFallback>
 					</Avatar>
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
-				align='end'
-				className='w-56 bg-background/95 dark:bg-neutral-800/95 backdrop-blur supports-backdrop-filter:bg-background/60 dark:supports-backdrop-filter:bg-neutral-800/60 border border-border/50 rounded-2xl shadow-lg'
+				align="end"
+				className="bg-background/95 supports-backdrop-filter:bg-background/60 border-border/50 w-56 rounded-2xl border shadow-lg backdrop-blur dark:bg-neutral-800/95 dark:supports-backdrop-filter:bg-neutral-800/60"
 			>
-				<div className='flex items-center space-x-3 p-3'>
-					<Avatar className='h-10 w-10'>
-						<AvatarImage src='/diverse-user-avatars.png' alt='User' />
-						<AvatarFallback className='bg-linear-to-r from-cyan-500 to-green-400 text-white font-semibold'>
+				<div className="flex items-center space-x-3 p-3">
+					<Avatar className="h-10 w-10">
+						<AvatarImage src="/diverse-user-avatars.png" alt="User" />
+						<AvatarFallback className="bg-linear-to-r from-cyan-500 to-green-400 font-semibold text-white">
 							{initials}
 						</AvatarFallback>
 					</Avatar>
-					<div className='flex flex-col min-w-0'>
+					<div className="flex min-w-0 flex-col">
 						{user && (
 							<>
-								<p className='text-sm font-medium text-foreground truncate'>
-									{profile?.full_name ||
-										profile?.email?.split('@')[0] ||
-										'Usuario'}
+								<p className="text-foreground truncate text-sm font-medium">
+									{profile?.full_name || profile?.email?.split('@')[0] || 'Usuario'}
 								</p>
-								<p className='text-xs text-muted-foreground truncate'>
-									{user.email}
-								</p>
+								<p className="text-muted-foreground truncate text-xs">{user.email}</p>
 							</>
 						)}
 					</div>
 				</div>
 
-				<DropdownMenuSeparator className='bg-border/50' />
+				<DropdownMenuSeparator className="bg-border/50" />
 
 				{/* User Profile/Settings Navigation */}
 				{accountNavItems.map((item) => (
 					<DropdownMenuItem
 						key={item.id}
 						asChild
-						className='flex items-center space-x-3 px-3 py-2 cursor-pointer hover:bg-accent/50 rounded-xl mx-1 transition-colors duration-200'
+						className="hover:bg-accent/50 mx-1 flex cursor-pointer items-center space-x-3 rounded-xl px-3 py-2 transition-colors duration-200"
 					>
 						<NavLink to={item.id}>
-							<item.icon className='h-4 w-4 text-muted-foreground' />
-							<span className='text-sm font-medium text-foreground'>
-								{item.label}
-							</span>
+							<item.icon className="text-muted-foreground h-4 w-4" />
+							<span className="text-foreground text-sm font-medium">{item.label}</span>
 						</NavLink>
 					</DropdownMenuItem>
 				))}
 
-				<DropdownMenuSeparator className='bg-border/50' />
+				<DropdownMenuSeparator className="bg-border/50" />
 				{/* TODO: Create a NavDropDown Component in navigation */}
 				{/* Log out button */}
 				<DropdownMenuItem
 					onClick={() => signOut()}
-					className='flex items-center space-x-3 px-3 py-2 cursor-pointer hover:bg-red-50 dark:hover:bg-red-950/30 rounded-xl mx-1 transition-colors duration-200 text-red-600 dark:text-red-400'
+					className="mx-1 flex cursor-pointer items-center space-x-3 rounded-xl px-3 py-2 text-red-600 transition-colors duration-200 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30"
 				>
-					<LogOut className='h-4 w-4' />
-					<span className='text-sm font-medium'>Log Out</span>
+					<LogOut className="h-4 w-4" />
+					<span className="text-sm font-medium">Log Out</span>
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

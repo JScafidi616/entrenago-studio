@@ -46,9 +46,18 @@ export function useCarouselScroll(todayIndex: number) {
 				const cards = container.querySelectorAll<HTMLElement>('[data-day-card]');
 				const maxScroll = container.scrollWidth - container.clientWidth;
 
-				if (maxScroll <= 5) { setActiveScrollIndex(todayIndex); return; }
-				if (container.scrollLeft <= 5) { setActiveScrollIndex(0); return; }
-				if (container.scrollLeft >= maxScroll - 5) { setActiveScrollIndex(cards.length - 1); return; }
+				if (maxScroll <= 5) {
+					setActiveScrollIndex(todayIndex);
+					return;
+				}
+				if (container.scrollLeft <= 5) {
+					setActiveScrollIndex(0);
+					return;
+				}
+				if (container.scrollLeft >= maxScroll - 5) {
+					setActiveScrollIndex(cards.length - 1);
+					return;
+				}
 
 				const center = container.scrollLeft + container.clientWidth / 2;
 				let closest = 0;
@@ -57,7 +66,10 @@ export function useCarouselScroll(todayIndex: number) {
 				cards.forEach((card, index) => {
 					const cardCenter = card.offsetLeft + card.offsetWidth / 2;
 					const d = Math.abs(center - cardCenter);
-					if (d < distance) { distance = d; closest = index; }
+					if (d < distance) {
+						distance = d;
+						closest = index;
+					}
 				});
 
 				setActiveScrollIndex(closest);

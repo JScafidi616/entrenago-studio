@@ -27,66 +27,61 @@ export const ResetPassword = () => {
 	}, [isSuccess, countdown, navigate]);
 
 	return (
-		<div className='min-h-screen flex items-center justify-center bg-background dark:bg-neutral-900 px-4 transition-colors duration-300'>
-			<div className='w-full max-w-md'>
+		<div className="bg-background flex min-h-screen items-center justify-center px-4 transition-colors duration-300 dark:bg-neutral-900">
+			<div className="w-full max-w-md">
 				{/* Logo */}
-				<div className='flex items-center justify-center gap-2.5 mb-8'>
-					<div className='p-2.5 bg-linear-to-r from-cyan-500 to-green-400 rounded-full shadow-md'>
-						<Dumbbell className='h-6 w-6 text-white' />
+				<div className="mb-8 flex items-center justify-center gap-2.5">
+					<div className="rounded-full bg-linear-to-r from-cyan-500 to-green-400 p-2.5 shadow-md">
+						<Dumbbell className="h-6 w-6 text-white" />
 					</div>
-					<span className='font-bold text-xl text-foreground'>EntrenaGo</span>
+					<span className="text-foreground text-xl font-bold">EntrenaGo</span>
 				</div>
 
-				<div className='rounded-2xl border border-border/50 bg-card dark:bg-neutral-800/80 shadow-xl backdrop-blur supports-backdrop-filter:bg-card/90 dark:supports-backdrop-filter:bg-neutral-800/80 p-8'>
+				<div className="border-border/50 bg-card supports-backdrop-filter:bg-card/90 rounded-2xl border p-8 shadow-xl backdrop-blur dark:bg-neutral-800/80 dark:supports-backdrop-filter:bg-neutral-800/80">
 					{!isSuccess ? (
 						/* ── Form state ── */
 						<>
-							<div className='mb-6'>
-								<h1 className='text-2xl font-bold text-foreground text-balance'>
+							<div className="mb-6">
+								<h1 className="text-foreground text-2xl font-bold text-balance">
 									Restablecer contraseña
 								</h1>
-								<p className='mt-2 text-sm leading-relaxed text-muted-foreground'>
+								<p className="text-muted-foreground mt-2 text-sm leading-relaxed">
 									Crea una nueva contraseña segura para tu cuenta.
 								</p>
 							</div>
 
 							<PasswordForm onSuccess={() => setIsSuccess(true)} />
 
-							<p className='mt-6 text-center text-sm text-muted-foreground'>
+							<p className="text-muted-foreground mt-6 text-center text-sm">
 								<Link
-									to='/login'
-									className='inline-flex items-center gap-1.5 text-cyan-500 hover:text-cyan-400 font-medium transition-colors'
+									to="/login"
+									className="inline-flex items-center gap-1.5 font-medium text-cyan-500 transition-colors hover:text-cyan-400"
 								>
-									<ArrowLeft className='h-3.5 w-3.5' />
+									<ArrowLeft className="h-3.5 w-3.5" />
 									Volver al inicio de sesión
 								</Link>
 							</p>
 						</>
 					) : (
 						/* ── Success state ── */
-						<div className='flex flex-col items-center text-center py-2'>
-							<div className='flex items-center justify-center w-16 h-16 rounded-full bg-green-500/10 dark:bg-green-500/15 mb-5'>
-								<CheckCircle2
-									className='h-8 w-8 text-green-500'
-									strokeWidth={1.75}
-								/>
+						<div className="flex flex-col items-center py-2 text-center">
+							<div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-green-500/10 dark:bg-green-500/15">
+								<CheckCircle2 className="h-8 w-8 text-green-500" strokeWidth={1.75} />
 							</div>
 
-							<h2 className='text-xl font-bold text-foreground mb-2'>
-								¡Contraseña actualizada!
-							</h2>
-							<p className='text-sm leading-relaxed text-muted-foreground mb-1'>
+							<h2 className="text-foreground mb-2 text-xl font-bold">¡Contraseña actualizada!</h2>
+							<p className="text-muted-foreground mb-1 text-sm leading-relaxed">
 								Tu contraseña ha sido restablecida correctamente.
 							</p>
-							<p className='text-sm text-muted-foreground mb-8'>
+							<p className="text-muted-foreground mb-8 text-sm">
 								Serás redirigido al inicio de sesión en{' '}
-								<span className='font-semibold text-cyan-500'>{countdown}</span>{' '}
+								<span className="font-semibold text-cyan-500">{countdown}</span>{' '}
 								{countdown === 1 ? 'segundo' : 'segundos'}...
 							</p>
 
 							<Link
-								to='/login'
-								className='inline-flex items-center gap-1.5 text-sm text-cyan-500 hover:text-cyan-400 font-medium transition-colors'
+								to="/login"
+								className="inline-flex items-center gap-1.5 text-sm font-medium text-cyan-500 transition-colors hover:text-cyan-400"
 							>
 								Ir al inicio de sesión ahora
 							</Link>

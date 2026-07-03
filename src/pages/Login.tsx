@@ -41,45 +41,45 @@ export default function Login() {
 	return (
 		<div
 			className={cn(
-				'min-h-screen flex items-center justify-center bg-background px-4 py-10 sm:px-6 lg:px-8 dark:bg-neutral-900',
+				'bg-background flex min-h-screen items-center justify-center px-4 py-10 sm:px-6 lg:px-8 dark:bg-neutral-900',
 			)}
 		>
 			<div
 				className={cn(
-					'w-full max-w-md space-y-6 bg-card p-8 rounded-2xl shadow-lg  dark:bg-neutral-800',
+					'bg-card w-full max-w-md space-y-6 rounded-2xl p-8 shadow-lg dark:bg-neutral-800',
 				)}
 			>
 				{/* Card Title Section */}
 				<AuthCardTitle
-					title='Inicia sesión en EntrenaGo'
-					description='Bienvenido de nuevo, por favor inicia sesión'
+					title="Inicia sesión en EntrenaGo"
+					description="Bienvenido de nuevo, por favor inicia sesión"
 				/>
 
 				{/* Provider Auth Section */}
-				<div className='space-y-3'>
+				<div className="space-y-3">
 					<AuthProviders
-						providerName='Google'
-						providerDescription='Iniciar Sesion con Google'
-						providerImage='/icons/google_icon_socials.svg'
+						providerName="Google"
+						providerDescription="Iniciar Sesion con Google"
+						providerImage="/icons/google_icon_socials.svg"
 						authClick={() => handleOAuth({ provider: 'google' })}
 					/>
 					<AuthProviders
-						providerName='Facebook'
-						providerDescription='Iniciar Sesion con Facebook'
-						providerImage='/icons/facebook_icon_socials.svg'
+						providerName="Facebook"
+						providerDescription="Iniciar Sesion con Facebook"
+						providerImage="/icons/facebook_icon_socials.svg"
 						authClick={() => handleOAuth({ provider: 'facebook' })}
 					/>
 				</div>
 				<AuthSeparation />
 
-				<form onSubmit={handleSubmit} className='space-y-4'>
+				<form onSubmit={handleSubmit} className="space-y-4">
 					{/* Email Section */}
 					<Input
-						label='Correo electrónico'
-						id='email'
-						type='email'
-						autoComplete='email'
-						placeholder='Ingresa tu correo electrónico'
+						label="Correo electrónico"
+						id="email"
+						type="email"
+						autoComplete="email"
+						placeholder="Ingresa tu correo electrónico"
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						required
@@ -87,28 +87,22 @@ export default function Login() {
 
 					{/* Password Section */}
 					<Input
-						label='Contraseña'
-						id='password'
-						type='password'
-						autoComplete='current-password'
-						placeholder='Ingresa tu contraseña'
+						label="Contraseña"
+						id="password"
+						type="password"
+						autoComplete="current-password"
+						placeholder="Ingresa tu contraseña"
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
-						linkText='¿Olvidaste tu contraseña?'
-						linkHref='/forgot-password'
+						linkText="¿Olvidaste tu contraseña?"
+						linkHref="/forgot-password"
 						required
 					/>
 
-					{error && (
-						<p className={cn('text-sm text-destructive')}>{error.message}</p>
-					)}
+					{error && <p className={cn('text-destructive text-sm')}>{error.message}</p>}
 
 					{/* Submit Button */}
-					<ButtonProps
-						type='submit'
-						title='Iniciar sesión'
-						isPending={isPending}
-					>
+					<ButtonProps type="submit" title="Iniciar sesión" isPending={isPending}>
 						Iniciar sesión
 					</ButtonProps>
 				</form>
