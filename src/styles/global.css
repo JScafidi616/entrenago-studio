@@ -334,3 +334,9 @@
 		}
 	}
 }
+
+@layer utilities {
+	button {
+		@apply cursor-pointer;
+	}
+}
