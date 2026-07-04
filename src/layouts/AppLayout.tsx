@@ -22,18 +22,11 @@ export default function AppLayout() {
 	// Local state to override cache when onboarding is completed
 	const [onboardingCompleted, setOnboardingCompleted] = useState(false);
 
-	const currentSection = location.pathname.replace(/^\/+/, '') || 'dashboard';
+	const currentSection = location.pathname.replace(/^\/+/, '') ?? 'dashboard';
 
 	const showOnboarding = !!user && !!profile && !profile.onboarded;
 
-	console.log(
-		'AppLayout: showOnboarding =',
-		showOnboarding,
-		'profile?.onboarded =',
-		profile?.onboarded,
-		'onboardingCompleted =',
-		onboardingCompleted,
-	);
+	console.log('onboardingCompleted =', onboardingCompleted);
 
 	const handleNavigation = (page: string) => {
 		navigate(page);
@@ -116,7 +109,7 @@ export default function AppLayout() {
 									// invalidate the query, you can pass a callback to do it.
 									onComplete={() => {
 										setOnboardingCompleted(true);
-										console.log('Onboarding finished successfully!');
+										// console.log('Onboarding finished successfully!');
 									}}
 								/>
 							)}

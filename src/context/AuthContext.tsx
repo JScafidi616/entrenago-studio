@@ -19,6 +19,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	} = useQuery({
 		queryKey: ['profile', user?.id],
 		queryFn: async () => {
+			// console.log('🔍 AuthContext: Fetching profile from Supabase...');
 			const { data, error } = await supabase
 				.from('profiles')
 				.select('*')
@@ -26,6 +27,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 				.single();
 
 			if (error) throw error;
+			// console.log('✅ AuthContext: Received profile, onboarded =', data.onboarded);
 			return data as Profile;
 		},
 		// Only run the query when a user is logged in
@@ -57,7 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	};
 
 	// Combine loading states: Loading if session is checking OR if profile is fetching
-	const isLoading = isSessionLoading || (!!user?.id && isProfileLoading);
+	const isLoading = isSessionLoading ?? (!!user?.id && isProfileLoading);
 
 	const refreshProfile = async () => {
 		await refetch();

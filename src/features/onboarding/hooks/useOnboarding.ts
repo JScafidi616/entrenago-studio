@@ -60,7 +60,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 
 			// Fix the type to match the actual Profile structure
 			queryClient.setQueryData(['profile', userId], (oldData: FormData | undefined) => {
-				console.log('🔧 useOnboarding: Updating cache, old onboarded =', oldData?.onboarded);
+				// console.log('🔧 useOnboarding: Updating cache, old onboarded =', oldData?.onboarded);
 
 				// Handle case where cache might be empty
 				if (!oldData) {
@@ -80,20 +80,20 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 					goal: formData.goal,
 					user_type: formData.user_type,
 				};
-				console.log('✅ useOnboarding: Cache updated, new onboarded =', updated.onboarded);
+				// console.log('✅ useOnboarding: Cache updated, new onboarded =', updated.onboarded);
 				return updated;
 			});
 
 			// REMOVE THIS LINE - it's causing the race condition
 			queryClient.invalidateQueries({ queryKey: ['profile', userId] });
 
-			console.log('🔄 useOnboarding: Cache updated, no refetch triggered');
+			// console.log('🔄 useOnboarding: Cache updated, no refetch triggered');
 
 			if (onComplete) onComplete();
 		},
 		onError: (error) => {
 			// If it still fails, check your browser console for this error!
-			console.error('Failed to complete onboarding:', error);
+			console.error('Failed to complete onboarding - talk to the development team: ', error);
 		},
 	});
 
@@ -104,7 +104,7 @@ export function useOnboarding({ userId, onComplete }: UseOnboardingProps) {
 	return {
 		handleChange,
 		handleSubmit,
-		loading: isProfileLoading || mutation.isPending,
+		loading: isProfileLoading ?? mutation.isPending,
 		step,
 		setStep,
 		formData,
