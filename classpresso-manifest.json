@@ -1,0 +1,194 @@
+{
+  "version": "1.0.0",
+  "tool": "classpresso",
+  "buildDir": ".",
+  "created": "2026-07-04T02:09:45.987Z",
+  "config": {
+    "minOccurrences": 2,
+    "minClasses": 3,
+    "hashPrefix": "cp-",
+    "hashLength": 5
+  },
+  "mappings": [
+    {
+      "original": "text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2",
+      "consolidated": "cp-f",
+      "classes": [
+        "text-muted-foreground",
+        "pointer-events-none",
+        "absolute",
+        "top-1/2",
+        "left-3",
+        "h-4",
+        "w-4",
+        "-translate-y-1/2"
+      ],
+      "excludedClasses": [],
+      "cssDeclarations": "color: var(--muted-foreground); pointer-events: none; position: absolute; left: calc(var(--spacing) * 3); height: calc(var(--spacing) * 4); width: calc(var(--spacing) * 4)",
+      "frequency": 3,
+      "bytesSaved": 258
+    },
+    {
+      "original": "text-foreground text-sm font-medium",
+      "consolidated": "cp-b",
+      "classes": [
+        "text-foreground",
+        "text-sm",
+        "font-medium"
+      ],
+      "excludedClasses": [],
+      "cssDeclarations": "color: var(--foreground); font-size: var(--text-sm); line-height: var(--tw-leading,var(--text-sm--line-height)); --tw-font-weight: var(--font-weight-medium); font-weight: var(--font-weight-medium)",
+      "frequency": 6,
+      "bytesSaved": 186
+    },
+    {
+      "original": "text-foreground flex items-center gap-2 text-lg",
+      "consolidated": "cp-d",
+      "classes": [
+        "text-foreground",
+        "flex",
+        "items-center",
+        "gap-2",
+        "text-lg"
+      ],
+      "excludedClasses": [],
+      "cssDeclarations": "color: var(--foreground); display: flex; align-items: center; gap: calc(var(--spacing) * 2); font-size: var(--text-lg); line-height: var(--tw-leading,var(--text-lg--line-height))",
+      "frequency": 4,
+      "bytesSaved": 172
+    },
+    {
+      "original": "text-muted-foreground h-4 w-4",
+      "consolidated": "cp-a",
+      "classes": [
+        "text-muted-foreground",
+        "h-4",
+        "w-4"
+      ],
+      "excludedClasses": [],
+      "cssDeclarations": "color: var(--muted-foreground); height: calc(var(--spacing) * 4); width: calc(var(--spacing) * 4)",
+      "frequency": 6,
+      "bytesSaved": 150
+    },
+    {
+      "original": "text-muted-foreground mt-2 text-sm leading-relaxed",
+      "consolidated": "cp-e",
+      "classes": [
+        "text-muted-foreground",
+        "mt-2",
+        "text-sm",
+        "leading-relaxed"
+      ],
+      "excludedClasses": [],
+      "cssDeclarations": "color: var(--muted-foreground); margin-top: calc(var(--spacing) * 2); font-size: var(--text-sm); line-height: var(--tw-leading,var(--text-sm--line-height)); --tw-leading: var(--leading-relaxed); line-height: var(--leading-relaxed)",
+      "frequency": 3,
+      "bytesSaved": 138
+    },
+    {
+      "original": "text-foreground cursor-pointer text-sm font-medium",
+      "consolidated": "cp-h",
+      "classes": [
+        "text-foreground",
+        "cursor-pointer",
+        "text-sm",
+        "font-medium"
+      ],
+      "excludedClasses": [],
+      "cssDeclarations": "color: var(--foreground); cursor: pointer; font-size: var(--text-sm); line-height: var(--tw-leading,var(--text-sm--line-height)); --tw-font-weight: var(--font-weight-medium); font-weight: var(--font-weight-medium)",
+      "frequency": 3,
+      "bytesSaved": 138
+    },
+    {
+      "original": "h-5 w-5 text-cyan-500",
+      "consolidated": "cp-c",
+      "classes": [
+        "h-5",
+        "w-5",
+        "text-cyan-500"
+      ],
+      "excludedClasses": [],
+      "cssDeclarations": "height: calc(var(--spacing) * 5); width: calc(var(--spacing) * 5); color: var(--color-cyan-500)",
+      "frequency": 6,
+      "bytesSaved": 102
+    },
+    {
+      "original": "flex items-center justify-between",
+      "consolidated": "cp-g",
+      "classes": [
+        "flex",
+        "items-center",
+        "justify-between"
+      ],
+      "excludedClasses": [],
+      "cssDeclarations": "display: flex; align-items: center; justify-content: space-between",
+      "frequency": 3,
+      "bytesSaved": 87
+    }
+  ],
+  "metrics": {
+    "totalFilesScanned": 7,
+    "totalFilesModified": 1,
+    "totalClassStringsFound": 34,
+    "uniqueClassPatterns": 8,
+    "consolidatedPatterns": 8,
+    "totalOccurrencesReplaced": 34,
+    "originalTotalBytes": 879403,
+    "optimizedTotalBytes": 878952,
+    "bytesSaved": 1231,
+    "percentageReduction": 0.05128479206916511,
+    "originalCSSBytes": 0,
+    "consolidatedCSSBytes": 780,
+    "netCSSChange": 780,
+    "estimatedParseTimeSavedMs": 0.04404296875,
+    "estimatedRenderTimeSavedMs": 0.022021484375,
+    "topConsolidations": [
+      {
+        "original": "text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2",
+        "consolidated": "cp-f",
+        "frequency": 3,
+        "bytesSaved": 258
+      },
+      {
+        "original": "text-foreground text-sm font-medium",
+        "consolidated": "cp-b",
+        "frequency": 6,
+        "bytesSaved": 186
+      },
+      {
+        "original": "text-foreground flex items-center gap-2 text-lg",
+        "consolidated": "cp-d",
+        "frequency": 4,
+        "bytesSaved": 172
+      },
+      {
+        "original": "text-muted-foreground h-4 w-4",
+        "consolidated": "cp-a",
+        "frequency": 6,
+        "bytesSaved": 150
+      },
+      {
+        "original": "text-muted-foreground mt-2 text-sm leading-relaxed",
+        "consolidated": "cp-e",
+        "frequency": 3,
+        "bytesSaved": 138
+      },
+      {
+        "original": "text-foreground cursor-pointer text-sm font-medium",
+        "consolidated": "cp-h",
+        "frequency": 3,
+        "bytesSaved": 138
+      },
+      {
+        "original": "h-5 w-5 text-cyan-500",
+        "consolidated": "cp-c",
+        "frequency": 6,
+        "bytesSaved": 102
+      },
+      {
+        "original": "flex items-center justify-between",
+        "consolidated": "cp-g",
+        "frequency": 3,
+        "bytesSaved": 87
+      }
+    ]
+  }
+}
