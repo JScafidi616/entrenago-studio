@@ -24,7 +24,9 @@ export const NavDesktop = () => {
 							{isActive && (
 								<m.div
 									layoutId="active-nav-pill"
-									className="absolute inset-0 rounded-2xl bg-linear-to-r from-cyan-500 to-green-400 shadow-md"
+									className={cn(
+										'absolute inset-0 rounded-2xl bg-linear-to-r from-cyan-500 to-green-400 shadow-md',
+									)}
 									transition={{ type: 'spring', stiffness: 300, damping: 30 }}
 								/>
 							)}
