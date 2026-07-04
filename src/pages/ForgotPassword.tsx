@@ -5,6 +5,7 @@ import { useForgotPassword } from '@/features/auth/hooks/useAuthentications';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { cn } from '../utils/utils';
 
 export const ForgotPassword = () => {
 	const [email, setEmail] = useState('');
@@ -49,19 +50,25 @@ export const ForgotPassword = () => {
 										Correo electrónico
 									</Label>
 									<div className="relative">
-										<Mail className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+										<Mail
+											className={cn(
+												'text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2',
+											)}
+										/>
 										<Input
 											id="email"
 											type="email"
-											placeholder="tu@correo.com"
+											placeholder="Jhon.doe@correo.com"
 											value={email}
 											onChange={(e) => setEmail(e.target.value)}
 											aria-describedby={error ? 'email-error' : undefined}
-											className={`bg-muted/30 border-border/50 h-11 rounded-xl pl-10 transition-colors focus:border-cyan-500 focus:ring-cyan-500/20 dark:bg-neutral-700/40 ${
-												error
-													? 'border-destructive focus:border-destructive focus:ring-destructive/20'
-													: ''
-											}`}
+											className={cn(
+												`bg-muted/30 border-border/50 h-11 rounded-xl pl-10 transition-colors focus:border-cyan-500 focus:ring-cyan-500/20 dark:bg-neutral-700/40 ${
+													error
+														? 'border-destructive focus:border-destructive focus:ring-destructive/20'
+														: ''
+												}`,
+											)}
 										/>
 									</div>
 									{error && (
