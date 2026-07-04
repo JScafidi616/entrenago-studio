@@ -7,7 +7,7 @@ import { UserDropdown } from '@/components/custom/UserDropdown.tsx';
 import { cn } from '@/utils/utils';
 import { Dumbbell } from 'lucide-react';
 import { AnimatePresence, easeInOut, m } from 'motion/react';
-import { useLocation, useNavigate, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
+import { useLocation, useNavigate, useOutlet } from 'react-router-dom'; //Outlet avoided to maintain animation
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import OnboardingModal from '@/features/onboarding/components/Onboarding';
