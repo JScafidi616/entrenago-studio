@@ -77,7 +77,9 @@ export const MyAccountLayout = ({ initialTab = 'profile' }: { initialTab?: strin
 							{tab === 'profile' && (
 								<m.div
 									layoutId="active-tab-pill"
-									className="absolute inset-0 rounded-2xl bg-linear-to-r from-cyan-500 to-green-400 shadow-md"
+									className={cn(
+										'absolute inset-0 rounded-2xl bg-linear-to-r from-cyan-500 to-green-400 shadow-md',
+									)}
 									transition={{ type: 'spring', stiffness: 300, damping: 30 }}
 								/>
 							)}
@@ -97,7 +99,9 @@ export const MyAccountLayout = ({ initialTab = 'profile' }: { initialTab?: strin
 							{tab === 'settings' && (
 								<m.div
 									layoutId="active-tab-pill"
-									className="absolute inset-0 rounded-2xl bg-linear-to-r from-cyan-500 to-green-400 shadow-md"
+									className={cn(
+										'absolute inset-0 rounded-2xl bg-linear-to-r from-cyan-500 to-green-400 shadow-md',
+									)}
 									transition={{ type: 'spring', stiffness: 300, damping: 30 }}
 								/>
 							)}
