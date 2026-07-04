@@ -66,21 +66,45 @@ export const MyAccountLayout = ({ initialTab = 'profile' }: { initialTab?: strin
 				<Tabs value={tab} onValueChange={handleTabChange} className="w-full">
 					{/* Tabs section here */}
 					<TabsList className="bg-muted/30 grid h-auto w-full max-w-sm grid-cols-2 rounded-2xl p-1 dark:bg-neutral-700/30">
-						{/* Settings Profile */}
+						{/* Profile tab */}
 						<TabsTrigger
 							value="profile"
-							className="cursor-pointer rounded-2xl py-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-green-400 data-[state=active]:text-white data-[state=active]:shadow-md"
+							className={cn(
+								'relative cursor-pointer rounded-2xl py-2 transition-colors data-[state=active]:bg-transparent',
+								tab === 'profile' ? 'text-white' : 'text-muted-foreground hover:text-foreground',
+							)}
 						>
-							<UserCircle className="mr-2 h-4 w-4" />
-							Profile
+							{tab === 'profile' && (
+								<m.div
+									layoutId="active-tab-pill"
+									className="absolute inset-0 rounded-2xl bg-linear-to-r from-cyan-500 to-green-400 shadow-md"
+									transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+								/>
+							)}
+							<div className="relative z-10 flex items-center justify-center">
+								<UserCircle className="mr-2 h-4 w-4" />
+								Profile
+							</div>
 						</TabsTrigger>
 						{/* Settings tab */}
 						<TabsTrigger
 							value="settings"
-							className="cursor-pointer rounded-2xl py-2 data-[state=active]:bg-linear-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-green-400 data-[state=active]:text-white data-[state=active]:shadow-md"
+							className={cn(
+								'relative cursor-pointer rounded-2xl py-2 transition-colors data-[state=active]:bg-transparent',
+								tab === 'settings' ? 'text-white' : 'text-muted-foreground hover:text-foreground',
+							)}
 						>
-							<Settings className="mr-2 h-4 w-4" />
-							Settings
+							{tab === 'settings' && (
+								<m.div
+									layoutId="active-tab-pill"
+									className="absolute inset-0 rounded-2xl bg-linear-to-r from-cyan-500 to-green-400 shadow-md"
+									transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+								/>
+							)}
+							<div className="relative z-10 flex items-center justify-center">
+								<Settings className="mr-2 h-4 w-4" />
+								Settings
+							</div>
 						</TabsTrigger>
 					</TabsList>
 					{/* Loading Content here */}
@@ -99,6 +123,7 @@ export const MyAccountLayout = ({ initialTab = 'profile' }: { initialTab?: strin
 					</AnimatePresence>
 				</Tabs>
 			</main>
+
 			{/* Footer */}
 			<footer
 				className={cn(
