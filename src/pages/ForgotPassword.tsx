@@ -58,7 +58,7 @@ export const ForgotPassword = () => {
 										<Input
 											id="email"
 											type="email"
-											placeholder="Jhon.doe@correo.com"
+											placeholder="Jhon.doe123@gmail.com"
 											value={email}
 											onChange={(e) => setEmail(e.target.value)}
 											aria-describedby={error ? 'email-error' : undefined}
