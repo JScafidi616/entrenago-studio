@@ -1,6 +1,4 @@
-import ButtonProps from '@/features/auth/components/AuthButtonProps';
 import AuthCardTitle from '@/features/auth/components/AuthCardTitle';
-import Input from '@/features/auth/components/AuthInputProps';
 import AuthNavigation from '@/features/auth/components/AuthNavigation';
 import AuthProviders from '@/features/auth/components/AuthProviders';
 import AuthSeparation from '@/features/auth/components/AuthSeparation';
@@ -10,21 +8,45 @@ import type { Provider } from '@supabase/supabase-js';
 import { cn } from '@/utils/utils';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
-export default function Login() {
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+
+interface LoginFormProps {
+	onSuccess?: () => void;
+	submitButtonText?: string;
+}
+
+export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFormProps) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
-	const { mutate: login, isPending, error } = useLogin();
+	const { mutate: login, isPending, error: apiError } = useLogin();
 	const { signInWithProvider } = useOAuthSignIn();
+
+	const [showPassword, setShowPassword] = useState(false);
+
+	const [localError, setLocalError] = useState('');
+	const displayError = localError ?? apiError?.message;
 
 	// Handles manual login with email and password
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
+		setLocalError('');
+
+		if (!email || !password) {
+			setLocalError('Por favor, completa todos los campos');
+			return;
+		}
+
 		login(
 			{ email, password },
 			{
 				onSuccess: () => navigate('/dashboard', { replace: true }),
+				onError: (err) => setLocalError(err.message || 'Credenciales inválidas'),
 			},
 		);
 	};
@@ -36,6 +58,17 @@ export default function Login() {
 		} catch {
 			alert('Failed to sign in with Google. Please try again.');
 		}
+	};
+
+	// Clear errors when user starts typing
+	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setEmail(e.target.value);
+		if (localError) setLocalError('');
+	};
+
+	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPassword(e.target.value);
+		if (localError) setLocalError('');
 	};
 
 	return (
@@ -74,37 +107,101 @@ export default function Login() {
 
 				<form onSubmit={handleSubmit} className="space-y-4">
 					{/* Email Section */}
-					<Input
-						label="Correo electrónico"
-						id="email"
-						type="email"
-						autoComplete="email"
-						placeholder="Ingresa tu correo electrónico"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						required
-					/>
+					<div className="flex flex-col">
+						<div className="mb-2 flex items-center justify-between">
+							<Label htmlFor="email" className="text-foreground text-sm font-medium">
+								Correo electrónico
+							</Label>
+						</div>
+
+						<div className="relative">
+							<Mail
+								className={cn(
+									'text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2',
+								)}
+							/>
+							<Input
+								id="email"
+								type="email"
+								autoComplete="email"
+								placeholder="Jhon.doe123@gmail.com"
+								onChange={handleEmailChange}
+								value={email}
+								required
+								aria-describedby={localError ? 'email-error' : undefined}
+								className={cn(
+									`bg-muted/30 border-border/50 h-11 rounded-xl pl-10 transition-colors focus:border-cyan-500 focus:ring-cyan-500/20 dark:bg-neutral-700/40 ${
+										displayError
+											? 'border-destructive focus:border-destructive focus:ring-destructive/20'
+											: ''
+									}`,
+								)}
+							/>
+						</div>
+					</div>
 
 					{/* Password Section */}
-					<Input
-						label="Contraseña"
-						id="password"
-						type="password"
-						autoComplete="current-password"
-						placeholder="Ingresa tu contraseña"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						linkText="¿Olvidaste tu contraseña?"
-						linkHref="/forgot-password"
-						required
-					/>
+					<div className="flex flex-col">
+						<div className="mb-2 flex items-center justify-between">
+							<Label htmlFor="new-password" className="text-foreground text-sm font-medium">
+								Contraseña
+							</Label>
+							<Link
+								to="/forgot-password"
+								role="button"
+								className="text-primary text-xs font-medium hover:underline dark:text-green-400"
+							>
+								¿Olvidaste tu contraseña?
+							</Link>
+						</div>
 
-					{error && <p className={cn('text-destructive text-sm')}>{error.message}</p>}
+						<div className="relative">
+							<Lock className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+							<Input
+								id="new-password"
+								type={showPassword ? 'text' : 'password'}
+								placeholder="Mínimo 6 caracteres"
+								onChange={handlePasswordChange}
+								value={password}
+								autoComplete="current-password"
+								required
+								minLength={6}
+								className={`bg-muted/30 border-border/50 h-11 rounded-xl pr-10 pl-10 transition-colors focus:border-cyan-500 focus:ring-cyan-500/20 dark:bg-neutral-700/40 ${
+									displayError
+										? 'border-destructive focus:border-destructive focus:ring-destructive/20'
+										: ''
+								}`}
+							/>
+							<button
+								type="button"
+								aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+								onClick={() => setShowPassword((v) => !v)}
+								className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 transition-colors"
+							>
+								{showPassword ? (
+									<EyeOff className="h-4 w-4 cursor-pointer" />
+								) : (
+									<Eye className="h-4 w-4 cursor-pointer" />
+								)}
+							</button>
+						</div>
+					</div>
+
+					{/* Unified Error Message */}
+					{displayError && (
+						<p role="alert" className="text-destructive text-center text-sm">
+							{displayError}
+						</p>
+					)}
 
 					{/* Submit Button */}
-					<ButtonProps type="submit" title="Iniciar sesión" isPending={isPending}>
-						Iniciar sesión
-					</ButtonProps>
+					<Button
+						type="submit"
+						title="Iniciar sesión"
+						className="bg-primary text-primary-foreground hover:bg-primary/90 w-full rounded-md bg-linear-to-r from-cyan-500 to-green-400 py-2 font-semibold transition"
+					>
+						{isPending ? 'Verificando...' : submitButtonText}
+					</Button>
 				</form>
 
 				{/* Navigation to Register */}
