@@ -5,7 +5,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	children: React.ReactNode;
 	isPending?: boolean;
 }
-
+//TODO deprecated this component, use the Button component from ui folder instead
 const Button: React.FC<ButtonProps> = ({ children, isPending, ...rest }) => (
 	<button
 		type="submit"

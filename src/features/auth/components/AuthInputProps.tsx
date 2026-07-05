@@ -10,7 +10,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	labelClassName?: string;
 	inputClassName?: string;
 }
-
+//TODO deprecate this component and use the Input component from ui library instead, as it has better styling and accessibility features.
 const Input: React.FC<InputProps> = ({
 	label,
 	id,
@@ -32,11 +32,11 @@ const Input: React.FC<InputProps> = ({
 					>
 						{label}
 					</label>
-					<div className="text-primary text-xs text-green-600 hover:underline dark:text-green-400">
+					<div className="text-primary text-xs hover:underline dark:text-green-400">
 						<Link
 							to={linkHref}
 							role="button"
-							className="text-primary font-medium text-green-600 hover:underline dark:text-green-400"
+							className="text-primary font-medium hover:underline dark:text-green-400"
 						>
 							{linkText}
 						</Link>
@@ -54,7 +54,7 @@ const Input: React.FC<InputProps> = ({
 			<input
 				id={id}
 				className={cn(
-					'bg-background border-border focus:ring-primary w-full rounded-md border bg-white px-4 py-2 transition focus:ring-2 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-white',
+					'bg-background border-border focus:ring-primary w-full rounded-md border px-4 py-2 transition focus:ring-2 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-white',
 					inputClassName,
 				)}
 				{...inputProps}
