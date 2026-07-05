@@ -30,12 +30,22 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 	const [showPassword, setShowPassword] = useState(false);
 
 	const [localError, setLocalError] = useState('');
-	const displayError = localError ?? apiError?.message;
+	const displayError = localError ?? apiError?.message ?? '';
 
 	// Handles manual login with email and password
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		setLocalError('');
+
+		if (isPending) return;
+
+		const cleanEmail = email.trim();
+		const cleanPassword = password.trim();
+
+		if (!cleanEmail || !cleanPassword) {
+			setLocalError('Por favor, completa todos los campos');
+			return;
+		}
 
 		if (!email || !password) {
 			setLocalError('Por favor, completa todos los campos');
@@ -43,7 +53,7 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 		}
 
 		login(
-			{ email, password },
+			{ email: cleanEmail, password: cleanPassword },
 			{
 				onSuccess: () => navigate('/dashboard', { replace: true }),
 				onError: (err) => setLocalError(err.message || 'Credenciales inválidas'),
@@ -105,7 +115,7 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 				</div>
 				<AuthSeparation />
 
-				<form onSubmit={handleSubmit} className="space-y-4">
+				<form onSubmit={handleSubmit} className="space-y-4" noValidate={true}>
 					{/* Email Section */}
 					<div className="flex flex-col">
 						<div className="mb-2 flex items-center justify-between">
@@ -132,7 +142,7 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 								className={cn(
 									`bg-muted/30 border-border/50 h-11 rounded-xl pl-10 transition-colors focus:border-cyan-500 focus:ring-cyan-500/20 dark:bg-neutral-700/40 ${
 										displayError
-											? 'border-destructive focus:border-destructive focus:ring-destructive/20'
+											? 'border-destructive focus:border-destructive focus:ring-destructive/20 bg-destructive/10 dark:bg-destructive/20'
 											: ''
 									}`,
 								)}
@@ -172,7 +182,7 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 								minLength={6}
 								className={`bg-muted/30 border-border/50 h-11 rounded-xl pr-10 pl-10 transition-colors focus:border-cyan-500 focus:ring-cyan-500/20 dark:bg-neutral-700/40 ${
 									displayError
-										? 'border-destructive focus:border-destructive focus:ring-destructive/20'
+										? 'border-destructive focus:border-destructive focus:ring-destructive/20 bg-destructive/10 dark:bg-destructive/20'
 										: ''
 								}`}
 							/>
