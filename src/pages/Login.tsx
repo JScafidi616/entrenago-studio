@@ -156,7 +156,11 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 						</div>
 
 						<div className="relative">
-							<Lock className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+							<Lock
+								className={cn(
+									'text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2',
+								)}
+							/>
 							<Input
 								id="new-password"
 								type={showPassword ? 'text' : 'password'}
