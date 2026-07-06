@@ -19,7 +19,6 @@ export const PasswordForm = ({
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
-	const [showConfirm, setShowConfirm] = useState(false);
 
 	const { mutate, isPending, error: apiError } = useResetPassword();
 	const [localError, setLocalError] = useState('');
@@ -50,7 +49,7 @@ export const PasswordForm = ({
 
 		if (!lowerCaseCheck || !upperCaseCheck || !numberCheck || !symbolCheck) {
 			setLocalError(
-				'La contraseña debe incluir al menos un caracter de cada uno: abcdefghijklmnopqrstuvwxyz, ABCDEFGHIJKLMNOPQRSTUVWXYZ, 0123456789, !@#$%^&*()_+-=[]{};\':"|<>?,./`~.',
+				'La contraseña debe incluir al menos un carácter de cada uno: abcdefghijklmnopqrstuvwxyz, ABCDEFGHIJKLMNOPQRSTUVWXYZ, 0123456789, !@#$%^&*()_+-=[]{};\':"|<>?,./`~.',
 			);
 			return;
 		}
@@ -130,7 +129,7 @@ export const PasswordForm = ({
 					<Lock className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 					<Input
 						id="confirm-password"
-						type={showConfirm ? 'text' : 'password'}
+						type={showPassword ? 'text' : 'password'}
 						placeholder="Repite tu contraseña"
 						value={confirmPassword}
 						onChange={handleConfirmPasswordChange}
@@ -144,11 +143,11 @@ export const PasswordForm = ({
 					/>
 					<button
 						type="button"
-						aria-label={showConfirm ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-						onClick={() => setShowConfirm((v) => !v)}
+						aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+						onClick={() => setShowPassword((v) => !v)}
 						className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 transition-colors"
 					>
-						{showConfirm ? (
+						{showPassword ? (
 							<EyeOff className="h-4 w-4 cursor-pointer" />
 						) : (
 							<Eye className="h-4 w-4 cursor-pointer" />
