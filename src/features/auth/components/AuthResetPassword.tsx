@@ -18,18 +18,45 @@ export const PasswordForm = ({
 }: PasswordFormProps) => {
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
-	const [localError, setLocalError] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirm, setShowConfirm] = useState(false);
 
-	const { mutate, isPending, error } = useResetPassword();
+	const { mutate, isPending, error: apiError } = useResetPassword();
+	const [localError, setLocalError] = useState('');
+	const displayError = localError ?? apiError?.message ?? '';
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		setLocalError('');
 
+		if (isPending) return;
+
+		const cleanPassword = password.trim();
+		const cleanConfirmPassword = confirmPassword.trim();
+		// Password should be at least 6 characters. Password should contain at least one character of each: abcdefghijklmnopqrstuvwxyz, ABCDEFGHIJKLMNOPQRSTUVWXYZ, 0123456789, !@#$%^&*()_+-=[]{};':"|<>?,./`~.
+		if (!cleanPassword || !cleanConfirmPassword) {
+			setLocalError('Por favor, completa ambos los campos');
+			return;
+		}
+
 		if (password !== confirmPassword) {
-			setLocalError('Las contraseñas no coinciden');
+			setLocalError('Una de las dos contraseñas no coinciden');
+			return;
+		}
+		const lowerCaseCheck = /[a-z]/.test(cleanPassword);
+		const upperCaseCheck = /[A-Z]/.test(cleanPassword);
+		const numberCheck = /[0-9]/.test(cleanPassword);
+		const symbolCheck = /[^A-Za-z0-9]/.test(cleanPassword);
+
+		if (!lowerCaseCheck || !upperCaseCheck || !numberCheck || !symbolCheck) {
+			setLocalError(
+				'La contraseña debe incluir al menos un caracter de cada uno: abcdefghijklmnopqrstuvwxyz, ABCDEFGHIJKLMNOPQRSTUVWXYZ, 0123456789, !@#$%^&*()_+-=[]{};\':"|<>?,./`~.',
+			);
+			return;
+		}
+
+		if (password.length < 6 && confirmPassword.length < 6) {
+			setLocalError('La contraseña debe tener al menos 6 caracteres');
 			return;
 		}
 
@@ -42,29 +69,39 @@ export const PasswordForm = ({
 			},
 		);
 	};
-
-	const displayError = error?.message || localError;
+	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPassword(e.target.value);
+		if (localError) setLocalError('');
+	};
+	const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setConfirmPassword(e.target.value);
+		if (localError) setLocalError('');
+	};
 
 	return (
-		<form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
-			{/* New password */}
-			<div className="flex flex-col gap-1.5">
-				<Label htmlFor="new-password" className="text-foreground text-sm font-medium">
-					Nueva contraseña
-				</Label>
-				<div className="relative">
+		<form onSubmit={handleSubmit} noValidate={true} className="flex flex-col gap-4">
+			<div className="flex flex-col">
+				{/* New password */}
+				<div className="mb-1 flex items-center justify-between">
+					{' '}
+					<Label htmlFor="new-password" className="text-foreground text-sm font-medium">
+						Nueva contraseña
+					</Label>
+				</div>
+
+				<div className="relative mb-2">
 					<Lock className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 					<Input
 						id="new-password"
 						type={showPassword ? 'text' : 'password'}
 						placeholder="Mínimo 6 caracteres"
 						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						onChange={handlePasswordChange}
 						required
 						minLength={6}
 						className={`bg-muted/30 border-border/50 h-11 rounded-xl pr-10 pl-10 transition-colors focus:border-cyan-500 focus:ring-cyan-500/20 dark:bg-neutral-700/40 ${
 							displayError
-								? 'border-destructive focus:border-destructive focus:ring-destructive/20'
+								? 'border-destructive focus:border-destructive focus:ring-destructive/20 dark:bg-destructive/20'
 								: ''
 						}`}
 					/>
@@ -81,13 +118,14 @@ export const PasswordForm = ({
 						)}
 					</button>
 				</div>
-			</div>
 
-			{/* Confirm password */}
-			<div className="flex flex-col gap-1.5">
-				<Label htmlFor="confirm-password" className="text-foreground text-sm font-medium">
-					Confirmar nueva contraseña
-				</Label>
+				{/* Confirm password */}
+				<div className="mb-1 flex items-center justify-between">
+					<Label htmlFor="confirm-password" className="text-foreground text-sm font-medium">
+						Confirmar nueva contraseña
+					</Label>
+				</div>
+
 				<div className="relative">
 					<Lock className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 					<Input
@@ -95,12 +133,12 @@ export const PasswordForm = ({
 						type={showConfirm ? 'text' : 'password'}
 						placeholder="Repite tu contraseña"
 						value={confirmPassword}
-						onChange={(e) => setConfirmPassword(e.target.value)}
+						onChange={handleConfirmPasswordChange}
 						required
 						minLength={6}
 						className={`bg-muted/30 border-border/50 h-11 rounded-xl pr-10 pl-10 transition-colors focus:border-cyan-500 focus:ring-cyan-500/20 dark:bg-neutral-700/40 ${
 							displayError
-								? 'border-destructive focus:border-destructive focus:ring-destructive/20'
+								? 'border-destructive focus:border-destructive focus:ring-destructive/20 dark:bg-destructive/20'
 								: ''
 						}`}
 					/>
@@ -117,8 +155,10 @@ export const PasswordForm = ({
 						)}
 					</button>
 				</div>
+
+				{/* Unified Error Message */}
 				{displayError && (
-					<p role="alert" className="text-destructive mt-0.5 text-xs">
+					<p role="alert" className="text-destructive mt-0.5 text-center text-xs">
 						{displayError}
 					</p>
 				)}

@@ -41,6 +41,7 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 
 		const cleanEmail = email.trim();
 		const cleanPassword = password.trim();
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 		if (!cleanEmail || !cleanPassword) {
 			setLocalError('Por favor, completa todos los campos');
@@ -49,6 +50,11 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 
 		if (!email || !password) {
 			setLocalError('Por favor, completa todos los campos');
+			return;
+		}
+
+		if (!emailRegex.test(cleanEmail)) {
+			setLocalError('Por favor, ingresa un correo electrónico válido');
 			return;
 		}
 
@@ -116,14 +122,13 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 				<AuthSeparation />
 
 				<form onSubmit={handleSubmit} className="space-y-4" noValidate={true}>
-					{/* Email Section */}
 					<div className="flex flex-col">
-						<div className="mb-2 flex items-center justify-between">
+						{/* Email Section */}
+						<div className="mb-1 flex items-center justify-between">
 							<Label htmlFor="email" className="text-foreground text-sm font-medium">
 								Correo electrónico
 							</Label>
 						</div>
-
 						<div className="relative">
 							<Mail
 								className={cn(
@@ -148,11 +153,9 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 								)}
 							/>
 						</div>
-					</div>
 
-					{/* Password Section */}
-					<div className="flex flex-col">
-						<div className="mb-2 flex items-center justify-between">
+						{/* Password Section */}
+						<div className="mt-3 mb-1 flex items-center justify-between">
 							<Label htmlFor="new-password" className="text-foreground text-sm font-medium">
 								Contraseña
 							</Label>
@@ -164,7 +167,6 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 								¿Olvidaste tu contraseña?
 							</Link>
 						</div>
-
 						<div className="relative">
 							<Lock
 								className={cn(
@@ -199,14 +201,14 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 								)}
 							</button>
 						</div>
-					</div>
 
-					{/* Unified Error Message */}
-					{displayError && (
-						<p role="alert" className="text-destructive text-center text-sm">
-							{displayError}
-						</p>
-					)}
+						{/* Unified Error Message */}
+						{displayError && (
+							<p role="alert" className="text-destructive mt-0.5 text-center text-xs">
+								{displayError}
+							</p>
+						)}
+					</div>
 
 					{/* Submit Button */}
 					<Button

@@ -10,13 +10,45 @@ import { cn } from '../utils/utils';
 export const ForgotPassword = () => {
 	const [email, setEmail] = useState('');
 	const [isSuccess, setIsSuccess] = useState(false);
-	const { mutate: forgotPassword, isPending, error } = useForgotPassword();
+	const { mutate: forgotPassword, isPending, error: apiError } = useForgotPassword();
+	const [localError, setLocalError] = useState('');
+
+	const displayError = localError ?? apiError?.message ?? '';
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
+		setLocalError('');
+
+		if (isPending) return;
+
+		const cleanEmail = email.trim();
+
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+		if (!cleanEmail) {
+			setLocalError('Por favor, ingresa tu correo electrónico');
+			return;
+		}
+
+		if (!email) {
+			setLocalError('Por favor, completa todos los campos');
+			return;
+		}
+		if (!emailRegex.test(cleanEmail)) {
+			setLocalError('Por favor, ingresa un correo electrónico válido');
+			return;
+		}
+
 		forgotPassword(email, {
 			onSuccess: () => setIsSuccess(true),
+			onError: (err) => setLocalError(err.message || 'Credenciales inválidas'),
 		});
+	};
+
+	// Clear errors when user starts typing
+	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setEmail(e.target.value);
+		if (localError) setLocalError('');
 	};
 
 	return (
@@ -44,11 +76,19 @@ export const ForgotPassword = () => {
 								</p>
 							</div>
 
-							<form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
-								<div className="flex flex-col gap-1.5">
-									<Label htmlFor="email" className="text-foreground text-sm font-medium">
-										Correo electrónico
-									</Label>
+							<form
+								onSubmit={handleSubmit}
+
+								className="space-y-4"
+								noValidate={true}
+							>
+								<div className="flex flex-col">
+									{/* Email Section */}
+									<div className="mb-1 flex items-center justify-between">
+										<Label htmlFor="email" className="text-foreground text-sm font-medium">
+											Correo electrónico
+										</Label>
+									</div>
 									<div className="relative">
 										<Mail
 											className={cn(
@@ -60,20 +100,22 @@ export const ForgotPassword = () => {
 											type="email"
 											placeholder="Jhon.doe123@gmail.com"
 											value={email}
-											onChange={(e) => setEmail(e.target.value)}
-											aria-describedby={error ? 'email-error' : undefined}
+											onChange={handleEmailChange}
+											aria-describedby={localError ? 'email-error' : undefined}
 											className={cn(
 												`bg-muted/30 border-border/50 h-11 rounded-xl pl-10 transition-colors focus:border-cyan-500 focus:ring-cyan-500/20 dark:bg-neutral-700/40 ${
-													error
-														? 'border-destructive focus:border-destructive focus:ring-destructive/20'
+													displayError
+														? 'border-destructive focus:border-destructive focus:ring-destructive/20 dark:bg-destructive/20'
 														: ''
 												}`,
 											)}
 										/>
 									</div>
-									{error && (
-										<p id="email-error" role="alert" className="text-destructive mt-0.5 text-xs">
-											{error instanceof Error ? error.message : String(error)}
+
+									{/* Unified Error Message */}
+									{displayError && (
+										<p role="alert" className="text-destructive mt-0.5 text-center text-xs">
+											{displayError}
 										</p>
 									)}
 								</div>
