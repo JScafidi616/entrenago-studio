@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/utils';
+import { toast } from 'sonner';
 
 interface PasswordFormProps {
 	shouldSignOut?: boolean;
@@ -55,7 +56,7 @@ export const PasswordForm = ({
 			return;
 		}
 
-		if (password.length < 6 && confirmPassword.length < 6) {
+		if (cleanPassword.length < 6 && cleanConfirmPassword.length < 6) {
 			setLocalError('La contraseña debe tener al menos 6 caracteres');
 			return;
 		}
@@ -65,6 +66,11 @@ export const PasswordForm = ({
 			{
 				onSuccess: () => {
 					if (onSuccess) onSuccess();
+				},
+				onError: (err) => {
+					const errorMessage = err.message || 'Credenciales inválidas';
+					toast.error(errorMessage);
+					setLocalError(errorMessage);
 				},
 			},
 		);
