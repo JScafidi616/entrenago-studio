@@ -5,6 +5,7 @@ import { Eye, EyeOff, Lock } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/utils/utils';
 
 interface PasswordFormProps {
 	shouldSignOut?: boolean;
@@ -89,7 +90,11 @@ export const PasswordForm = ({
 				</div>
 
 				<div className="relative mb-2">
-					<Lock className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+					<Lock
+						className={cn(
+							'text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2',
+						)}
+					/>
 					<Input
 						id="new-password"
 						type={showPassword ? 'text' : 'password'}
@@ -126,7 +131,11 @@ export const PasswordForm = ({
 				</div>
 
 				<div className="relative">
-					<Lock className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+					<Lock
+						className={cn(
+							'text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2',
+						)}
+					/>
 					<Input
 						id="confirm-password"
 						type={showPassword ? 'text' : 'password'}
