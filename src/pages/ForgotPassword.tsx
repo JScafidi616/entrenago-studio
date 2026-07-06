@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { cn } from '../utils/utils';
+import { toast } from 'sonner';
 
 export const ForgotPassword = () => {
 	const [email, setEmail] = useState('');
@@ -29,11 +30,6 @@ export const ForgotPassword = () => {
 			setLocalError('Por favor, ingresa tu correo electrónico');
 			return;
 		}
-
-		if (!email) {
-			setLocalError('Por favor, completa todos los campos');
-			return;
-		}
 		if (!emailRegex.test(cleanEmail)) {
 			setLocalError('Por favor, ingresa un correo electrónico válido');
 			return;
@@ -41,7 +37,11 @@ export const ForgotPassword = () => {
 
 		forgotPassword(email, {
 			onSuccess: () => setIsSuccess(true),
-			onError: (err) => setLocalError(err.message || 'Credenciales inválidas'),
+			onError: (err) => {
+				const errorMessage = err.message || 'Credenciales inválidas';
+				toast.error(errorMessage);
+				setLocalError(errorMessage);
+			},
 		});
 	};
 
