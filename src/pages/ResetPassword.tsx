@@ -21,7 +21,7 @@ export const ResetPassword = () => {
 
 		const timer = setTimeout(() => {
 			setCountdown((prev) => prev - 1);
-		}, 1000);
+		}, 10000);
 
 		return () => clearTimeout(timer);
 	}, [isSuccess, countdown, navigate]);
