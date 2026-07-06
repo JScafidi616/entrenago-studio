@@ -119,6 +119,7 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 						authClick={() => handleOAuth({ provider: 'facebook' })}
 					/>
 				</div>
+
 				<AuthSeparation />
 
 				<form onSubmit={handleSubmit} className="space-y-4" noValidate={true}>
@@ -215,6 +216,7 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 						type="submit"
 						title="Iniciar sesión"
 						className="bg-primary text-primary-foreground hover:bg-primary/90 w-full rounded-md bg-linear-to-r from-cyan-500 to-green-400 py-2 font-semibold transition"
+						disabled={isPending}
 					>
 						{isPending ? 'Verificando...' : submitButtonText}
 					</Button>
