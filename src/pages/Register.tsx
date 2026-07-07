@@ -98,7 +98,6 @@ export default function Register() {
 				},
 				onError: (err) => {
 					const errorMessage = err.message || 'Credenciales inválidas';
-					toast.error(errorMessage);
 					setLocalError(errorMessage);
 				},
 			},
