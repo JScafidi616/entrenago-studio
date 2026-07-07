@@ -196,7 +196,7 @@ export const Settings = () => {
 			</Card>
 
 			{/* Change Password Modal */}
-			{/* Case 2: Settings Flow (Does NOT sign out) */}
+			{/* Settings Flow (Does NOT sign out) */}
 			<ChangePasswordModal
 				open={isPasswordModalOpen}
 				onClose={() => setIsPasswordModalOpen(false)}
