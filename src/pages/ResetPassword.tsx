@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase/supabase';
 
 export const ResetPassword = () => {
 	const [isSuccess, setIsSuccess] = useState(false);
-	const [countdown, setCountdown] = useState(10);
+	const [countdown, setCountdown] = useState(30);
 	const navigate = useNavigate();
 
 	useEffect(() => {
