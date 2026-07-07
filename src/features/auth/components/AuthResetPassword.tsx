@@ -6,11 +6,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils/utils';
-import { toast } from 'sonner';
+// import { toast } from 'sonner';
 
 interface PasswordFormProps {
 	shouldSignOut?: boolean;
 	onSuccess?: () => void;
+	onError?: () => void;
 	submitButtonText?: string;
 }
 
@@ -60,7 +61,7 @@ export const PasswordForm = ({
 			setLocalError('La contraseña debe tener al menos 6 caracteres');
 			return;
 		}
-
+		// Avoid using toast sonner from here
 		mutate(
 			{ newPassword: password },
 			{
@@ -69,12 +70,12 @@ export const PasswordForm = ({
 				},
 				onError: (err) => {
 					const errorMessage = err.message || 'Credenciales inválidas';
-					toast.error(errorMessage);
 					setLocalError(errorMessage);
 				},
 			},
 		);
 	};
+
 	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value);
 		if (localError) setLocalError('');
