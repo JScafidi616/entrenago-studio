@@ -52,14 +52,13 @@ export function ChangePasswordModal({ open, onClose }: Props) {
 							shouldSignOut={false}
 							onSuccess={() => {
 								toast.success('Contraseña restablecida', {
-									description:
-										'El proceso de restablecimiento de contraseña se completó con éxito.',
+									description: 'Contraseña se completó con éxito.',
 								});
 								onClose();
 							}}
 							onError={() => {
 								toast.error('Contraseña no restablecida', {
-									description: 'Se ha generado un error al restablecer la contraseña.',
+									description: 'Contacte a soporte',
 								});
 							}}
 							submitButtonText="Restablecer contraseña"
