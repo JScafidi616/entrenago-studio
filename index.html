@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
@@ -9,18 +9,17 @@
 			(() => {
 				try {
 					const stored = localStorage.getItem('theme');
-					const systemDark = window.matchMedia(
-						'(prefers-color-scheme: dark)',
-					).matches;
+					const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 					const theme = stored ?? (systemDark ? 'dark' : 'light');
 
 					if (theme === 'dark') {
 						document.documentElement.classList.add('dark');
+					} else {
+						document.documentElement.classList.remove('dark');
 					}
 				} catch (_) {}
 			})();
 		</script>
-
 	</head>
 	<body>
 		<div id="root"></div>
