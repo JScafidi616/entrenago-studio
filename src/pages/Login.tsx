@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface LoginFormProps {
 	onSuccess?: () => void;
@@ -48,11 +49,6 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 			return;
 		}
 
-		if (!email || !password) {
-			setLocalError('Por favor, completa todos los campos');
-			return;
-		}
-
 		if (!emailRegex.test(cleanEmail)) {
 			setLocalError('Por favor, ingresa un correo electrónico válido');
 			return;
@@ -61,8 +57,23 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 		login(
 			{ email: cleanEmail, password: cleanPassword },
 			{
-				onSuccess: () => navigate('/dashboard', { replace: true }),
-				onError: (err) => setLocalError(err.message || 'Credenciales inválidas'),
+				onSuccess: () => {
+					toast.success('Bienvenido', {
+						description: 'Inicio de sesión exitoso',
+					});
+					navigate('/dashboard', { replace: true });
+				},
+				onError: (err) => {
+					const errorMessage = err.message || 'Credenciales inválidas';
+					const errorTranslate = 'Contraseña o email son incorrectos...';
+					if (errorMessage === 'Invalid login credentials') {
+						toast.error(errorTranslate);
+						setLocalError(errorTranslate);
+					} else {
+						toast.error(errorMessage);
+						setLocalError(errorMessage);
+					}
+				},
 			},
 		);
 	};
@@ -72,7 +83,7 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 		try {
 			await signInWithProvider(provider);
 		} catch {
-			alert('Failed to sign in with Google. Please try again.');
+			toast.error('Auth Failed to sign in. Please try again later or contact support.');
 		}
 	};
 
