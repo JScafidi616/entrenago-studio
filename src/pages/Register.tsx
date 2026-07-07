@@ -7,7 +7,7 @@ import AuthSeparation from '@/features/auth/components/AuthSeparation';
 import { useRegister } from '@/features/auth/hooks/useAuthentications';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import type { Provider } from '@supabase/supabase-js';
+// import type { Provider } from '@supabase/supabase-js';
 import { useOAuthSignIn } from '@/features/auth/hooks/useOAuthSignIn';
 import { cn } from '@/utils/utils';
 import { Input } from '@/components/ui/input';
@@ -23,7 +23,7 @@ export default function Register() {
 	const [confirmPassword, setConfirmPassword] = useState('');
 
 	const [showPassword, setShowPassword] = useState(false);
-	const { signInWithProvider } = useOAuthSignIn();
+	const { mutate: oauthLogin, isPending: isOAuthPending } = useOAuthSignIn();
 	const navigate = useNavigate();
 
 	const { mutate: register, isPending, error: apiError } = useRegister();
@@ -105,13 +105,13 @@ export default function Register() {
 	};
 
 	// Handles OAuth login with Google or Facebook
-	const handleOAuth = async ({ provider }: { provider: Provider }) => {
-		try {
-			await signInWithProvider(provider);
-		} catch {
-			toast.error('Auth Failed to sign in. Please try again later or contact support.');
-		}
-	};
+	// const handleOAuth = async ({ provider }: { provider: Provider }) => {
+	// 	try {
+	// 		await signInWithProvider(provider);
+	// 	} catch {
+	// 		toast.error('Auth Failed to sign in. Please try again later or contact support.');
+	// 	}
+	// };
 
 	// Clears fierds
 	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -197,16 +197,18 @@ export default function Register() {
 				{/* Provider Auth Section */}
 				<div className="space-y-3">
 					<AuthProviders
+						disabled={isOAuthPending}
 						providerName="Google"
-						providerDescription="Registrarse con Google"
+						providerDescription={isOAuthPending ? 'Redirigiendo...' : 'Registrarse con Google'}
 						providerImage="/icons/google_icon_socials.svg"
-						authClick={() => handleOAuth({ provider: 'google' })}
+						authClick={() => oauthLogin('google')}
 					/>
 					<AuthProviders
+						disabled={isOAuthPending}
 						providerName="Facebook"
-						providerDescription="Registrarse con Facebook"
+						providerDescription={isOAuthPending ? 'Redirigiendo...' : 'Registrarse con Facebook'}
 						providerImage="/icons/facebook_icon_socials.svg"
-						authClick={() => handleOAuth({ provider: 'facebook' })}
+						authClick={() => oauthLogin('facebook')}
 					/>
 				</div>
 

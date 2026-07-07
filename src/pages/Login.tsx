@@ -4,7 +4,7 @@ import AuthProviders from '@/features/auth/components/AuthProviders';
 import AuthSeparation from '@/features/auth/components/AuthSeparation';
 import { useLogin } from '@/features/auth/hooks/useAuthentications';
 import { useOAuthSignIn } from '@/features/auth/hooks/useOAuthSignIn';
-import type { Provider } from '@supabase/supabase-js';
+// import type { Provider } from '@supabase/supabase-js';
 import { cn } from '@/utils/utils';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -26,7 +26,7 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
 	const { mutate: login, isPending, error: apiError } = useLogin();
-	const { signInWithProvider } = useOAuthSignIn();
+	const { mutate: oauthLogin, isPending: isOAuthPending } = useOAuthSignIn();
 
 	const [showPassword, setShowPassword] = useState(false);
 
@@ -77,13 +77,13 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 	};
 
 	// Handles OAuth login with Google or Facebook
-	const handleOAuth = async ({ provider }: { provider: Provider }) => {
-		try {
-			await signInWithProvider(provider);
-		} catch {
-			toast.error('Auth Failed to sign in. Please try again later or contact support.');
-		}
-	};
+	// const handleOAuth = async ({ provider }: { provider: Provider }) => {
+	// 	try {
+	// 		await signInWithProvider(provider);
+	// 	} catch {
+	// 		toast.error('Auth Failed to sign in. Please try again later or contact support.');
+	// 	}
+	// };
 
 	// Clear errors when user starts typing
 	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,16 +116,18 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 				{/* Provider Auth Section */}
 				<div className="space-y-3">
 					<AuthProviders
+						disabled={isOAuthPending}
 						providerName="Google"
-						providerDescription="Iniciar Sesion con Google"
+						providerDescription={isOAuthPending ? 'Redirigiendo...' : 'Acceder con Google'}
 						providerImage="/icons/google_icon_socials.svg"
-						authClick={() => handleOAuth({ provider: 'google' })}
+						authClick={() => oauthLogin('google')}
 					/>
 					<AuthProviders
+						disabled={isOAuthPending}
 						providerName="Facebook"
-						providerDescription="Iniciar Sesion con Facebook"
+						providerDescription={isOAuthPending ? 'Redirigiendo...' : 'Acceder con Facebook'}
 						providerImage="/icons/facebook_icon_socials.svg"
-						authClick={() => handleOAuth({ provider: 'facebook' })}
+						authClick={() => oauthLogin('facebook')}
 					/>
 				</div>
 
