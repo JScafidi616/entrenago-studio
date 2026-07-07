@@ -1,6 +1,7 @@
 import { AnimatePresence, m } from 'motion/react';
 import { createPortal } from 'react-dom';
 import { PasswordForm } from '@/features/auth/components/AuthResetPassword';
+import { toast } from 'sonner';
 
 interface Props {
 	open: boolean;
@@ -50,12 +51,18 @@ export function ChangePasswordModal({ open, onClose }: Props) {
 						<PasswordForm
 							shouldSignOut={false}
 							onSuccess={() => {
-								// TODO show a toast notification here
-
-								alert('Password updated successfully!');
+								toast.success('Contraseña restablecida', {
+									description:
+										'El proceso de restablecimiento de contraseña se completó con éxito.',
+								});
 								onClose();
 							}}
-							submitButtonText="Update Password"
+							onError={() => {
+								toast.error('Contraseña no restablecida', {
+									description: 'Se ha generado un error al restablecer la contraseña.',
+								});
+							}}
+							submitButtonText="Restablecer contraseña"
 						/>
 					</m.div>
 				</m.div>
