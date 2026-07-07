@@ -85,7 +85,13 @@ export default function Register() {
 				onSuccess: () => {
 					toast.success('¡Registro exitoso!', {
 						duration: 10000,
-						description: `Enlace de confirmación enviado a: ${cleanEmail}`,
+						description: (
+							<>
+								Enlace de confirmación enviado a:
+								<br />
+								<strong>{cleanEmail}</strong>
+							</>
+						),
 					});
 					// Send them to login immediately
 					navigate('/login', { replace: true });

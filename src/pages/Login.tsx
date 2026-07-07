@@ -58,7 +58,7 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 			{ email: cleanEmail, password: cleanPassword },
 			{
 				onSuccess: () => {
-					toast.success('Bienvenido', {
+					toast.success('¡Bienvenido!', {
 						description: 'Inicio de sesión exitoso',
 					});
 					navigate('/dashboard', { replace: true });
@@ -67,10 +67,8 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 					const errorMessage = err.message || 'Credenciales inválidas';
 					const errorTranslate = 'Contraseña o email son incorrectos...';
 					if (errorMessage === 'Invalid login credentials') {
-						toast.error(errorTranslate);
 						setLocalError(errorTranslate);
 					} else {
-						toast.error(errorMessage);
 						setLocalError(errorMessage);
 					}
 				},
