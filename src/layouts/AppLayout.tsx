@@ -8,7 +8,7 @@ import { cn } from '@/utils/utils';
 import { Dumbbell } from 'lucide-react';
 import { AnimatePresence, easeInOut, m } from 'motion/react';
 import { useLocation, useNavigate, useOutlet } from 'react-router-dom'; //Outlet avoided to maintain animation
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import OnboardingModal from '@/features/onboarding/components/Onboarding';
 import { NavDesktop } from '@/features/navigation/components/NavDesktop';
@@ -40,7 +40,7 @@ export default function AppLayout() {
 		exit: { opacity: 0 },
 	};
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 	}, [location.pathname]);
 
