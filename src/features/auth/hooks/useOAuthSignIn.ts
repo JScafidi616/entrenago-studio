@@ -44,10 +44,8 @@ export const useOAuthSignIn = () => {
 				options: {
 					// Redirect back to your app after successful auth
 					redirectTo: `${window.location.origin}/dashboard`,
-					// Optional: queryParams for things like Google prompt
 					queryParams: {
 						access_type: 'offline',
-						prompt: 'consent',
 					},
 				},
 			});
