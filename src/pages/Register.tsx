@@ -6,7 +6,7 @@ import AuthProviders from '@/features/auth/components/AuthProviders';
 import AuthSeparation from '@/features/auth/components/AuthSeparation';
 import { useRegister } from '@/features/auth/hooks/useAuthentications';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 // import type { Provider } from '@supabase/supabase-js';
 import { useOAuthSignIn } from '@/features/auth/hooks/useOAuthSignIn';
 import { cn } from '@/utils/utils';
@@ -21,12 +21,15 @@ export default function Register() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
-
-	const [showPassword, setShowPassword] = useState(false);
-	const { mutate: oauthLogin, isPending: isOAuthPending } = useOAuthSignIn();
 	const navigate = useNavigate();
 
+	const [showPassword, setShowPassword] = useState(false);
+	const newPasswordRef = useRef<HTMLInputElement>(null);
+	const confirmPasswordRef = useRef<HTMLInputElement>(null);
+
 	const { mutate: register, isPending, error: apiError } = useRegister();
+	const { mutate: oauthLogin, isPending: isOAuthPending } = useOAuthSignIn();
+
 	const [localError, setLocalError] = useState('');
 	const displayError = localError ?? apiError?.message ?? '';
 
@@ -103,16 +106,6 @@ export default function Register() {
 			},
 		);
 	};
-
-	// Handles OAuth login with Google or Facebook
-	// const handleOAuth = async ({ provider }: { provider: Provider }) => {
-	// 	try {
-	// 		await signInWithProvider(provider);
-	// 	} catch {
-	// 		toast.error('Auth Failed to sign in. Please try again later or contact support.');
-	// 	}
-	// };
-
 	// Clears fierds
 	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
@@ -125,6 +118,17 @@ export default function Register() {
 	const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setConfirmPassword(e.target.value);
 		if (localError) setLocalError('');
+	};
+	const handleTogglePassword = (ref: React.RefObject<HTMLInputElement | null>) => {
+		const input = ref.current;
+		const start = input?.selectionStart ?? 0;
+		const end = input?.selectionEnd ?? 0;
+
+		setShowPassword((prev) => !prev);
+
+		setTimeout(() => {
+			input?.setSelectionRange(start, end);
+		}, 0);
 	};
 
 	return (
@@ -261,7 +265,10 @@ export default function Register() {
 								)}
 							/>
 							<Input
+								ref={newPasswordRef}
 								id="new-password"
+								name="password"
+								autoComplete="new-password"
 								type={showPassword ? 'text' : 'password'}
 								placeholder="Mínimo 6 caracteres"
 								value={password}
@@ -276,8 +283,9 @@ export default function Register() {
 							/>
 							<button
 								type="button"
+								onMouseDown={(e) => e.preventDefault()}
+								onClick={() => handleTogglePassword(newPasswordRef)}
 								aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-								onClick={() => setShowPassword((v) => !v)}
 								className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 transition-colors"
 							>
 								{showPassword ? (
@@ -301,10 +309,13 @@ export default function Register() {
 								)}
 							/>
 							<Input
+								ref={confirmPasswordRef}
 								id="confirm-password"
+								name="confirm-password"
 								type={showPassword ? 'text' : 'password'}
 								placeholder="Repite tu contraseña"
 								value={confirmPassword}
+								autoComplete="off"
 								onChange={handleConfirmPasswordChange}
 								required
 								minLength={6}
@@ -316,8 +327,9 @@ export default function Register() {
 							/>
 							<button
 								type="button"
+								onMouseDown={(e) => e.preventDefault()}
+								onClick={() => handleTogglePassword(confirmPasswordRef)}
 								aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-								onClick={() => setShowPassword((v) => !v)}
 								className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 transition-colors"
 							>
 								{showPassword ? (
