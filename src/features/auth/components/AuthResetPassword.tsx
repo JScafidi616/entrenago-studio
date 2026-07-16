@@ -1,5 +1,5 @@
 // components/PasswordForm.tsx
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useResetPassword } from '@/features/auth/hooks/useAuthentications';
 import { Eye, EyeOff, Lock } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -22,6 +22,8 @@ export const PasswordForm = ({
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
+	const newPasswordRef = useRef<HTMLInputElement>(null);
+	const confirmPasswordRef = useRef<HTMLInputElement>(null);
 
 	const { mutate, isPending, error: apiError } = useResetPassword();
 	const [localError, setLocalError] = useState('');
@@ -75,7 +77,6 @@ export const PasswordForm = ({
 			},
 		);
 	};
-
 	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value);
 		if (localError) setLocalError('');
@@ -83,6 +84,17 @@ export const PasswordForm = ({
 	const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setConfirmPassword(e.target.value);
 		if (localError) setLocalError('');
+	};
+	const handleTogglePassword = (ref: React.RefObject<HTMLInputElement | null>) => {
+		const input = ref.current;
+		const start = input?.selectionStart ?? 0;
+		const end = input?.selectionEnd ?? 0;
+
+		setShowPassword((prev) => !prev);
+
+		setTimeout(() => {
+			input?.setSelectionRange(start, end);
+		}, 0);
 	};
 
 	return (
@@ -103,7 +115,10 @@ export const PasswordForm = ({
 						)}
 					/>
 					<Input
+						ref={newPasswordRef}
 						id="new-password"
+						autoComplete="new-password"
+						name="password"
 						type={showPassword ? 'text' : 'password'}
 						placeholder="Mínimo 6 caracteres"
 						value={password}
@@ -118,8 +133,9 @@ export const PasswordForm = ({
 					/>
 					<button
 						type="button"
+						onMouseDown={(e) => e.preventDefault()}
+						onClick={() => handleTogglePassword(newPasswordRef)}
 						aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-						onClick={() => setShowPassword((v) => !v)}
 						className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 transition-colors"
 					>
 						{showPassword ? (
@@ -144,10 +160,13 @@ export const PasswordForm = ({
 						)}
 					/>
 					<Input
+						ref={confirmPasswordRef}
 						id="confirm-password"
+						name="confirm-password"
 						type={showPassword ? 'text' : 'password'}
 						placeholder="Repite tu contraseña"
 						value={confirmPassword}
+						autoComplete="new-password"
 						onChange={handleConfirmPasswordChange}
 						required
 						minLength={6}
@@ -159,8 +178,9 @@ export const PasswordForm = ({
 					/>
 					<button
 						type="button"
+						onMouseDown={(e) => e.preventDefault()}
+						onClick={() => handleTogglePassword(confirmPasswordRef)}
 						aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-						onClick={() => setShowPassword((v) => !v)}
 						className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 transition-colors"
 					>
 						{showPassword ? (
