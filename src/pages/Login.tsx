@@ -7,7 +7,7 @@ import { useOAuthSignIn } from '@/features/auth/hooks/useOAuthSignIn';
 // import type { Provider } from '@supabase/supabase-js';
 import { cn } from '@/utils/utils';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
@@ -29,6 +29,7 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 	const { mutate: oauthLogin, isPending: isOAuthPending } = useOAuthSignIn();
 
 	const [showPassword, setShowPassword] = useState(false);
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	const [localError, setLocalError] = useState('');
 	const displayError = localError ?? apiError?.message ?? '';
@@ -75,25 +76,27 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 			},
 		);
 	};
-
-	// Handles OAuth login with Google or Facebook
-	// const handleOAuth = async ({ provider }: { provider: Provider }) => {
-	// 	try {
-	// 		await signInWithProvider(provider);
-	// 	} catch {
-	// 		toast.error('Auth Failed to sign in. Please try again later or contact support.');
-	// 	}
-	// };
-
 	// Clear errors when user starts typing
 	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
 		if (localError) setLocalError('');
 	};
-
 	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value);
 		if (localError) setLocalError('');
+	};
+	const handleTogglePassword = () => {
+		const input = inputRef.current;
+		// Save current cursor position
+		const start = input?.selectionStart ?? 0;
+		const end = input?.selectionEnd ?? 0;
+
+		setShowPassword((prev) => !prev);
+
+		// Restore cursor position after the input type has changed in the DOM
+		setTimeout(() => {
+			input?.setSelectionRange(start, end);
+		}, 0);
 	};
 
 	return (
@@ -150,6 +153,7 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 							<Input
 								id="email"
 								type="email"
+								name="email"
 								autoComplete="email"
 								placeholder="Jhon.doe123@gmail.com"
 								onChange={handleEmailChange}
@@ -168,7 +172,7 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 
 						{/* Password Section */}
 						<div className="mt-3 mb-1 flex items-center justify-between">
-							<Label htmlFor="new-password" className="text-foreground text-sm font-medium">
+							<Label htmlFor="current-password" className="text-foreground text-sm font-medium">
 								Contraseña
 							</Label>
 							<Link
@@ -186,12 +190,14 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 								)}
 							/>
 							<Input
-								id="new-password"
+								ref={inputRef}
+								id="current-password"
+								name="password"
 								type={showPassword ? 'text' : 'password'}
+								autoComplete="current-password"
 								placeholder="Mínimo 6 caracteres"
 								onChange={handlePasswordChange}
 								value={password}
-								autoComplete="current-password"
 								required
 								minLength={6}
 								className={`bg-muted/30 border-border/50 h-11 rounded-xl pr-10 pl-10 transition-colors focus:border-cyan-500 focus:ring-cyan-500/20 dark:bg-neutral-700/40 ${
@@ -203,7 +209,8 @@ export default function Login({ submitButtonText = 'Iniciar sesión' }: LoginFor
 							<button
 								type="button"
 								aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-								onClick={() => setShowPassword((v) => !v)}
+								onMouseDown={(e) => e.preventDefault()}
+								onClick={handleTogglePassword}
 								className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2 transition-colors"
 							>
 								{showPassword ? (
