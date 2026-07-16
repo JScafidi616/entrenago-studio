@@ -129,11 +129,7 @@ export const MyAccountLayout = ({ initialTab = 'profile' }: { initialTab?: strin
 			</main>
 
 			{/* Footer */}
-			<footer
-				className={cn(
-					'bg-white px-6 py-4 text-center text-sm text-gray-500 shadow-inner dark:bg-neutral-800 dark:text-gray-400',
-				)}
-			>
+			<footer className="bg-white px-6 py-4 text-center text-sm text-gray-500 shadow-inner dark:bg-neutral-800 dark:text-gray-400">
 				© {new Date().getFullYear()} EntrenaGo. Todos los derechos reservados.
 			</footer>
 		</div>
