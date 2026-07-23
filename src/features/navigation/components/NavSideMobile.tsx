@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useAuth } from '@/context/AuthContext';
-import { cn } from '@/utils/utils';
+import { cn } from '@/shared/utils/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { DropdownMenuSeparator } from '@components/ui/dropdown-menu';
 import { LogOut, Menu } from 'lucide-react';

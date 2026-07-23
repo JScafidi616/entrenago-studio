@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Calendar } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { cn } from '@/utils/utils';
+import { cn } from '@/shared/utils/utils';
 import { generateWeekSchedule } from '@/features/carouselWeekly/types/weeklyData';
 import { useCarouselScroll } from '@/features/carouselWeekly/hooks/useCarouselScroll';
 import { CarouselDayCard } from '@/features/carouselWeekly/components/CarouselDayCard';

@@ -2,7 +2,7 @@ import { useLocation, Link, useOutlet, useNavigate } from 'react-router-dom';
 import { AnimatePresence, easeInOut, m } from 'motion/react';
 import { ArrowLeft, Dumbbell, UserCircle, Settings } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { cn } from '@/utils/utils';
+import { cn } from '@/shared/utils/utils';
 
 export const MyAccountLayout = ({ initialTab = 'profile' }: { initialTab?: string }) => {
 	const location = useLocation();

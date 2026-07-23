@@ -2,7 +2,7 @@
 // import { ThemeToggle } from '@/features/darkMode/components/ThemeToggle';
 import { useLocation, useOutlet } from 'react-router-dom'; //Oulet avoided to maintain animation
 import { AnimatePresence, easeInOut, m } from 'motion/react';
-import { cn } from '@/utils/utils';
+import { cn } from '@/shared/utils/utils';
 
 export const AuthLayout = () => {
 	const location = useLocation();

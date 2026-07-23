@@ -1,7 +1,7 @@
 'use client';
 
 import { appNavItems } from '@/features/navigation/constants/constantNav';
-import { cn } from '@/utils/utils';
+import { cn } from '@/shared/utils/utils';
 
 interface BottomNavProps {
 	currentSection: string;

@@ -1,6 +1,6 @@
 'use client';
 import { NavLink } from 'react-router-dom';
-import { cn } from '@/utils/utils'; // Adjust path to your cn utility
+import { cn } from '@/shared/utils/utils'; // Adjust path to your cn utility
 import { appNavItems } from '@/features/navigation/constants/constantNav';
 
 import { m } from 'motion/react';

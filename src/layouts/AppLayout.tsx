@@ -4,7 +4,7 @@ import { NavBottomMobile } from '@/features/navigation/components/NavBottonMobil
 import { NavSideMobile } from '@/features/navigation/components/NavSideMobile';
 import { ThemeToggle } from '@/features/darkMode/components/ThemeToggle';
 import { UserDropdown } from '@/components/custom/UserDropdown.tsx';
-import { cn } from '@/utils/utils';
+import { cn } from '@/shared/utils/utils';
 import { Dumbbell } from 'lucide-react';
 import { AnimatePresence, easeInOut, m } from 'motion/react';
 import { useLocation, useNavigate, useOutlet } from 'react-router-dom'; //Outlet avoided to maintain animation

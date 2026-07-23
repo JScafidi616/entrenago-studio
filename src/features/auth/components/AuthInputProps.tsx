@@ -1,4 +1,4 @@
-import { cn } from '@/utils/utils';
+import { cn } from '@/shared/utils/utils';
 import React from 'react';
 import { Link } from 'react-router-dom';
 

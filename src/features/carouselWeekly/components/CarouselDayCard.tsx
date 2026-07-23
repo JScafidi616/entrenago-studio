@@ -1,7 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Dumbbell, Clock } from 'lucide-react';
-import { cn } from '@/utils/utils';
+import { cn } from '@/shared/utils/utils';
 import type { DaySchedule } from '@/features/carouselWeekly/types/weeklyData';
 
 interface CarouselDayCardProps {

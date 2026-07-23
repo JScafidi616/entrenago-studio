@@ -1,6 +1,6 @@
 import { useOnboarding } from '@/features/onboarding/hooks/useOnboarding';
 import type { UseOnboardingProps } from '@/features/onboarding/types/onboarding';
-import { cn } from '@/utils/utils';
+import { cn } from '@/shared/utils/utils';
 import { m } from 'motion/react';
 // import { useEffect } from 'react';
 

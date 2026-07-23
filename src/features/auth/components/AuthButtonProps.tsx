@@ -1,4 +1,4 @@
-import { cn } from '@/utils/utils';
+import { cn } from '@/shared/utils/utils';
 import type React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {

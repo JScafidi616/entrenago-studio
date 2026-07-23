@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
 // import type { Provider } from '@supabase/supabase-js';
 import { useOAuthSignIn } from '@/features/auth/hooks/useOAuthSignIn';
-import { cn } from '@/utils/utils';
+import { cn } from '@/shared/utils/utils';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';

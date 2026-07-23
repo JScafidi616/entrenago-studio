@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase/supabase';
-import type { AuthContextType, Profile } from '@/types/profile';
+import type { AuthContextType, Profile } from '@/shared/types/profile';
 import type { Session, User } from '@supabase/supabase-js';
 import { createContext, type ReactNode, useContext, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';

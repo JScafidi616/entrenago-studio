@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import useDarkMode from '@/features/darkMode/hooks/useDarkMode';
-import { cn } from '@/utils/utils';
+import { cn } from '@/shared/utils/utils';
 import { Moon, Sun } from 'lucide-react';
 
 export function ThemeToggle() {

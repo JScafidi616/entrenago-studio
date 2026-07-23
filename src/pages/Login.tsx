@@ -5,7 +5,7 @@ import AuthSeparation from '@/features/auth/components/AuthSeparation';
 import { useLogin } from '@/features/auth/hooks/useAuthentications';
 import { useOAuthSignIn } from '@/features/auth/hooks/useOAuthSignIn';
 // import type { Provider } from '@supabase/supabase-js';
-import { cn } from '@/utils/utils';
+import { cn } from '@/shared/utils/utils';
 import { useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import { Input } from '@/components/ui/input';

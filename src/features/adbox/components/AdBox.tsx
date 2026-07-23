@@ -1,4 +1,4 @@
-import { cn } from '@/utils/utils';
+import { cn } from '@/shared/utils/utils';
 interface AdBoxProps {
 	variant: 'horizontal' | 'square';
 	label?: string;
