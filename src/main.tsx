@@ -6,7 +6,7 @@ import { App } from '@/App';
 import { AuthProvider } from '@/context/AuthContext.tsx';
 import '@/styles/global.css';
 import { LazyMotion, domMax } from 'motion/react';
-import { queryClient } from '@/lib/queryClient'; // Adjust path
+import { queryClient } from '@/shared/lib/queryClient'; // Adjust path
 
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';

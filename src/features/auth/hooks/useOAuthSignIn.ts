@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase/supabase';
+import { supabase } from '@/shared/lib/supabase/supabase';
 import type { Provider } from '@supabase/supabase-js';
 import { useMutation } from '@tanstack/react-query';
 

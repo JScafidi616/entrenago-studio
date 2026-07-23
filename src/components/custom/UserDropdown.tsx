@@ -13,7 +13,7 @@ import { useAuth } from '@/context/AuthContext';
 import { LogOut } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { accountNavItems } from '@/features/navigation/constants/constantNav';
-import { useUserInitials } from '@/hooks/userUserInitials';
+import { useUserInitials } from '@/shared/hooks/userUserInitials';
 
 export const UserDropdown = () => {
 	const { user, signOut, profile } = useAuth();

@@ -1,6 +1,6 @@
 // src/auth/hooks/useUpdateProfile.ts
 import { useState } from 'react';
-import { supabase } from '@/lib/supabase/supabase';
+import { supabase } from '@/shared/lib/supabase/supabase';
 import { useAuth } from '@/context/AuthContext'; // Adjust path to your context
 
 export const useUpdateProfile = () => {

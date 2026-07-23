@@ -12,7 +12,7 @@ import { Camera, Flame, Dumbbell, Trophy, Calendar, Activity, Target } from 'luc
 import { useUpdateProfile } from '@/features/auth/hooks/useUpdateProfile';
 
 import { useAuth } from '@/context/AuthContext';
-import { useUserInitials } from '@/hooks/userUserInitials';
+import { useUserInitials } from '@/shared/hooks/userUserInitials';
 
 const profileStats = [
 	{

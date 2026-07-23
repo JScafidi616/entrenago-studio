@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Dumbbell, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { PasswordForm } from '@/features/auth/components/AuthResetPassword'; // Adjust path as needed
-import { supabase } from '@/lib/supabase/supabase';
+import { supabase } from '@/shared/lib/supabase/supabase';
 
 export const ResetPassword = () => {
 	const [isSuccess, setIsSuccess] = useState(false);

@@ -9,7 +9,7 @@ import { DropdownMenuSeparator } from '@components/ui/dropdown-menu';
 import { LogOut, Menu } from 'lucide-react';
 import { useState } from 'react';
 import { appNavItems, accountNavItems } from '@/features/navigation/constants/constantNav';
-import { useUserInitials } from '@/hooks/userUserInitials';
+import { useUserInitials } from '@/shared/hooks/userUserInitials';
 
 interface MobileNavProps {
 	currentSection: string;

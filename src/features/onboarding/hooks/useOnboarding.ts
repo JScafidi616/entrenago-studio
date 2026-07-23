@@ -1,5 +1,5 @@
 import type { FormData, UseOnboardingProps } from '@/features/onboarding/types/onboarding';
-import { supabase } from '@/lib/supabase/supabase';
+import { supabase } from '@/shared/lib/supabase/supabase';
 import { useAuth } from '@/context/AuthContext'; // Import useAuth
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
